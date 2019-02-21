@@ -1,0 +1,8 @@
+{
+    "env": {},
+    "dependencies": {
+        "akeshavan.mindlogger-web/survey": "0.0.3"
+    },
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
+}
