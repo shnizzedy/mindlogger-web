@@ -36,11 +36,11 @@
 
       </b-form>
 
-      <p class="mt-3">
-        Don't have an account? <router-link to="/signup">Create one</router-link>
+      <p class="mt-3" v-if="signupLink">
+        Don't have an account? <router-link :to="signupLink">Create one</router-link>
       </p>
-      <p class="mt-3">
-        Forgot your password? <router-link to="/forgot">Reset it</router-link>
+      <p class="mt-3" v-if="forgotLink">
+        Forgot your password? <router-link :to="forgotLink">Reset it</router-link>
       </p>
     </div>
 
@@ -89,6 +89,14 @@ export default {
      */
     apiHost: {
       type: String,
+    },
+    signupLink: {
+      type: String,
+      default: '',
+    },
+    forgotLink: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -141,11 +149,16 @@ export default {
         this.status = 'ready';
       }).catch((err) => {
         this.errors.code = err.response;
-        if (this.errors.code.status === 401) {
-          this.errors.message = 'We have no record of your username. Please create a new account!';
-        } else {
+        try {
+          if (this.errors.code.status === 401) {
+            this.errors.message = 'We have no record of your username. Please create a new account!';
+          } else {
+            this.errors.message = err.message;
+          }
+        } catch (error) {
           this.errors.message = err.message;
         }
+
         this.errors.show = true;
         this.status = 'ready';
       });

@@ -23,6 +23,30 @@ const signIn = ({ apiHost, user, password }) => axios({
   headers: { 'Girder-Authorization': `Basic ${btoa(`${user}:${password}`)}` },
 });
 
+/**
+ * ## signUp
+ *
+ * sign up route to mindlogger-backend
+ * @param {String} apiHost : string URL to mindlogger-server/api/v1
+ * @param {Object} body : object that looks like:
+ * ```javascript
+ *  {
+ *    email: this.form.email,
+ *    password: this.form.password,
+ *    login: this.form.login,
+ *    firstName: this.form.firstName,
+ *    lastName: this.form.lastName,
+ *  }```
+ */
+const signUp = (apiHost, body) => axios({
+  method: 'post',
+  url: `${apiHost}/user`,
+  params: {
+    ...body,
+    admin: true,
+  },
+});
+
 
 /**
  * ## sendActivityData
@@ -46,4 +70,4 @@ const sendActivityData = ({ apiHost, token, data }) => axios({
   body: data,
 });
 
-export default { signIn, sendActivityData };
+export default { signIn, signUp, sendActivityData };

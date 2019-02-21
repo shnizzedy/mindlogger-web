@@ -18,6 +18,7 @@
     </b-container>
     <b-container v-else>
       Please <router-link to="/login">log in</router-link>
+      or <router-link to="/signup">sign up</router-link>
       to take this survey!
     </b-container>
   </div>
