@@ -61,24 +61,61 @@
 </style>
 
 <script>
-import api from '../../lib/api/api';
+import api from '../../lib/api/';
 
+/**
+ * # Login
+ *
+ * This is the login UI component for
+ * mindlogger.
+ *
+ * ** note ** this component requires the bootstrap-vue library
+ * as a globally registered component.
+ *
+ * ## Props
+ *
+ * * `apiHost` : the URL for the girder-api, ending with `/api/v1`
+ *
+ * ## Events
+ *
+ * * `login` : returns a promise with the data from the authentcation route.
+ */
 
-// console.log(signin);
 export default {
   name: 'login',
   props: {
+    /**
+     * the girder API endpoint
+     */
     apiHost: {
       type: String,
     },
   },
   data() {
     return {
+      /**
+       * ### status
+       *
+       * status of the component, 'ready' or
+       * set to 'loading' during login
+       */
       status: 'ready',
+      /**
+       * ### form
+       *
+       * An object with `username` and `passord`
+       * to store and eventually send to the endpoint.
+       */
       form: {
         username: null,
         password: null,
       },
+      /**
+       * ### errors
+       *
+       * An object to store error messages, code,
+       * and whether or not to show the error.
+       */
       errors: {
         message: null,
         show: false,
@@ -87,6 +124,13 @@ export default {
     };
   },
   methods: {
+    /**
+     * ### onSubmit(e)
+     *
+     * Method to submit data to the api library.
+     * Sets the status to 'loading', attempts to sign in
+     * and then displays an error if something went wrong.
+     */
     onSubmit(e) {
       e.preventDefault();
       this.status = 'loading';
@@ -94,7 +138,6 @@ export default {
         user: this.form.username,
         password: this.form.password }).then((resp) => {
         this.$emit('login', resp.data);
-        // this.$router.push('/activitySets');
         this.status = 'ready';
       }).catch((err) => {
         this.errors.code = err.response;

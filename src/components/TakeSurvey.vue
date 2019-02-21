@@ -1,9 +1,7 @@
 <template>
   <div>
-    <b-container>
-      <Login :apiHost="apiHost" v-on:login="saveUser" v-if="!user.authToken"/>
-      <br>
-      <div v-if="user.authToken">
+    <b-container v-if="user.authToken">
+      <div>
         <div>hi {{user.user.firstName}}</div>
         <b-button @click="sendData">Save</b-button>
       </div>
@@ -18,34 +16,42 @@
         v-on:clearResponses="clearResponses"
       />
     </b-container>
+    <b-container v-else>
+      Please <router-link to="/login">log in</router-link>
+      to take this survey!
+    </b-container>
   </div>
 </template>
 
 <script>
 import Survey from '@bit/akeshavan.mindlogger-web.survey';
-import Login from './Login/Login';
+import Login from './Login/';
 import api from '../lib/api/api';
 
 export default {
-  name: 'HelloWorld',
+  name: 'TakeSurvey',
   components: {
     Login,
     Survey,
   },
+  props: {
+    user: {
+      type: Object,
+    },
+    apiHost: {
+      type: String,
+    },
+    srcUrl: {
+      type: String,
+    },
+  },
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      apiHost: 'https://mindlogger-dev.vasegurt.com/api/v1',
       responses: {},
-      srcUrl: 'https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/phq9_schema.jsonld',
       progress: 0,
-      user: {},
     };
   },
   methods: {
-    saveUser(u) {
-      this.user = u;
-    },
     saveResponse(resp, val) {
       this.responses[resp] = val;
     },
@@ -53,7 +59,7 @@ export default {
       this.progress = p;
     },
     clearResponses() {
-
+      this.responses = {};
     },
     sendData() {
       api.sendActivityData({ data: this.responses,

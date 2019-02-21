@@ -273,12 +273,14 @@ export default {
   },
   computed: {
     storeContext() {
-      const state = this.$store.state;
-      if (state.activities.length && state.activityIndex != null) {
-        if (state.activities[state.activityIndex].activity) {
-          const currentActivity = state.activities[state.activityIndex].activity;
-          const actList = currentActivity['https://schema.repronim.org/order'][0]['@list'];
-          return actList;
+      if (this.$store) {
+        const state = this.$store.state;
+        if (state.activities.length && state.activityIndex != null) {
+          if (state.activities[state.activityIndex].activity) {
+            const currentActivity = state.activities[state.activityIndex].activity;
+            const actList = currentActivity['https://schema.repronim.org/order'][0]['@list'];
+            return actList;
+          }
         }
       }
       return [{}];
@@ -310,7 +312,9 @@ export default {
      * we need to keep an eye on the store. 
      */
     readyForActivity() {
-      return this.$store.getters.readyForActivity;
+      if (this.$store) {
+        return this.$store.getters.readyForActivity;
+      }
     },
   },
   mounted() {

@@ -1,6 +1,6 @@
 {
     "name": "@bit/akeshavan.mindlogger-web.survey",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "homepage": "https://bitsrc.io/akeshavan/mindlogger-web/survey",
     "main": "Survey/index.js",
     "dependencies": {

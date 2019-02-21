@@ -1,15 +1,31 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
+import TakeSurvey from '@/components/TakeSurvey';
+import Login from '@/components/Login/';
+import config from '../config';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'TakeSurvey',
+      component: TakeSurvey,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      props: {
+        apiHost: config.apiHost,
+      },
     },
   ],
 });
+
+// router.beforeEach((to, from, next) => {
+//   // ...
+// });
+
+export default router;
