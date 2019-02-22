@@ -12,6 +12,7 @@ notifications:
   email: false
 before_script:
 - npm install bit-bin --global
+- bit install
 - npm install
 script:
 - npm run --silent build
