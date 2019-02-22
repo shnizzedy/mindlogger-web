@@ -37,7 +37,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "akeshavan.mindlogger-web/login@0.0.3": {
+    "akeshavan.mindlogger-web/login@0.0.4": {
         "files": [
             {
                 "relativePath": "src/components/Login/Login.vue",
@@ -55,7 +55,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "akeshavan.mindlogger-web/sign-up@0.0.0": {
+    "akeshavan.mindlogger-web/sign-up@0.0.1": {
         "files": [
             {
                 "relativePath": "src/components/SignUp/SignUp.vue",
