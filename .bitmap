@@ -55,24 +55,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "navbar@0.0.0": {
-        "files": [
-            {
-                "relativePath": "src/components/Navbar/Navbar.vue",
-                "test": false,
-                "name": "Navbar.vue"
-            },
-            {
-                "relativePath": "src/components/Navbar/index.js",
-                "test": false,
-                "name": "index.js"
-            }
-        ],
-        "mainFile": "src/components/Navbar/index.js",
-        "trackDir": "src/components/Navbar",
-        "origin": "AUTHORED",
-        "exported": false
-    },
     "akeshavan.mindlogger-web/survey@0.0.5": {
         "files": [
             {
@@ -218,6 +200,24 @@
         "mainFile": "src/components/SurveyItem/index.js",
         "rootDir": "components/.dependencies/survey-item/akeshavan.mindlogger-web/0.0.2",
         "origin": "NESTED"
+    },
+    "akeshavan.mindlogger-web/navbar@0.0.0": {
+        "files": [
+            {
+                "relativePath": "src/components/Navbar/Navbar.vue",
+                "test": false,
+                "name": "Navbar.vue"
+            },
+            {
+                "relativePath": "src/components/Navbar/index.js",
+                "test": false,
+                "name": "index.js"
+            }
+        ],
+        "mainFile": "src/components/Navbar/index.js",
+        "trackDir": "src/components/Navbar",
+        "origin": "AUTHORED",
+        "exported": true
     },
     "version": "14.0.0"
 }
