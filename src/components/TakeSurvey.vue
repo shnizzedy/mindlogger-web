@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="takeSurvey">
     <b-container v-if="user.authToken">
       <div>
         <div>hi {{user.user.firstName}}</div>
@@ -78,6 +78,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.takeSurvey {
+  margin-top: 60px;
+}
+
 h1, h2 {
   font-weight: normal;
 }

@@ -11,6 +11,7 @@ branches:
 notifications:
   email: false
 before_script:
+- npm install bit-bin --global
 - npm install
 script:
 - npm run --silent build
