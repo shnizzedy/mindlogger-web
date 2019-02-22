@@ -56,7 +56,6 @@ export default {
 
     },
     sendData() {
-      console.log(this.user.authToken.token);
       api.sendActivityData({
         data: {
           applet: "nda_phq_schema",
