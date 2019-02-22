@@ -75,6 +75,8 @@ import api from '../../lib/api/';
  * ## Props
  *
  * * `apiHost` : the URL for the girder-api, ending with `/api/v1`
+ * * `signupLink` : a router-link location to go if the user doesn't have an account.
+ * * `forgotLink` : a router-link location to go if the user forgot their password.
  *
  * ## Events
  *

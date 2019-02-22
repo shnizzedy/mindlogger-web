@@ -19,7 +19,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "src/components"
     },
-    "akeshavan.mindlogger-web/api@0.0.2": {
+    "akeshavan.mindlogger-web/api@0.0.3": {
         "files": [
             {
                 "relativePath": "src/lib/api/api.js",
@@ -37,7 +37,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "akeshavan.mindlogger-web/login@0.0.1": {
+    "akeshavan.mindlogger-web/login@0.0.3": {
         "files": [
             {
                 "relativePath": "src/components/Login/Login.vue",
@@ -52,6 +52,24 @@
         ],
         "mainFile": "src/components/Login/index.js",
         "trackDir": "src/components/Login",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "akeshavan.mindlogger-web/sign-up@0.0.0": {
+        "files": [
+            {
+                "relativePath": "src/components/SignUp/SignUp.vue",
+                "test": false,
+                "name": "SignUp.vue"
+            },
+            {
+                "relativePath": "src/components/SignUp/index.js",
+                "test": false,
+                "name": "index.js"
+            }
+        ],
+        "mainFile": "src/components/SignUp/index.js",
+        "trackDir": "src/components/SignUp",
         "origin": "AUTHORED",
         "exported": true
     },

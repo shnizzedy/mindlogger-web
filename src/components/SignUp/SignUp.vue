@@ -111,6 +111,15 @@
 import _ from 'lodash';
 import api from '../../lib/api';
 
+/**
+ * # SignUp
+ * #### component for mindlogger-web to mindlogger-backend
+ *
+ * ## props
+ * * `apiHost` : String, url to mindlogger-server, a Girder
+ * * `loginLink` : String, a string that points to a router view (optional)
+ */
+
 export default {
   name: 'signup',
   props: {
@@ -179,7 +188,7 @@ export default {
         this.errors.code = err.response;
         try {
           this.errors.message = err.response.data.message;
-        } catch (e) {
+        } catch (x) {
           this.errors.message = err.message;
         }
         this.status = 'ready';
