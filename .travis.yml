@@ -11,9 +11,7 @@ branches:
 notifications:
   email: false
 before_script:
-- npm install bit-bin --global
 - npm config set '@bit:registry' https://node.bitsrc.io
-- bit install
 - npm install
 script:
 - npm run --silent build
