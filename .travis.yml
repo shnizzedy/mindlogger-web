@@ -2,9 +2,9 @@ sudo: false
 language: node_js
 node_js:
 - '6.0'
-#cache:
-#  directories:
-#  - node_modules
+cache:
+  directories:
+  - node_modules
 branches:
   only:
   - master
@@ -12,6 +12,7 @@ notifications:
   email: false
 before_script:
 - npm install bit-bin --global
+- npm config set '@bit:registry' https://node.bitsrc.io
 - bit install
 - npm install
 script:

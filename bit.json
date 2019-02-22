@@ -1,6 +1,5 @@
 {
     "env": {
-        "compiler": "bit.envs/compilers/babel@0.0.20"
     },
     "dependencies": {
         "akeshavan.mindlogger-web/survey": "0.0.4"

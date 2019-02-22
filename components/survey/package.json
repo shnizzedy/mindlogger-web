@@ -1,13 +1,11 @@
 {
     "name": "@bit/akeshavan.mindlogger-web.survey",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "homepage": "https://bitsrc.io/akeshavan/mindlogger-web/survey",
     "main": "Survey/index.js",
     "dependencies": {
         "jsonld": "^1.2.1",
-        "lodash": "^4.17.11",
-        "@bit/akeshavan.mindlogger-web.loader": "0.0.2",
-        "@bit/akeshavan.mindlogger-web.survey-item": "0.0.2"
+        "lodash": "^4.17.11"
     },
     "devDependencies": {},
     "peerDependencies": {},

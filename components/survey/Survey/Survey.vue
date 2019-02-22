@@ -140,7 +140,7 @@ export default {
             try {
               // eslint-disable-next-line
               this.score = eval(str + ' ' + scoringLogic);
-              console.log('TOTAL SCORE::::', this.score);
+              // console.log('TOTAL SCORE::::', this.score);
             } catch (e) {
               // Do nothing
             }
@@ -169,7 +169,7 @@ export default {
             try {
               // eslint-disable-next-line
               this.score = eval(str + ' ' + scoringLogic);
-              console.log('TOTAL SCORE::::', this.score);
+              // console.log('TOTAL SCORE::::', this.score);
             } catch (e) {
               // Do nothing
             }
