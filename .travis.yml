@@ -10,8 +10,10 @@ branches:
   - master
 notifications:
   email: false
+before_install:
+- npm config set '@bit:registry' https://node.bitsrc.io
 before_script:
-- npm config set '@bit:registry' https://node.bitsrc.io; npm install
+  - npm install
 script:
 - npm run --silent build
 after_success:
