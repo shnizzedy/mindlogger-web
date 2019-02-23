@@ -1,5 +1,7 @@
 # mindlogger-web
 
+[![Build Status](https://travis-ci.org/ChildMindInstitute/mindlogger-web.svg?branch=master)](https://travis-ci.org/ChildMindInstitute/mindlogger-web)
+
 > web version of mindlogger
 
 ## Build Setup
