@@ -2,7 +2,7 @@ sudo: false
 language: node_js
 node_js:
 - '6.0'
-cache:
+#cache:
 #  directories:
 #  - node_modules
 branches:
@@ -11,8 +11,7 @@ branches:
 notifications:
   email: false
 before_script:
-- npm config set '@bit:registry' https://node.bitsrc.io
-- npm install
+- npm config set '@bit:registry' https://node.bitsrc.io; npm install
 script:
 - npm run --silent build
 after_success:
