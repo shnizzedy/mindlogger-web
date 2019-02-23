@@ -8,6 +8,19 @@ import axios from 'axios';
  */
 
 /**
+ * ## formatData
+ *
+ * a function to prepare data to be posted to an endpoint as
+ * datatype FormData.
+ * @param {Object} data : data to be converted into the FormData datatype
+ */
+const formatData = (data) => {
+  const formattedData = new FormData();
+  formattedData.append('metadata', JSON.stringify(data));
+  return formattedData;
+};
+
+/**
  * ## signIn
  *
  * this route signs in a user, given a set of parameters.
@@ -17,12 +30,6 @@ import axios from 'axios';
  * `user` : the username
  * `password` : the password
  */
-const formatData = (data) => {
-  const formattedData = new FormData();
-  formattedData.append('metadata', JSON.stringify(data));
-  return formattedData;
-};
-
 const signIn = ({ apiHost, user, password }) => axios({
   method: 'get',
   url: `${apiHost}/user/authentication`,
