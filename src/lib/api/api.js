@@ -17,6 +17,12 @@ import axios from 'axios';
  * `user` : the username
  * `password` : the password
  */
+const formatData = (data) => {
+  const formattedData = new FormData();
+  formattedData.append('metadata', JSON.stringify(data));
+  return formattedData;
+};
+
 const signIn = ({ apiHost, user, password }) => axios({
   method: 'get',
   url: `${apiHost}/user/authentication`,
@@ -63,11 +69,14 @@ const signUp = (apiHost, body) => axios({
 const sendActivityData = ({ apiHost, token, data }) => axios({
   method: 'post',
   // JON TODO: fill in the route below
-  url: `${apiHost}/`,
+  url: `${apiHost}/response`,
   headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    // 'Accept': 'application/json',
+    // 'Content-Type': 'application/json',
     'Girder-Token': token,
   },
-  body: data,
+  data: formatData(data),
 });
 
 export default { signIn, signUp, sendActivityData };

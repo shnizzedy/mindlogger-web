@@ -63,13 +63,18 @@ export default {
       this.responses = {};
     },
     sendData() {
-      api.sendActivityData({ data: this.responses,
+      api.sendActivityData({
+        data: {
+          applet: 'nda_phq_schema',
+          activity: 'phq9_schema',
+          responses: this.responses,
+        },
         apiHost: this.apiHost,
-        token: this.authToken,
-      }).then((resp) => {
-        console.log('server response', resp);
-      }).catch((err) => {
-        console.log(err);
+        token: this.user.authToken.token,
+      }).then(() => {
+        // console.log('server response', resp);
+      }).catch(() => {
+        // console.log(err);
       });
     },
   },
