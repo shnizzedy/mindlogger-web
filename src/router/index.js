@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import TakeSurvey from '@/components/TakeSurvey';
 import Login from '@/components/Login/';
 import SignUp from '@/components/SignUp/';
+import Applet from '@/components/Applet';
+import AppletParentRoute from '@/components/AppletParentRoute';
 import config from '../config';
 
 Vue.use(Router);
@@ -11,8 +13,20 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'TakeSurvey',
-      component: TakeSurvey,
+      name: 'AppletParentRoute',
+      component: AppletParentRoute,
+      children: [
+        {
+          name: 'Applet',
+          path: '/',
+          component: Applet,
+        },
+        {
+          path: '/survey/:surveyId',
+          name: 'TakeSurvey',
+          component: TakeSurvey,
+        },
+      ],
     },
     {
       path: '/login',

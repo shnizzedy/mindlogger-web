@@ -3,8 +3,10 @@
     <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout"/>
     <router-view
       v-on:login="saveUser"
+      :isLoggedIn="isLoggedIn"
       :apiHost="config.apiHost"
       :srcUrl="config.srcUrl"
+      :applet="config.applet"
       :user="user"
     />
   </div>

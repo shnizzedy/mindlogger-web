@@ -17,7 +17,17 @@
             <save-button variant="success" label="save" :ready="saveReady" :click="sendData"/>
           </div>
           <div v-else>
-            Thanks {{user.user.firstName}}!
+            <div class="mt-3 mb-3">
+              <p class="lead"> Thanks {{user.user.firstName}}! </p>
+            </div>
+            <b-button v-if="nextActivity[srcUrl]" size="lg" variant="info"
+              :to="{name: 'TakeSurvey', params: {surveyId: nextActivity[srcUrl]}}">
+              Next
+            </b-button>
+            <b-button v-else size="lg" variant="secondary"
+              :to="{name: 'Applet'}">
+              Back to my Activities
+            </b-button>
           </div>
         </div>
       </Survey>
@@ -50,42 +60,69 @@ export default {
     apiHost: {
       type: String,
     },
-    srcUrl: {
-      type: String,
+    applet: {
+      type: Object,
+    },
+    progressObj: {
+      type: Object,
+    },
+    responsesObj: {
+      type: Object,
+    },
+    completeObj: {
+      type: Object,
+    },
+    nextActivity: {
+      type: Object,
     },
   },
   data() {
     return {
-      responses: {},
-      progress: 0,
+      // responses: {},
+      // progress: 0,
       saveReady: true,
       complete: false,
     };
   },
+  computed: {
+    srcUrl() {
+      return this.$route.params.surveyId;
+    },
+    progress() {
+      return this.progressObj[this.srcUrl] || 0;
+    },
+    responses() {
+      return this.responsesObj[this.srcUrl] || {};
+    },
+
+  },
   methods: {
     saveResponse(resp, val) {
-      this.responses[resp] = val;
+      // this.responses[resp] = val;
+      this.$emit('saveResponse', this.srcUrl, resp, val);
+      // this.$emit('saveProgress', this.srcUrl, this.progress);
     },
     updateProgress(p) {
-      this.progress = p;
+      // this.progress = p;
+      this.$emit('saveProgress', this.srcUrl, p);
     },
     clearResponses() {
-      this.responses = {};
+      // this.responses = {};
     },
     sendData() {
       this.saveReady = false;
       api.sendActivityData({
         data: {
-          applet: 'nda_phq_schema',
-          activity: 'phq9_schema',
+          applet: this.applet.url,
+          activity: this.srcUrl,
           responses: this.responses,
         },
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-      }).then((resp) => {
-        console.log('server response', resp);
+      }).then(() => {
         this.saveReady = true;
         this.complete = true;
+        this.$emit('saveComplete', this.srcUrl, true);
       }).catch(() => {
         // console.log(err);
       });
@@ -111,7 +148,7 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
+/* a {
   color: #42b983;
-}
+} */
 </style>
