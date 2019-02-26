@@ -27,9 +27,6 @@ import _ from 'lodash';
 export default {
   name: 'AppletParentRoute',
   props: {
-    applet: {
-      type: Object,
-    },
     isLoggedIn: {
       type: Boolean,
     },
@@ -55,6 +52,21 @@ export default {
     this.getAppletData();
   },
   computed: {
+    appletUrl() {
+      return this.$route.params.appletId;
+    },
+    applet() {
+      try {
+        return {
+          url: this.appletUrl,
+          name: this.data['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'],
+        };
+      } catch (error) {
+        return {
+          name: 'loading',
+        };
+      }
+    },
     activityOrder() {
       const tmp = this.data['https://schema.repronim.org/order'];
       if (tmp) {
@@ -72,7 +84,7 @@ export default {
   },
   methods: {
     getAppletData() {
-      jsonld.expand(this.applet.url).then((resp) => {
+      jsonld.expand(this.appletUrl).then((resp) => {
         this.data = resp[0];
         this.initializeStorage();
       });

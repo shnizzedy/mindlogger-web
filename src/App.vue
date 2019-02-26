@@ -5,8 +5,7 @@
       v-on:login="saveUser"
       :isLoggedIn="isLoggedIn"
       :apiHost="config.apiHost"
-      :srcUrl="config.srcUrl"
-      :applet="config.applet"
+      :applets="config.applets"
       :user="user"
     />
   </div>

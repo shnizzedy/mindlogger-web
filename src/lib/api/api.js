@@ -86,4 +86,17 @@ const sendActivityData = ({ apiHost, token, data }) => axios({
   data: formatData(data),
 });
 
-export default { signIn, signUp, sendActivityData };
+/**
+ * ## getAppletsForUser
+ *
+ * a route that gets the set of Applets for a given user.
+ */
+const getAppletsForUser = ({ apiHost, token }) => axios({
+  method: 'get',
+  url: `${apiHost}/???`, // TODO: fill in this route!
+  headers: {
+    'Girder-Token': token,
+  },
+});
+
+export default { signIn, signUp, sendActivityData, getAppletsForUser };
