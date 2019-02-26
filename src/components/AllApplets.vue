@@ -4,11 +4,14 @@
       You're not logged in!
     </div>
     <div v-else>
+      <b-modal id="appletConsent" ok-title="I consent" v-on:ok="addAppletToUser(query.inviteURL)">
+        applet consent form.
+      </b-modal>
       <h1>{{user.user.firstName}}'s Applets</h1>
       <div v-if="query.inviteURL">
         <b-alert show>
           <p>you have an invite to a new applet!</p>
-          <b-button @click="addAppletToUser(query.inviteURL)">Add this applet</b-button>
+          <b-button v-b-modal.appletConsent>Add this applet</b-button>
         </b-alert>
       </div>
       <div>
