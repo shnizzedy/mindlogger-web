@@ -21,6 +21,7 @@ import Navbar from './components/Navbar/';
 
 Vue.use(BootstrapVue);
 
+const localStorage = require('localStorage');
 
 export default {
   name: 'App',
@@ -35,17 +36,32 @@ export default {
       return !_.isEmpty(this.user);
     },
   },
+  mounted() {
+    try {
+      this.user = JSON.parse(localStorage.getItem('user')) || {};
+    } catch (error) {
+      this.user = {};
+    }
+  },
   components: {
     Navbar,
   },
   methods: {
     saveUser(u) {
       this.user = u;
+      this.saveToken(u);
       this.$router.push('/');
     },
     logout() {
       this.user = {};
       this.$router.push('/login');
+      localStorage.setItem('user', {});
+    },
+    /**
+     * save the authtoken to localstorage
+     */
+    saveToken(user) {
+      localStorage.setItem('user', JSON.stringify(user));
     },
   },
 };
