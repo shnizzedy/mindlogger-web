@@ -87,7 +87,7 @@
         </b-button>
 
         <p class="mt-3" v-if="loginLink">
-          Already have an account? <router-link to="/login">Log In</router-link>
+          Already have an account? <router-link :to="{...loginLink, query}">Log In</router-link>
         </p>
 
       </b-form>
@@ -127,8 +127,13 @@ export default {
       type: String,
     },
     loginLink: {
-      type: String,
-      default: '',
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    query: {
+      type: Object,
     },
   },
   data() {

@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout"/>
+    <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout" :query="query"/>
     <router-view
       v-on:login="saveUser"
       :isLoggedIn="isLoggedIn"
       :apiHost="config.apiHost"
       :applets="config.applets"
       :user="user"
+      :query="query"
     />
   </div>
 </template>
@@ -36,6 +37,9 @@ export default {
     isLoggedIn() {
       return !_.isEmpty(this.user);
     },
+    query() {
+      return this.$route.query;
+    },
   },
   mounted() {
     try {
@@ -51,7 +55,7 @@ export default {
     saveUser(u) {
       this.user = u;
       this.saveToken(u);
-      this.$router.push('/');
+      this.$router.push({ name: 'AllApplets', query: this.query });
     },
     logout() {
       this.user = {};

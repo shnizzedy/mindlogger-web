@@ -37,7 +37,7 @@
       </b-form>
 
       <p class="mt-3" v-if="signupLink">
-        Don't have an account? <router-link :to="signupLink">Create one</router-link>
+        Don't have an account? <router-link :to="{...signupLink, query}">Create one</router-link>
       </p>
       <p class="mt-3" v-if="forgotLink">
         Forgot your password? <router-link :to="forgotLink">Reset it</router-link>
@@ -93,12 +93,17 @@ export default {
       type: String,
     },
     signupLink: {
-      type: String,
-      default: '',
+      type: Object,
+      default() {
+        return {};
+      },
     },
     forgotLink: {
       type: String,
       default: '',
+    },
+    query: {
+      type: Object,
     },
   },
   data() {

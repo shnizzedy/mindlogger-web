@@ -99,4 +99,24 @@ const getAppletsForUser = ({ apiHost, token }) => axios({
   },
 });
 
-export default { signIn, signUp, sendActivityData, getAppletsForUser };
+/**
+ * ## addAppletToUser
+ *
+ * A route that adds an Applet to a User
+ * right now, an appletId is the URL to the Repronim jsonld file.
+ * If the applet is already there, it shouldn't duplicate.
+ */
+
+const addAppletToUser = ({ apiHost, appletId, token }) => axios({
+  method: 'get',
+  url: `${apiHost}/???`, // TODO: fill in this route!
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Girder-Token': token,
+  },
+  data: {
+    appletId,
+  },
+});
+
+export default { signIn, signUp, sendActivityData, getAppletsForUser, addAppletToUser };

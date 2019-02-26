@@ -5,6 +5,12 @@
     </div>
     <div v-else>
       <h1>{{user.user.firstName}}'s Applets</h1>
+      <div v-if="query.inviteURL">
+        <b-alert show>
+          <p>you have an invite to a new applet!</p>
+          <b-button @click="addAppletToUser(query.inviteURL)">Add this applet</b-button>
+        </b-alert>
+      </div>
       <div>
         <div v-for="applet in applets" :key="applet.url">
           <router-link :to="{name: 'Applet', params: {appletId: applet.url}}">
@@ -38,17 +44,41 @@ export default {
     apiHost: {
       type: String,
     },
+    query: {
+      type: Object,
+    },
   },
   data() {
     return {
       appletsFromServer: {},
     };
   },
+  watch: {
+    isLoggedIn() {
+      if (this.isLoggedIn) {
+        this.getApplets();
+      }
+    },
+  },
+  methods: {
+    getApplets() {
+      api.getAppletsForUser({ apiHost: this.apiHost, token: this.user.authToken.token })
+        .then((resp) => {
+          this.appletsFromServer = resp.data;
+        });
+    },
+    addAppletToUser(appletId) {
+      api.addAppletToUser({ apiHost: this.apiHost, appletId, token: this.user.authToken.token })
+        .then((resp) => {
+          console.log('added a new applet', resp);
+        })
+        .then(this.getApplets);
+    },
+  },
   mounted() {
-    api.getAppletsForUser({ apiHost: this.apiHost, token: this.user.authToken.token })
-      .then((resp) => {
-        this.appletsFromServer = resp.data;
-      });
+    if (this.isLoggedIn) {
+      this.getApplets();
+    }
   },
 };
 </script>

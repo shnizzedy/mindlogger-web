@@ -40,7 +40,7 @@ const router = new Router({
       component: Login,
       props: {
         apiHost: config.apiHost,
-        signupLink: '/signup',
+        signupLink: { name: 'SignUp' },
       },
     },
     {
@@ -49,7 +49,7 @@ const router = new Router({
       component: SignUp,
       props: {
         apiHost: config.apiHost,
-        loginLink: '/login',
+        loginLink: { name: 'Login' },
       },
     },
   ],
