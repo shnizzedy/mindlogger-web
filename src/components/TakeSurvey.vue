@@ -1,10 +1,6 @@
 <template>
   <div class="takeSurvey">
     <b-container v-if="user.authToken">
-      <div>
-        <div>hi {{user.user.firstName}}</div>
-        <b-button @click="sendData">Save</b-button>
-      </div>
       <br>
       <Survey
         :srcUrl="srcUrl"
@@ -14,7 +10,17 @@
         v-on:updateProgress="updateProgress"
         v-on:saveResponse="saveResponse"
         v-on:clearResponses="clearResponses"
-      />
+      >
+        <div class="mb-3">
+          <div v-if="!complete">
+            <div class="mb-3">Please review your responses, then click "Save" below:</div>
+            <save-button variant="success" label="save" :ready="saveReady" :click="sendData"/>
+          </div>
+          <div v-else>
+            Thanks {{user.user.firstName}}!
+          </div>
+        </div>
+      </Survey>
     </b-container>
     <b-container v-else>
       Please <router-link to="/login">log in</router-link>
@@ -26,6 +32,7 @@
 
 <script>
 import Survey from '@bit/akeshavan.mindlogger-web.survey';
+import SaveButton from './SaveButton';
 import Login from './Login/';
 import api from '../lib/api/api';
 
@@ -34,6 +41,7 @@ export default {
   components: {
     Login,
     Survey,
+    SaveButton,
   },
   props: {
     user: {
@@ -50,6 +58,8 @@ export default {
     return {
       responses: {},
       progress: 0,
+      saveReady: true,
+      complete: false,
     };
   },
   methods: {
@@ -63,6 +73,7 @@ export default {
       this.responses = {};
     },
     sendData() {
+      this.saveReady = false;
       api.sendActivityData({
         data: {
           applet: 'nda_phq_schema',
@@ -71,8 +82,10 @@ export default {
         },
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-      }).then(() => {
-        // console.log('server response', resp);
+      }).then((resp) => {
+        console.log('server response', resp);
+        this.saveReady = true;
+        this.complete = true;
       }).catch(() => {
         // console.log(err);
       });
@@ -87,9 +100,9 @@ export default {
   margin-top: 60px;
 }
 
-h1, h2 {
+/* h1, h2 {
   font-weight: normal;
-}
+} */
 ul {
   list-style-type: none;
   padding: 0;
