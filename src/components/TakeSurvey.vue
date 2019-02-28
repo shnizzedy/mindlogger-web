@@ -81,7 +81,7 @@ export default {
       // responses: {},
       // progress: 0,
       saveReady: true,
-      complete: false,
+      // complete: false,
     };
   },
   computed: {
@@ -94,11 +94,14 @@ export default {
     responses() {
       return this.responsesObj[this.srcUrl] || {};
     },
-
+    complete() {
+      return this.completeObj[this.srcUrl] || false;
+    },
   },
   methods: {
     saveResponse(resp, val) {
       // this.responses[resp] = val;
+      this.$emit('saveComplete', this.srcUrl, false);
       this.$emit('saveResponse', this.srcUrl, resp, val);
       // this.$emit('saveProgress', this.srcUrl, this.progress);
     },
@@ -121,7 +124,7 @@ export default {
         token: this.user.authToken.token,
       }).then(() => {
         this.saveReady = true;
-        this.complete = true;
+        // this.complete = true;
         this.$emit('saveComplete', this.srcUrl, true);
       }).catch(() => {
         // console.log(err);
