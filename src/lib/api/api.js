@@ -75,12 +75,9 @@ const signUp = (apiHost, body) => axios({
  */
 const sendActivityData = ({ apiHost, token, data }) => axios({
   method: 'post',
-  // JON TODO: fill in the route below
   url: `${apiHost}/response`,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
-    // 'Accept': 'application/json',
-    // 'Content-Type': 'application/json',
     'Girder-Token': token,
   },
   data: formatData(data),
