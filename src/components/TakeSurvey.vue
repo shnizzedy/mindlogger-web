@@ -113,7 +113,7 @@ export default {
       this.saveReady = false;
       api.sendActivityData({
         data: {
-          applet: this.applet.url,
+          applet: this.applet,
           activity: this.srcUrl,
           responses: this.responses,
         },
