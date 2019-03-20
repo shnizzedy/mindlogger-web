@@ -4,6 +4,7 @@
     :user="user"
     :data="data"
     :activityOrder="activityOrder"
+    :activityDisplayNames="activityDisplayNames"
     :isLoggedIn="isLoggedIn"
     :applet="applet"
     :srcUrl="srcUrl"
@@ -73,6 +74,13 @@ export default {
         return tmp[0]['@list'];
       }
       return [];
+    },
+    activityDisplayNames() {
+      const tmp = this.data['https://schema.repronim.org/activity_display_name'];
+      if (tmp) {
+        return tmp[0];
+      }
+      return {};
     },
     nextActivity() {
       const nextObj = {};

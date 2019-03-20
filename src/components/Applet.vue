@@ -53,6 +53,9 @@ export default {
     activityOrder: {
       type: Array,
     },
+    activityDisplayNames: {
+      type: Object,
+    },
   },
   data() {
     return {
