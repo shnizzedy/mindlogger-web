@@ -14,8 +14,11 @@
           <b-button v-b-modal.appletConsent>Add this applet</b-button>
         </b-alert>
       </div>
-      <div>
-        <div v-for="(applet, index) in applets" :key="applet.url" class="mt-3 mb-3">
+      <div v-if="status==='ready'">
+        <div
+         v-for="(applet, index) in applets"
+         :key="applet.url" class="mt-3 mb-3"
+        >
           <!-- <b-card :img-src="`https://picsum.photos/200/200/?image=${index+350}`"
            img-alt="Card image"
            img-left class="text-left"
@@ -31,14 +34,14 @@
               {{appletData[applet.url]['http://schema.org/description'][0]['@value']}}
             </p>
           </b-card> -->
-          
+
           <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
             <router-link :to="{name: 'Applet', params: {appletId: applet.url}}">
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img :src="`https://picsum.photos/400/400/?image=${350+index}`" class="rounded-0" />
               </b-col>
-              <b-col md="6">
+              <b-col md="6" v-if="appletData[applet.url]">
                 <b-card-body :title="appletData[applet.url]['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
                   <b-card-text>
                     {{appletData[applet.url]['http://schema.org/description'][0]['@value']}}
@@ -48,7 +51,7 @@
             </b-row>
             </router-link>
           </b-card>
-          
+
         </div>
       </div>
       <div class="mt-3 mb-3">
@@ -98,7 +101,16 @@ export default {
     return {
       appletsFromServer: {},
       appletData: {},
+      dataStatus: 0,
     };
+  },
+  computed: {
+    status() {
+      if (Object.keys(this.appletData).length === this.dataStatus) {
+        return 'ready';
+      }
+      return 'loading';
+    },
   },
   watch: {
     isLoggedIn() {
@@ -123,10 +135,12 @@ export default {
       //   });
     },
     getAppletData() {
+      this.dataStatus = 0;
       _.map(this.applets, (a) => {
         jsonld.expand(a.url).then((resp) => {
           this.appletData[a.url] = resp[0];
           this.$forceUpdate();
+          this.dataStatus += 1;
         });
       });
     },

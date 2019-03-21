@@ -12,7 +12,8 @@
           </p>
 
           <p v-for="(act, index) in activityOrder" :key="index">
-            <router-link :to="{name: 'TakeSurvey', params: {surveyId: act['@id']}}">
+            <router-link
+             :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}">
               <circle-progress
                 :radius="20"
                 :progress="progress[act['@id']]"
@@ -27,21 +28,21 @@
       <b-col>
       <div class="right-side">
       <router-view
-      :user="user"
-      :data="data"
-      :activityOrder="activityOrder"
-      :activityDisplayNames="activityDisplayNames"
-      :isLoggedIn="isLoggedIn"
-      :applet="applet"
-      :srcUrl="srcUrl"
-      :apiHost="apiHost"
-      :responsesObj="responses"
-      :progressObj="progress"
-      :completeObj="complete"
-      :nextActivity="nextActivity"
-      v-on:saveResponse="saveResponse"
-      v-on:saveProgress="saveProgress"
-      v-on:saveComplete="saveComplete"
+        :user="user"
+        :data="data"
+        :activityOrder="activityOrder"
+        :activityDisplayNames="activityDisplayNames"
+        :isLoggedIn="isLoggedIn"
+        :applet="applet"
+        :srcUrl="srcUrl"
+        :apiHost="apiHost"
+        :responsesObj="responses"
+        :progressObj="progress"
+        :completeObj="complete"
+        :nextActivity="nextActivity"
+        v-on:saveResponse="saveResponse"
+        v-on:saveProgress="saveProgress"
+        v-on:saveComplete="saveComplete"
       >
       </router-view>
       </div>
@@ -146,6 +147,7 @@ export default {
       jsonld.expand(this.appletUrl).then((resp) => {
         this.data = resp[0];
         this.initializeStorage();
+        this.$forceUpdate();
       });
     },
     initializeStorage() {

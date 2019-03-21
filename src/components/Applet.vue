@@ -7,7 +7,21 @@
       <div>
         <h1>{{applet.name}}</h1>
       </div>
-      <div v-for="(activity, index) in activityOrder"
+      <p>
+
+        There should be Applet-specific text here.
+        Ideally rendered from a markdown file, the link to which
+        is in the applet JSONLD.
+
+      </p>
+
+      <p>
+        <b-button size="lg" variant="success" v-if="activityOrder[0]"
+         :to="{name: 'TakeSurvey', params: {appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
+          Start
+        </b-button>
+      </p>
+      <!-- <div v-for="(activity, index) in activityOrder"
         :key="activity['@id']"
         class="text-left mt-3 mb-3">
         <span>{{index+1}}.</span>
@@ -22,7 +36,7 @@
         <router-link :to="{name: 'TakeSurvey', params: {surveyId: activity['@id']}}">
           {{activity['@id']}}
         </router-link>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
