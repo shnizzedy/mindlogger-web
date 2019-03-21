@@ -21,7 +21,7 @@
                 :progress="progress[act['@id']]"
                 :stroke="4"
                 :strokeColor="colors.primary" />
-              {{act['@id'].split('/')[8].split('.jsonld')[0]}}
+              {{getName(act['@id'])}}
             </router-link>
           </p>
         </div>
@@ -179,6 +179,20 @@ export default {
     saveComplete(activity, complete) {
       this.complete[activity] = complete;
       // this.$set(this.complete, activity, complete);
+    },
+    getName(url) {
+      // TODO: this is a hack. the jsonld expander should give us this info.
+      if (url) {
+        const nameMap = this.data['https://schema.repronim.org/activity_display_name'][0];
+        if (url in nameMap) {
+          // console.log(123, nameMap[url][0]['@id']);
+          const mappedUrl = nameMap[url][0]['@id'];
+          const folders = mappedUrl.split('/');
+          const N = folders.length;
+          return folders[N - 1].split('_schema')[0].split('.jsonld')[0];
+        }
+      }
+      return null;
     },
   },
 };

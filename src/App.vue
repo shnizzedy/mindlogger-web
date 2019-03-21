@@ -87,6 +87,10 @@ export default {
   color: #2c3e50;
 }
 
+a:hover {
+    text-decoration: none !important;
+}
+
 #login {
   margin-top: 60px;
 }

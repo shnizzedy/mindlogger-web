@@ -14,7 +14,8 @@
       <b-button to="/signup" variant="success" size="lg">Sign Up</b-button>
     </div>
     <div v-else>
-      <b-modal id="appletConsent" ok-title="I consent" v-on:ok="addAppletToUser(query.inviteURL)">
+      <b-modal id="appletConsent" size="lg"
+       ok-title="I consent" v-on:ok="addAppletToUser(query.inviteURL)">
         applet consent form.
       </b-modal>
       <h1>{{user.user.firstName}}'s Applets</h1>
