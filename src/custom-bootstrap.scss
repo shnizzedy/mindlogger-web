@@ -18,7 +18,7 @@ $green:             #00bb85;
 $dark-green: darken($green, 25);
 
 .site-header {
-  background: url(./assets/bg-header.svg) bottom center $dark-blue;
+  background: $dark-blue;
 }
 
 // Set brand colors

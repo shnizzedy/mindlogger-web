@@ -1,29 +1,72 @@
 <template>
   <div>
-    <router-view
-    :user="user"
-    :data="data"
-    :activityOrder="activityOrder"
-    :activityDisplayNames="activityDisplayNames"
-    :isLoggedIn="isLoggedIn"
-    :applet="applet"
-    :srcUrl="srcUrl"
-    :apiHost="apiHost"
-    :responsesObj="responses"
-    :progressObj="progress"
-    :completeObj="complete"
-    :nextActivity="nextActivity"
-    v-on:saveResponse="saveResponse"
-    v-on:saveProgress="saveProgress"
-    v-on:saveComplete="saveComplete"
-    >
-    </router-view>
+    <b-row>
+      <nav-side>
+        <b-col>
+        <div class="ml-3 mr-3 mt-3 text-left">
+
+          <p>
+            <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}">
+              About
+            </router-link>
+          </p>
+
+          <p v-for="(act, index) in activityOrder" :key="index">
+            <router-link :to="{name: 'TakeSurvey', params: {surveyId: act['@id']}}">
+              <circle-progress
+                :radius="20"
+                :progress="progress[act['@id']]"
+                :stroke="4"
+                strokeColor="#007bff" />
+              {{act['@id'].split('/')[8].split('.jsonld')[0]}}
+            </router-link>
+          </p>
+        </div>
+        </b-col>
+      </nav-side>
+      <b-col>
+      <div class="right-side">
+      <router-view
+      :user="user"
+      :data="data"
+      :activityOrder="activityOrder"
+      :activityDisplayNames="activityDisplayNames"
+      :isLoggedIn="isLoggedIn"
+      :applet="applet"
+      :srcUrl="srcUrl"
+      :apiHost="apiHost"
+      :responsesObj="responses"
+      :progressObj="progress"
+      :completeObj="complete"
+      :nextActivity="nextActivity"
+      v-on:saveResponse="saveResponse"
+      v-on:saveProgress="saveProgress"
+      v-on:saveComplete="saveComplete"
+      >
+      </router-view>
+      </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
+<style lang="scss">
+  @import '../custom-bootstrap.scss';
+  @import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+  .right-side {
+    overflow-y: auto;
+  }
+
+  .router-link-active {
+    color: $green;
+  }
+</style>
 
 <script>
 import jsonld from 'jsonld/dist/jsonld.min';
+import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
+import NavSide from './NavSide';
 
 export default {
   name: 'AppletParentRoute',
@@ -40,6 +83,10 @@ export default {
     apiHost: {
       type: String,
     },
+  },
+  components: {
+    NavSide,
+    circleProgress: Circle,
   },
   data() {
     return {
@@ -69,16 +116,20 @@ export default {
       }
     },
     activityOrder() {
-      const tmp = this.data['https://schema.repronim.org/order'];
-      if (tmp) {
-        return tmp[0]['@list'];
+      if (this.data) {
+        const tmp = this.data['https://schema.repronim.org/order'];
+        if (tmp) {
+          return tmp[0]['@list'];
+        }
       }
       return [];
     },
     activityDisplayNames() {
-      const tmp = this.data['https://schema.repronim.org/activity_display_name'];
-      if (tmp) {
-        return tmp[0];
+      if (this.data) {
+        const tmp = this.data['https://schema.repronim.org/activity_display_name'];
+        if (tmp) {
+          return tmp[0];
+        }
       }
       return {};
     },
