@@ -50,16 +50,16 @@
     </b-row>
   </div>
 </template>
-<style lang="scss">
-  @import '../custom-bootstrap.scss';
-  // @import '../../node_modules/bootstrap/scss/bootstrap.scss';
+<style>
+  /* @import '../custom-bootstrap.scss';
+  // @import '../../node_modules/bootstrap/scss/bootstrap.scss'; */
 
   .right-side {
     overflow-y: auto;
   }
 
   .router-link-active {
-    color: $green;
+    color: green;
   }
 </style>
 
