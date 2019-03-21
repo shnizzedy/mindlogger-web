@@ -1,14 +1,29 @@
 <template>
   <div id="app">
     <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout" :query="query"/>
-    <router-view
-      v-on:login="saveUser"
-      :isLoggedIn="isLoggedIn"
-      :apiHost="config.apiHost"
-      :applets="config.applets"
-      :user="user"
-      :query="query"
-    />
+    <div class="demo mb-3">
+      <router-view
+        v-on:login="saveUser"
+        :isLoggedIn="isLoggedIn"
+        :apiHost="config.apiHost"
+        :applets="config.applets"
+        :user="user"
+        :query="query"
+      />
+    </div>
+    <!-- The footer -->
+
+    <footer class="bg-light pt-3 pb-3 mt-3 footer">
+      <b-row>
+        <b-col class="text-center">
+          <p class="mt-3">
+          <!-- TODO: unhardcode this logo and text! -->
+          <img class="logo"
+          src="https://27c2s3mdcxk2qzutg1z8oa91-wpengine.netdna-ssl.com/wp-content/themes/childmind/assets/img/cmi-logo-vert-ko.svg" />
+          © <a href="https://childmind.org">Child Mind Institute</a> MATTER Lab 2019</p>
+        </b-col>
+      </b-row>
+    </footer>
   </div>
 </template>
 
@@ -76,6 +91,15 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400');
   @import './custom-bootstrap.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+   .logo {
+    background: $dark-blue;
+    border-style: solid;
+    border-radius: 25px;
+    border-width: 0px;
+    padding: 10px;
+    height: 40px;
+  }
 </style>
 
 <style>
@@ -97,5 +121,39 @@ a:hover {
 
 #signup {
   margin-top: 60px;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 10rem;
+  min-height: 100%;
+}
+
+.demo {
+  margin: 0 auto;
+  /* padding-top: 64px;
+  max-width: 640px;
+  width: 94%; */
 }
 </style>

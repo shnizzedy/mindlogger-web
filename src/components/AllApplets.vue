@@ -5,23 +5,23 @@
       <p class="lead">
         Please log in or sign up to see this page:
       </p>
-      <b-button to="/login" variant="primary" size="lg">Log In</b-button>
+      <b-button :to="{name: 'Login', query}" variant="primary" size="lg">Log In</b-button>
       or
-      <b-button to="/signup" variant="success" size="lg">Sign Up</b-button>
+      <b-button :to="{name: 'SignUp', query}" variant="success" size="lg">Sign Up</b-button>
     </div>
-    <div v-else>
+    <div v-else class="mt-3 pt-3">
       <b-modal id="appletConsent" size="lg"
        ok-title="I consent" v-on:ok="addAppletToUser(query.inviteURL)">
         applet consent form.
       </b-modal>
-      <h1>{{user.user.firstName}}'s Applets</h1>
+      <h1 class="mb-3 pb-3">{{user.user.firstName}}'s Applets</h1>
       <div v-if="query.inviteURL">
         <b-alert show>
           <p>you have an invite to a new applet!</p>
           <b-button v-b-modal.appletConsent>Add this applet</b-button>
         </b-alert>
       </div>
-      <div v-if="status==='ready'">
+      <div v-if="status==='ready'" class="mb-3 pb-3">
         <div
          v-for="(applet, index) in applets"
          :key="applet.url" class="mt-3 mb-3"
