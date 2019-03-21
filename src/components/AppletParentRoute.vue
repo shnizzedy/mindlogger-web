@@ -6,19 +6,21 @@
         <div class="ml-3 mr-3 mt-3 text-left">
 
           <p>
-            <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}">
+            <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
               About
             </router-link>
           </p>
 
           <p v-for="(act, index) in activityOrder" :key="index">
             <router-link
-             :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}">
+             :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
+             class="link"
+             >
               <circle-progress
                 :radius="20"
                 :progress="progress[act['@id']]"
                 :stroke="4"
-                strokeColor="#007bff" />
+                :strokeColor="colors.primary" />
               {{act['@id'].split('/')[8].split('.jsonld')[0]}}
             </router-link>
           </p>
@@ -50,16 +52,22 @@
     </b-row>
   </div>
 </template>
-<style>
-  /* @import '../custom-bootstrap.scss';
-  // @import '../../node_modules/bootstrap/scss/bootstrap.scss'; */
+<style lang="scss">
+  @import '../custom-bootstrap.scss';
+  @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
   .right-side {
     overflow-y: auto;
   }
 
   .router-link-active {
-    color: green;
+    color: $dark-blue !important;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .link {
+    color: $secondary;
   }
 </style>
 
@@ -68,6 +76,7 @@ import jsonld from 'jsonld/dist/jsonld.min';
 import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
 import NavSide from './NavSide';
+import colors from '../custom-bootstrap.scss';
 
 export default {
   name: 'AppletParentRoute',
@@ -95,6 +104,7 @@ export default {
       complete: {},
       progress: {},
       data: {},
+      colors,
     };
   },
   mounted() {

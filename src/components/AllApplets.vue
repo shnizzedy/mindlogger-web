@@ -146,8 +146,9 @@ export default {
     },
     addAppletToUser(appletId) {
       api.addAppletToUser({ apiHost: this.apiHost, appletId, token: this.user.authToken.token })
+        // eslint-disable-next-line
         .then((resp) => {
-          console.log('added a new applet', resp);
+          // console.log('added a new applet', resp);
         })
         .then(this.getApplets);
     },
