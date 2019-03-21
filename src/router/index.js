@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import TakeSurvey from '@/components/TakeSurvey';
 import Login from '@/components/Login/';
 import SignUp from '@/components/SignUp/';
+import Profile from '@/components/Profile';
+import Landing from '@/components/Landing';
 import Applet from '@/components/Applet';
 import AppletParentRoute from '@/components/AppletParentRoute';
 import AllApplets from '@/components/AllApplets';
@@ -13,9 +15,14 @@ Vue.use(Router);
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/allapplets',
       name: 'AllApplets',
       component: AllApplets,
+    },
+    {
+      path: '/',
+      name: 'Landing',
+      component: Landing,
     },
     {
       path: '/applet',
@@ -42,6 +49,11 @@ const router = new Router({
         apiHost: config.apiHost,
         signupLink: { name: 'SignUp' },
       },
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
     },
     {
       path: '/signup',

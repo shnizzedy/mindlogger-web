@@ -3,7 +3,11 @@
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand :to="{name: 'AllApplets', query}" exact>Mindlogger</b-navbar-brand>
+      <b-navbar-brand to="/" exact>Mindlogger</b-navbar-brand>
+
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item v-if="isLoggedIn" :to="{name: 'AllApplets', query}">Your Apps</b-nav-item>
+      </b-navbar-nav>
 
       <b-collapse is-nav id="nav_collapse">
 
@@ -15,7 +19,7 @@
             <template slot="button-content">
               <em>{{user.login}}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item to="/profile">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Signout</b-dropdown-item>
           </b-nav-item-dropdown>
 

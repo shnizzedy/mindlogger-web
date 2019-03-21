@@ -1,13 +1,9 @@
 <template>
   <div class="container mt-3">
     <div v-if="!isLoggedIn">
-      <h1>Welcome to Mindlogger!</h1>
+      <h1>Oops!</h1>
       <p class="lead">
-        Mindlogger is an online data collection platform for scientific research.
-      </p>
-      <img style="max-width:500px; width:100%" src="@/assets/undraw_data_xmfy.svg" />
-      <p class="mt-3">
-        To get started:
+        Please log in or sign up to see this page:
       </p>
       <b-button to="/login" variant="primary" size="lg">Log In</b-button>
       or
