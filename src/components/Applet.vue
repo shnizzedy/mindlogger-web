@@ -17,7 +17,8 @@
 
       <p>
         <b-button size="lg" variant="success" v-if="activityOrder[0]"
-         :to="{name: 'TakeSurvey', params: {appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
+         :to="{name: 'TakeSurvey',
+         params: {appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
           Start
         </b-button>
       </p>
