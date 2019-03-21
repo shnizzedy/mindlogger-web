@@ -60,7 +60,7 @@
     overflow-y: auto;
   }
 
-  .router-link-active {
+  .link.router-link-active {
     color: $dark-blue !important;
     font-weight: bold;
     font-size: 1.1em;
