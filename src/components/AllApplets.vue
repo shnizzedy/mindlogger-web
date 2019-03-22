@@ -136,10 +136,15 @@ export default {
   },
   methods: {
     getApplets() {
-      // api.getAppletsForUser({ apiHost: this.apiHost, token: this.user.authToken.token })
-      //   .then((resp) => {
-      //     this.appletsFromServer = resp.data;
-      //   });
+      api.getAppletsForUser({
+        apiHost: this.apiHost,
+        token: this.user.authToken.token,
+        user: this.user.user._id,
+        role: 'user',
+      })
+        .then((resp) => {
+          this.appletsFromServer = resp.data;
+        });
     },
     getAppletData() {
       this.dataStatus = 0;
@@ -168,4 +173,3 @@ export default {
   },
 };
 </script>
-
