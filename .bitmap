@@ -9,19 +9,9 @@
                 "name": "api.js"
             },
             {
-                "relativePath": "src/lib/api/api.js.map",
-                "test": false,
-                "name": "api.js.map"
-            },
-            {
                 "relativePath": "src/lib/api/index.js",
                 "test": false,
                 "name": "index.js"
-            },
-            {
-                "relativePath": "src/lib/api/index.js.map",
-                "test": false,
-                "name": "index.js.map"
             }
         ],
         "mainFile": "src/lib/api/index.js",
@@ -40,11 +30,6 @@
                 "relativePath": "src/components/Login/index.js",
                 "test": false,
                 "name": "index.js"
-            },
-            {
-                "relativePath": "src/components/Login/index.js.map",
-                "test": false,
-                "name": "index.js.map"
             }
         ],
         "mainFile": "src/components/Login/index.js",
@@ -63,11 +48,6 @@
                 "relativePath": "src/components/SignUp/index.js",
                 "test": false,
                 "name": "index.js"
-            },
-            {
-                "relativePath": "src/components/SignUp/index.js.map",
-                "test": false,
-                "name": "index.js.map"
             }
         ],
         "mainFile": "src/components/SignUp/index.js",
