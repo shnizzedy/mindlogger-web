@@ -88,9 +88,9 @@ const sendActivityData = ({ apiHost, token, data }) => axios({
  *
  * a route that gets the set of Applets for a given user.
  */
-const getAppletsForUser = ({ apiHost, token }) => axios({
+const getAppletsForUser = ({ apiHost, token, user, role = null }) => axios({
   method: 'get',
-  url: `${apiHost}/???`, // TODO: fill in this route!
+  url: `${apiHost}/user/${user}/applets?role=${role}`,
   headers: {
     'Girder-Token': token,
   },
