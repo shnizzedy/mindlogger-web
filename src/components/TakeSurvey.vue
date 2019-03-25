@@ -114,6 +114,10 @@ export default {
     },
     sendData() {
       this.saveReady = false;
+      console.log('responses', this.responses);
+
+      // restructure responses if they are nested?
+
       api.sendActivityData({
         data: {
           applet: this.applet,

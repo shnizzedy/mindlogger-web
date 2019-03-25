@@ -80,6 +80,9 @@ const sendActivityData = ({ apiHost, token, data }) => axios({
     'Content-Type': 'application/x-www-form-urlencoded',
     'Girder-Token': token,
   },
+  // TODO: if the data has no blob objects, then this works.
+  // BUT! if any of the items in data are audioRecord for example,
+  // we don't want to coerce it into a JSON like formatData does.
   data: formatData(data),
 });
 
