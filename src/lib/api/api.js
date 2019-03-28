@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 /**
  * # Mindlogger API library
@@ -16,7 +17,25 @@ import axios from 'axios';
  */
 const formatData = (data) => {
   const formattedData = new FormData();
-  formattedData.append('metadata', JSON.stringify(data));
+  const fileUploadData = {};
+  const metadata = {};
+
+  // sort out blobs from metadata
+  _.map(data.responses, (val, key) => {
+    if (val instanceof Blob) {
+      fileUploadData[key] = val;
+    } else {
+      metadata[key] = val;
+    }
+  });
+
+  // append the files separately on the formmatedData object.
+  _.map(fileUploadData, (val, key) => {
+    formattedData.append(key, val);
+  });
+
+  // finally, get the metadata on there.
+  formattedData.append('metadata', JSON.stringify(metadata));
   return formattedData;
 };
 
