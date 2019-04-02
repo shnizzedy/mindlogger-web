@@ -44,6 +44,12 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', {
       optionalDependencies: ['test/unit/index.js']
     }],
+    // allow Girder '_id's
+    'no-underscore-dangle': ['error', {
+      allow: [
+        '_id'
+      ]
+    }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

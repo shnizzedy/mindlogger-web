@@ -1,4 +1,5 @@
 export default {
+  // apiHost: 'http://localhost:8080/api/v1',
   apiHost: 'https://mindlogger-dev.vasegurt.com/api/v1',
   applets: [
     {

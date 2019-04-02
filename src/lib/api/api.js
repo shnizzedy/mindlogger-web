@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 /**
  * # Mindlogger API library
@@ -7,6 +8,14 @@ import axios from 'axios';
  * We explicitly define what the routes do here.
  */
 
+const serializeKey = (key) => {
+  let cleanKey = key;
+  cleanKey = _.replace(cleanKey, /\//ig, '__slash__');
+  cleanKey = _.replace(cleanKey, /:/, '__colon__');
+  cleanKey = _.replace(cleanKey, /\./g, '__dot__');
+  return cleanKey;
+};
+
 /**
  * ## formatData
  *
@@ -14,10 +23,35 @@ import axios from 'axios';
  * datatype FormData.
  * @param {Object} data : data to be converted into the FormData datatype
  */
+
 const formatData = (data) => {
   const formattedData = new FormData();
-  formattedData.append('metadata', JSON.stringify(data));
-  return formattedData;
+  const fileUploadData = {};
+  const metadata = {};
+
+  // sort out blobs from metadata
+  _.map(data.responses, (val, key) => {
+    if (val instanceof Blob) {
+      fileUploadData[key] = val;
+    } else {
+      const cleanKey = serializeKey(key);
+      metadata[cleanKey] = val;
+    }
+  });
+
+  // append the files separately on the formmatedData object.
+  _.map(fileUploadData, (val, key) => {
+    const cleanKey = serializeKey(key);
+    formattedData.append(cleanKey, val);
+    metadata[cleanKey] = {
+      size: val.size,
+      type: val.type,
+    };
+  });
+
+  // finally, get the metadata on there.
+  formattedData.append('metadata', JSON.stringify(metadata));
+  return { formattedData };
 };
 
 /**
@@ -73,24 +107,33 @@ const signUp = (apiHost, body) => axios({
  * `data` : an Object with keys as the jsonld URL and
  * values are the responses (in whatever form they take).
  */
-const sendActivityData = ({ apiHost, token, data }) => axios({
-  method: 'post',
-  url: `${apiHost}/response`,
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Girder-Token': token,
-  },
-  data: formatData(data),
-});
+const sendActivityData = ({ apiHost, token, data }) => {
+  const { formattedData } = formatData(data);
+
+  return axios({
+    method: 'post',
+    url: `${apiHost}/response`,
+    headers: {
+      'Content-Type': 'multipart/form-data', // 'application/x-www-form-urlencoded',
+      'Girder-Token': token,
+    },
+    // `onDownloadProgress` allows handling of progress events for downloads
+    onDownloadProgress(progressEvent) {
+      // Do whatever you want with the native progress event
+      console.log('progress', progressEvent);
+    },
+    data: formattedData,
+  });
+};
 
 /**
  * ## getAppletsForUser
  *
  * a route that gets the set of Applets for a given user.
  */
-const getAppletsForUser = ({ apiHost, token }) => axios({
+const getAppletsForUser = ({ apiHost, token, user, role = null }) => axios({
   method: 'get',
-  url: `${apiHost}/???`, // TODO: fill in this route!
+  url: `${apiHost}/user/${user}/applets?role=${role}`,
   headers: {
     'Girder-Token': token,
   },

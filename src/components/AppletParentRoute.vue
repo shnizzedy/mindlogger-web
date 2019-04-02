@@ -257,7 +257,6 @@ export default {
       let needsVizUpdate = false;
       if (this.responses[activity][responseId] !== response && this.progress[activity] === 100) {
         // there has been a change in an already completed activity
-        console.log('viz needs update');
         needsVizUpdate = true;
       }
       this.responses[activity][responseId] = response;
