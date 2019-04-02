@@ -8,14 +8,6 @@ import _ from 'lodash';
  * We explicitly define what the routes do here.
  */
 
-const serializeKey = (key) => {
-  let cleanKey = key;
-  cleanKey = _.replace(cleanKey, /\//ig, '__slash__');
-  cleanKey = _.replace(cleanKey, /:/, '__colon__');
-  cleanKey = _.replace(cleanKey, /\./g, '__dot__');
-  return cleanKey;
-};
-
 /**
  * ## formatData
  *
@@ -40,9 +32,8 @@ const formatData = (data) => {
 
   // append the files separately on the formmatedData object.
   _.map(fileUploadData, (val, key) => {
-    const cleanKey = serializeKey(key);
-    formattedData.append(cleanKey, val);
-    metadata[cleanKey] = {
+    formattedData.append(key, val);
+    metadata[key] = {
       size: val.size,
       type: val.type,
     };
