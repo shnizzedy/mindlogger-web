@@ -8,6 +8,14 @@ import _ from 'lodash';
  * We explicitly define what the routes do here.
  */
 
+const serializeKey = (key) => {
+  let cleanKey = key;
+  cleanKey = _.replace(cleanKey, /\//ig, '__slash__');
+  cleanKey = _.replace(cleanKey, /:/, '__colon__');
+  cleanKey = _.replace(cleanKey, /\./g, '__dot__');
+  return cleanKey;
+};
+
 /**
  * ## formatData
  *
@@ -15,6 +23,7 @@ import _ from 'lodash';
  * datatype FormData.
  * @param {Object} data : data to be converted into the FormData datatype
  */
+
 const formatData = (data) => {
   const formattedData = new FormData();
   const fileUploadData = {};
@@ -25,18 +34,24 @@ const formatData = (data) => {
     if (val instanceof Blob) {
       fileUploadData[key] = val;
     } else {
-      metadata[key] = val;
+      const cleanKey = serializeKey(key);
+      metadata[cleanKey] = val;
     }
   });
 
   // append the files separately on the formmatedData object.
   _.map(fileUploadData, (val, key) => {
-    formattedData.append(key, val);
+    const cleanKey = serializeKey(key);
+    formattedData.append(cleanKey, val);
+    metadata[cleanKey] = {
+      size: val.size,
+      type: val.type,
+    };
   });
 
   // finally, get the metadata on there.
   formattedData.append('metadata', JSON.stringify(metadata));
-  return formattedData;
+  return { formattedData };
 };
 
 /**
@@ -92,18 +107,24 @@ const signUp = (apiHost, body) => axios({
  * `data` : an Object with keys as the jsonld URL and
  * values are the responses (in whatever form they take).
  */
-const sendActivityData = ({ apiHost, token, data }) => axios({
-  method: 'post',
-  url: `${apiHost}/response`,
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Girder-Token': token,
-  },
-  // TODO: if the data has no blob objects, then this works.
-  // BUT! if any of the items in data are audioRecord for example,
-  // we don't want to coerce it into a JSON like formatData does.
-  data: formatData(data),
-});
+const sendActivityData = ({ apiHost, token, data }) => {
+  const { formattedData } = formatData(data);
+
+  return axios({
+    method: 'post',
+    url: `${apiHost}/response`,
+    headers: {
+      'Content-Type': 'multipart/form-data', // 'application/x-www-form-urlencoded',
+      'Girder-Token': token,
+    },
+    // `onDownloadProgress` allows handling of progress events for downloads
+    onDownloadProgress(progressEvent) {
+      // Do whatever you want with the native progress event
+      console.log('progress', progressEvent);
+    },
+    data: formattedData,
+  });
+};
 
 /**
  * ## getAppletsForUser
