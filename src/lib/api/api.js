@@ -34,8 +34,7 @@ const formatData = (data) => {
     if (val instanceof Blob) {
       fileUploadData[key] = val;
     } else {
-      const cleanKey = serializeKey(key);
-      metadata[cleanKey] = val;
+      metadata[key] = val;
     }
   });
 
@@ -50,7 +49,11 @@ const formatData = (data) => {
   });
 
   // finally, get the metadata on there.
-  formattedData.append('metadata', JSON.stringify(metadata));
+  formattedData.append('metadata',
+    JSON.stringify({ activity: data.activity,
+      applet: data.applet,
+      responses: metadata,
+    }));
   return { formattedData };
 };
 
