@@ -141,8 +141,8 @@ const getAppletsForUser = ({ apiHost, token, user, role = null }) => axios({
  */
 
 const addAppletToUser = ({ apiHost, appletId, token }) => axios({
-  method: 'get',
-  url: `${apiHost}/???`, // TODO: fill in this route!
+  method: 'post',
+  url: `${apiHost}/applet/invite?url=${appletId}&role=user&rsvp=false`,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Girder-Token': token,
