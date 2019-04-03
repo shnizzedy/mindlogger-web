@@ -103,7 +103,6 @@ const signUp = (apiHost, body) => axios({
  */
 const sendActivityData = ({ apiHost, token, data }) => {
   const { formattedData } = formatData(data);
-
   return axios({
     method: 'post',
     url: `${apiHost}/response`,
