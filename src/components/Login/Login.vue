@@ -157,11 +157,7 @@ export default {
       }).catch((err) => {
         this.errors.code = err.response;
         try {
-          if (this.errors.code.status === 401) {
-            this.errors.message = 'We have no record of your username. Please create a new account!';
-          } else {
-            this.errors.message = err.message;
-          }
+          this.errors.message = this.errors.code.data.message;
         } catch (error) {
           this.errors.message = err.message;
         }

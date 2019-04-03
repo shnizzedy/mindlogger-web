@@ -23,7 +23,7 @@
       </div>
       <div v-if="status==='ready'" class="mb-3 pb-3">
         <div
-         v-for="(applet, index) in applets"
+         v-for="(applet, index) in appletsFromServer"
          :key="applet.url" class="mt-3 mb-3"
         >
           <!-- <b-card :img-src="`https://picsum.photos/200/200/?image=${index+350}`"
@@ -60,10 +60,6 @@
           </b-card>
 
         </div>
-      </div>
-      <div class="mt-3 mb-3">
-        <p>WIP: applets from the server</p>
-        <p>{{appletsFromServer}}</p>
       </div>
     </div>
   </div>
@@ -143,7 +139,7 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          this.appletsFromServer = resp.data;
+          this.appletsFromServer = resp.data.filter(applet => applet.url);
         });
     },
     getAppletData() {
