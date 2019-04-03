@@ -8,6 +8,7 @@ import Landing from '@/components/Landing';
 import Applet from '@/components/Applet';
 import AppletParentRoute from '@/components/AppletParentRoute';
 import AllApplets from '@/components/AllApplets';
+import Consent from '@/components/Consent';
 import config from '../config';
 
 Vue.use(Router);
@@ -23,6 +24,11 @@ const router = new Router({
       path: '/',
       name: 'Landing',
       component: Landing,
+    },
+    {
+      path: '/consent/:inviteURL',
+      name: 'Consent',
+      component: Consent,
     },
     {
       path: '/applet',

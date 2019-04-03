@@ -70,7 +70,6 @@ export default {
     saveUser(u) {
       this.user = u;
       this.saveToken(u);
-      this.$router.push({ name: 'AllApplets', query: this.query });
     },
     logout() {
       this.user = {};
