@@ -1,7 +1,7 @@
 <template name="signup">
   <div id="signup" class="pt-3 ">
     <div class="">
-    <h1 class="text-center"> Sign Up </h1>
+    <h1 class="text-center" v-if="useTitle"> Sign Up </h1>
     <!-- Modal Component -->
 
     <div id="signupForm" class="container fluid">
@@ -135,6 +135,14 @@ export default {
     query: {
       type: Object,
     },
+    useTitle: {
+      type: Boolean,
+      default: true,
+    },
+    redirect: {
+      type: [String, Object],
+      default: '/activitySets',
+    },
   },
   data() {
     return {
@@ -187,7 +195,7 @@ export default {
         this.$emit('login', { authToken: resp.data.authToken, user: cleanedUser });
 
         // redirect home
-        this.$router.push('/activitySets');
+        this.$router.push(this.redirect);
       }).catch((err) => {
         this.errors.show = true;
         this.errors.code = err.response;

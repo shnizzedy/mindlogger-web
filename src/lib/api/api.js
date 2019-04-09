@@ -111,10 +111,10 @@ const sendActivityData = ({ apiHost, token, data }) => {
       'Girder-Token': token,
     },
     // `onDownloadProgress` allows handling of progress events for downloads
-    onDownloadProgress(progressEvent) {
-      // Do whatever you want with the native progress event
-      console.log('progress', progressEvent);
-    },
+    // onDownloadProgress(progressEvent) {
+    //   // Do whatever you want with the native progress event
+    //   // console.log('progress', progressEvent);
+    // },
     data: formattedData,
   });
 };

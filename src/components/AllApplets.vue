@@ -14,7 +14,7 @@
        ok-title="I consent" v-on:ok="addAppletToUser(query.inviteURL)">
         applet consent form.
       </b-modal>
-      <h1 class="mb-3 pb-3">{{user.user.firstName}}'s Applets</h1>
+      <h1 class="mb-3 pb-3">{{user.user.firstName}}'s Studies</h1>
       <div v-if="query.inviteURL">
         <b-alert show>
           <p>you have an invite to a new applet!</p>
@@ -61,6 +61,19 @@
 
         </div>
       </div>
+      <Loader v-else-if="status==='loading'" class="top80"/>
+      <div v-else-if="status==='error'">
+        <b-alert show variant="danger">
+          <p><b>Oh no!</b> {{error}}</p>
+          <p class="mb-0">
+            Please file an <a href="https://github.com/ChildMindInstitute/mindlogger-web">
+            issue on GitHub</a> so we can fix this problem!
+          </p>
+          <p>
+            {{user.user._id}}
+          </p>
+        </b-alert>
+      </div>
     </div>
   </div>
 </template>
@@ -74,10 +87,15 @@
   .special:hover {
     transform: scale(1.05)
   }
+
+  .top80 {
+    top: 80px;
+  }
 </style>
 
 <script>
 import jsonld from 'jsonld/dist/jsonld.min';
+import Loader from '@bit/akeshavan.mindlogger-web.loader';
 import _ from 'lodash';
 import api from '../lib/api/';
 
@@ -100,20 +118,24 @@ export default {
       type: Object,
     },
   },
+  components: {
+    Loader,
+  },
   data() {
     return {
       appletsFromServer: {},
       appletData: {},
       dataStatus: 0,
+      status: 'loading',
     };
   },
   computed: {
-    status() {
-      if (Object.keys(this.appletData).length === this.dataStatus) {
-        return 'ready';
-      }
-      return 'loading';
-    },
+    // status() {
+    //   if (Object.keys(this.appletData).length === this.dataStatus) {
+    //     return 'ready';
+    //   }
+    //   return 'loading';
+    // },
   },
   watch: {
     isLoggedIn() {
@@ -132,6 +154,7 @@ export default {
   },
   methods: {
     getApplets() {
+      this.status = 'loading';
       api.getAppletsForUser({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
@@ -140,6 +163,11 @@ export default {
       })
         .then((resp) => {
           this.appletsFromServer = resp.data.filter(applet => applet.url);
+          this.status = 'ready';
+        })
+        .catch((e) => {
+          this.error = e;
+          this.status = 'error';
         });
     },
     getAppletData() {

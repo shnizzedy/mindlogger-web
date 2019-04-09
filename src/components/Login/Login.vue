@@ -1,6 +1,6 @@
 <template name="login">
   <div id="login" class="text-center mb-0">
-    <h1> Log In </h1>
+    <h1 v-if='useTitle'> Log In </h1>
 
     <div id="signupForm" class="container fluid">
       <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
@@ -105,6 +105,14 @@ export default {
     query: {
       type: Object,
     },
+    useTitle: {
+      type: Boolean,
+      default: true,
+    },
+    redirect: {
+      type: [Object, String],
+      default: () => ({ name: 'AllApplets', query: this.query }),
+    },
   },
   data() {
     return {
@@ -153,6 +161,7 @@ export default {
         user: this.form.username,
         password: this.form.password }).then((resp) => {
         this.$emit('login', resp.data);
+        this.$router.push(this.redirect);
         this.status = 'ready';
       }).catch((err) => {
         this.errors.code = err.response;
