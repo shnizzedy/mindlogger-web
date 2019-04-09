@@ -114,7 +114,7 @@ export default {
     },
     sendData() {
       this.saveReady = false;
-      console.log('responses', this.responses);
+      // console.log('responses', this.responses);
 
       // restructure responses if they are nested?
 

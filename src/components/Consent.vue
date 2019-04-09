@@ -61,6 +61,8 @@
 </style>
 
 <script>
+import axios from 'axios';
+import _ from 'lodash';
 import SignUp from './SignUp';
 import Login from './Login';
 import api from '../lib/api/';
@@ -153,6 +155,12 @@ export default {
       return { name: 'Applet', params: { appletId: this.appletURL }, query: { ...this.query, consent: true } };
     },
   },
+  mounted() {
+    // cache all images
+    _.map(this.steps, (s) => {
+      axios.get(s.image);
+    });
+  },
   methods: {
     increment() {
       this.currentStep += 1;
@@ -171,7 +179,9 @@ export default {
       }
     },
     addAppletToUser(appletId, user) {
-      api.addAppletToUser({ apiHost: this.apiHost, appletId, token: user.authToken.token })
+      api.addAppletToUser({ apiHost: this.apiHost,
+        appletId: encodeURI(appletId),
+        token: user.authToken.token })
         // eslint-disable-next-line
         .then((resp) => {
           // console.log('added a new applet', resp);

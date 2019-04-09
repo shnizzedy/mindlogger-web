@@ -61,7 +61,19 @@
 
         </div>
       </div>
-      <Loader v-else class="top80"/>
+      <Loader v-else-if="status==='loading'" class="top80"/>
+      <div v-else-if="status==='error'">
+        <b-alert show variant="danger">
+          <p><b>Oh no!</b> {{error}}</p>
+          <p class="mb-0">
+            Please file an <a href="https://github.com/ChildMindInstitute/mindlogger-web">
+            issue on GitHub</a> so we can fix this problem!
+          </p>
+          <p>
+            {{user.user._id}}
+          </p>
+        </b-alert>
+      </div>
     </div>
   </div>
 </template>
@@ -152,6 +164,10 @@ export default {
         .then((resp) => {
           this.appletsFromServer = resp.data.filter(applet => applet.url);
           this.status = 'ready';
+        })
+        .catch((e) => {
+          this.error = e;
+          this.status = 'error';
         });
     },
     getAppletData() {
