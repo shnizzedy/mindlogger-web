@@ -1,7 +1,10 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div key="currentStep" v-if="steps.length > currentStep">
-      <img style="max-width:300px" :src="steps[currentStep].image" />
+      <progressive-img style="max-width:300px"
+      :placeholder="placeholder"
+      :src="steps[currentStep].image"
+      />
       <h1 class="mt-3 mb-3">{{steps[currentStep].title}}</h1>
       <p v-html="steps[currentStep].text">
       </p>
@@ -9,7 +12,11 @@
 
     <div v-if="currentStep == steps.length && !showLogin">
       <h1>
-        <img class="img" style="width:50px" src="https://parkinsonmpower.org/static/images/Consent.svg">
+        <img
+         class="img"
+         style="width:50px"
+         src="https://parkinsonmpower.org/static/images/Consent.svg"
+         />
         Consent Form
       </h1>
       <p class="text-justify" v-html="fullConsentForm"></p>
@@ -35,6 +42,7 @@
       :apiHost="apiHost" :redirect="redirect" v-on:login="emitLogin"/>
     </div>
 
+    <!-- Navigation buttons -->
     <div class="navigator mt-3 pt-3" v-if="!showLogin">
       <b-button size="lg" variant="outline-secondary" v-if="currentStep" @click="decrement">
         Back</b-button>
@@ -61,11 +69,16 @@
 </style>
 
 <script>
-import axios from 'axios';
-import _ from 'lodash';
+// import axios from 'axios';
+// import _ from 'lodash';
+import Vue from 'vue';
+import VueProgressiveImage from 'vue-progressive-image';
 import SignUp from './SignUp';
 import Login from './Login';
 import api from '../lib/api/';
+
+
+Vue.use(VueProgressiveImage);
 
 export default {
   name: 'Consent',
@@ -86,6 +99,8 @@ export default {
   },
   data() {
     return {
+      // eslint-disable-next-line
+      placeholder: 'iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAACIElEQVR42u3SQQ0AAAgDMeZf9DBBwqeVcLm0A+diLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBEwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYxsJYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC2MZC2NhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAs/i3/GFbzJBm6pwAAAABJRU5ErkJggg==',
       currentStep: 0,
       fullConsentForm: `
        <div id="terms"><h4 style="text-align: center;">
@@ -157,9 +172,9 @@ export default {
   },
   mounted() {
     // cache all images
-    _.map(this.steps, (s) => {
-      axios.get(s.image);
-    });
+    // _.map(this.steps, (s) => {
+    //   axios.get(s.image);
+    // });
   },
   methods: {
     increment() {
@@ -169,6 +184,7 @@ export default {
       this.currentStep -= 1;
     },
     doNextStep() {
+      window.scrollTo(0, 0);
       if (this.isLoggedIn) {
         // sign up the user on the applet and then redirect to that applet
         this.addAppletToUser(this.appletURL, this.user);
