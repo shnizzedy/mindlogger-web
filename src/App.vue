@@ -142,11 +142,21 @@ html {
   box-sizing: inherit;
 }
 
+html
+  {
+      width:100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      overflow-x:hidden;
+  }
+
 body {
   position: relative;
   margin: 0;
   padding-bottom: 10rem;
   min-height: 100%;
+  overflow-x:hidden;
 }
 
 .demo {
