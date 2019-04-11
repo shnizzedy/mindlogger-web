@@ -5,6 +5,7 @@
       <Survey
         :srcUrl="srcUrl"
         :progress="progress"
+        ref="surveyComponent"
         selected_language="en"
         :responses="responses"
         v-on:updateProgress="updateProgress"
@@ -121,7 +122,7 @@ export default {
       api.sendActivityData({
         data: {
           applet: this.applet,
-          activity: this.srcUrl,
+          activity: this.$refs.surveyComponent.activity,
           responses: this.responses,
         },
         apiHost: this.apiHost,
