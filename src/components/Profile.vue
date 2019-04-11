@@ -101,7 +101,7 @@
           </b-row>
           <b-row class="my-1 mt-3">
             <b-col>
-              <b-button :disabled="!validatePass || validatePass != null"
+              <b-button :disabled="!validatePass || validatePass == null || !newPassword.original"
               variant="success">Submit</b-button>
             </b-col>
           </b-row>
