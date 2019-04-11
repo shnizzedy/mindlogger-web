@@ -141,7 +141,7 @@ export default {
     },
     redirect: {
       type: [String, Object],
-      default: '/activitySets',
+      default: '/allapplets',
     },
   },
   data() {

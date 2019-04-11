@@ -20,7 +20,7 @@
                 :radius="20"
                 :progress="progress[act['@id']]"
                 :stroke="4"
-                :strokeColor="colors.primary" />
+                :strokeColor="complete[act['@id']] ? colors.success : colors.primary" />
               {{getName(act['@id'])}}
             </router-link>
           </p>
@@ -62,6 +62,12 @@
 
   .link.router-link-active {
     color: $dark-blue !important;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .link.router-link-active.complete {
+    color: $green !important;
     font-weight: bold;
     font-size: 1.1em;
   }

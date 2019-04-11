@@ -14,6 +14,9 @@
         <div class="mb-3">
           <div v-if="!complete">
             <div class="mb-3">Please review your responses, then click "Save" below:</div>
+            <b-alert :show="error.show" variant="danger">
+              Oh no! <span v-if="error.error">{{error.error.message}}</span>
+            </b-alert>
             <save-button variant="success" label="save" :ready="saveReady" :click="sendData"/>
           </div>
           <div v-else>
@@ -82,7 +85,16 @@ export default {
       // progress: 0,
       saveReady: true,
       // complete: false,
+      error: {
+        show: false,
+        error: null,
+      },
     };
+  },
+  watch: {
+    srcUrl() {
+      this.error.show = false;
+    },
   },
   computed: {
     srcUrl() {
@@ -97,6 +109,9 @@ export default {
     complete() {
       return this.completeObj[this.srcUrl] || false;
     },
+  },
+  mounted() {
+    this.error.show = false;
   },
   methods: {
     saveResponse(resp, val) {
@@ -128,10 +143,15 @@ export default {
         token: this.user.authToken.token,
       }).then(() => {
         this.saveReady = true;
+        this.error.show = false;
         // this.complete = true;
         this.$emit('saveComplete', this.srcUrl, true);
-      }).catch(() => {
+      }).catch((e) => {
         // console.log(err);
+        this.error.show = true;
+        this.error.error = e;
+        this.saveReady = true;
+        this.$emit('saveComplete', this.srcUrl, true);
       });
     },
   },
