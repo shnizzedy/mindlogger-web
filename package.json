@@ -16,7 +16,7 @@
   "dependencies": {
     "@bit/akeshavan.mindlogger-web.circle": "0.0.2",
     "@bit/akeshavan.mindlogger-web.loader": "0.0.3",
-    "@bit/akeshavan.mindlogger-web.survey": "0.0.27",
+    "@bit/akeshavan.mindlogger-web.survey": "0.0.28",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.13",
