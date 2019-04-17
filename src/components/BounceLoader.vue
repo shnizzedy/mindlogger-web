@@ -1,4 +1,5 @@
 <template>
+  <!-- https://codepen.io/sabin42/pen/odjvKy?page=2 -->
   <section class="wrapper">
     <div class="ccard">
       <div class="loader">
