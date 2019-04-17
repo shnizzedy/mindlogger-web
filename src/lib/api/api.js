@@ -25,6 +25,21 @@ const formatData = (data) => {
   _.map(data.responses, (val, key) => {
     if (val instanceof Blob) {
       fileUploadData[key] = val;
+    } else if (_.isObject(val)) {
+      // make sure there aren't any Blobs here.
+      // if there are, add them to fileUploadData
+      // and create a merged key?
+      _.map(val, (val2, key2) => {
+        if (val2 instanceof Blob) {
+          fileUploadData[`${key}...${key2}`] = val2;
+        } else {
+          // refill the object.
+          if (!metadata[key]) {
+            metadata[key] = {};
+          }
+          metadata[key][key2] = val;
+        }
+      });
     } else {
       metadata[key] = val;
     }
