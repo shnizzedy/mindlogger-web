@@ -61,7 +61,7 @@
 
         </div>
       </div>
-      <Loader v-else-if="status==='loading'" class="top80"/>
+      <BounceLoader v-else-if="status==='loading'" class="top80"/>
       <div v-else-if="status==='error'">
         <b-alert show variant="danger">
           <p><b>Oh no!</b> {{error}}</p>
@@ -95,9 +95,10 @@
 
 <script>
 import jsonld from 'jsonld/dist/jsonld.min';
-import Loader from '@bit/akeshavan.mindlogger-web.loader';
+// import Loader from '@bit/akeshavan.mindlogger-web.loader';
 import _ from 'lodash';
 import api from '../lib/api/';
+import BounceLoader from './BounceLoader';
 
 export default {
   name: 'AllApplets',
@@ -119,7 +120,7 @@ export default {
     },
   },
   components: {
-    Loader,
+    BounceLoader,
   },
   data() {
     return {

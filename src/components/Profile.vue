@@ -24,7 +24,7 @@
         <div class="userApplets">
           <!-- Loading status-->
           <div v-if="status==='loading'">
-            <Loader />
+            <BounceLoader />
           </div>
           <!-- Ready to show the applets -->
           <div v-else>
@@ -122,9 +122,10 @@
 </style>
 
 <script>
-import Loader from '@bit/akeshavan.mindlogger-web.loader';
+// import Loader from '@bit/akeshavan.mindlogger-web.loader';
 import _ from 'lodash';
 import api from '../lib/api/';
+import BounceLoader from './BounceLoader';
 
 export default {
   name: 'Profile',
@@ -140,7 +141,7 @@ export default {
     },
   },
   components: {
-    Loader,
+    BounceLoader,
   },
   data() {
     return {
