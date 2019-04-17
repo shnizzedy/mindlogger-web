@@ -4,7 +4,7 @@
       You're not logged in!
     </div>
     <div v-else>
-      <div class="mb-3 pb-3 mt-3 pt-3 text-left" v-if="about">
+      <div class="mb-3 pb-3 mt-3 pt-3 text-left markdown container" v-if="about">
         <vue-markdown :watches="['source']">{{about}}</vue-markdown>
       </div>
 
@@ -45,6 +45,21 @@
     </div>
   </div>
 </template>
+
+<style>
+.markdown h1 {
+    text-align: center;
+}
+
+.markdown img {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+</style>
+
 
 <script>
 import VueMarkdown from 'vue-markdown';

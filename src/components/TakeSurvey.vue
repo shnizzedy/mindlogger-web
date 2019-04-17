@@ -113,6 +113,7 @@ export default {
   },
   mounted() {
     this.error.show = false;
+    window.scrollTo(0, 0);
   },
   methods: {
     saveResponse(resp, val) {
