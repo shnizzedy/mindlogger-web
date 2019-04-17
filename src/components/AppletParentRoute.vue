@@ -92,6 +92,17 @@ function getFilename(s) {
   return filename;
 }
 
+function getVariableName(s, variableMap) {
+  const vmap = variableMap[0]['@list'];
+  const mapper = {};
+  _.map(vmap, (v) => {
+    const uri = v['https://schema.repronim.org/isAbout'][0]['@id'];
+    const variable = v['https://schema.repronim.org/variableName'][0]['@value'];
+    mapper[uri] = variable;
+  });
+  return mapper[s['@id']];
+}
+
 export default {
   name: 'AppletParentRoute',
   props: {
@@ -171,7 +182,13 @@ export default {
       const output = {};
       if (this.activityOrder) {
         _.map(this.activityOrder, (s) => {
-          const fname = getFilename(s['@id']);
+          let fname = '';
+          if (this.data['https://schema.repronim.org/variableMap']) {
+            fname = getVariableName(s, this.data['https://schema.repronim.org/variableMap']);
+          } else {
+            // TODO: remove this backwards compatibility else
+            fname = getFilename(s);
+          }
           output[fname] = s;
         });
       }
@@ -182,12 +199,19 @@ export default {
         return _.map(this.activityOrder, (s) => {
           // console.log(s);
           // TODO: don't assume the key name is the same as the ending of the filename.
-          const keyName = getFilename(s['@id']);
+          let keyName = '';
+          if (this.data['https://schema.repronim.org/variableMap']) {
+            keyName = getVariableName(s, this.data['https://schema.repronim.org/variableMap']);
+          } else {
+            // TODO: remove this backwards compatibility else
+            keyName = getFilename(s);
+          }
 
           // look through the "https://schema.repronim.org/visibility" field
           // and reformat nicely
 
           let condition = _.filter(this.data['https://schema.repronim.org/visibility'], c => c['@index'] === keyName);
+
           if (condition.length === 1) {
             condition = condition[0];
 
