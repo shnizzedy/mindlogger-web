@@ -22,6 +22,12 @@
         </b-alert>
       </div>
       <div v-if="status==='ready'" class="mb-3 pb-3">
+        <div v-if="!appletsFromServer.length">
+          <p class="lead">
+            You have no apps yet!
+          </p>
+          <img src="@/assets/undraw_no_data_qbuo.svg" class="illustration" />
+        </div>
         <div
          v-for="(applet, index) in appletsFromServer"
          :key="applet.url" class="mt-3 mb-3"
@@ -90,6 +96,11 @@
 
   .top80 {
     top: 80px;
+  }
+
+  .illustration {
+    max-width: 250px;
+    width: 100%;
   }
 </style>
 

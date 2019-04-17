@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <b-row class="tall">
       <nav-side>
         <b-col>
         <div class="ml-3 mr-3 mt-3 text-left">
@@ -56,8 +56,13 @@
   @import '../custom-bootstrap.scss';
   @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
+  .tall {
+    min-height: 100VH;
+  }
+
   .right-side {
     overflow-y: auto;
+    height: 100%;
   }
 
   .link.router-link-active {

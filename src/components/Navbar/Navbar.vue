@@ -6,7 +6,7 @@
       <b-navbar-brand to="/" exact>Mindlogger</b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-item v-if="isLoggedIn" :to="{name: 'AllApplets', query}">Your Studies</b-nav-item>
+        <b-nav-item v-if="isLoggedIn" :to="{name: 'AllApplets', query}">Home</b-nav-item>
       </b-navbar-nav>
 
       <b-collapse is-nav id="nav_collapse">

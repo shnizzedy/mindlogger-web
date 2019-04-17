@@ -4,16 +4,20 @@
       You're not logged in!
     </div>
     <div v-else>
-      <div>
-        <h1>{{applet.name}}</h1>
+      <div class="mb-3 pb-3 mt-3 pt-3 text-left" v-if="about">
+        <vue-markdown :watches="['source']">{{about}}</vue-markdown>
       </div>
-      <p>
 
+      <div v-else>
+        <div>
+          <h1>{{applet.name}}</h1>
+        </div>
+        <p>
         There should be Applet-specific text here.
         Ideally rendered from a markdown file, the link to which
         is in the applet JSONLD.
-
-      </p>
+        </p>
+      </div>
 
       <p>
         <b-button size="lg" variant="success" v-if="activityOrder[0]"
@@ -43,6 +47,8 @@
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown';
+import axios from 'axios';
 
 export default {
   name: 'Applet',
@@ -74,11 +80,20 @@ export default {
   },
   data() {
     return {
-
+      about: '',
     };
+  },
+  components: {
+    VueMarkdown,
+  },
+  watch: {
+    data() {
+      this.getAboutData();
+    },
   },
   mounted() {
     // this.getAppletData();
+    this.getAboutData();
   },
   computed: {
     // activityOrder() {
@@ -95,6 +110,13 @@ export default {
     //     this.data = resp[0];
     //   });
     // },
+    getAboutData() {
+      if (this.data['http://schema.org/about']) {
+        axios.get(this.data['http://schema.org/about'][0]['@value']).then((resp) => {
+          this.about = resp.data;
+        });
+      }
+    },
   },
 };
 </script>
