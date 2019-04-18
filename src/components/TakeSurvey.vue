@@ -119,21 +119,35 @@ export default {
 
       // restructure responses if they are nested?
 
-      api.sendActivityData({
-        data: {
-          applet: this.applet,
-          activity: this.$refs.surveyComponent.activity,
-          responses: this.responses,
-        },
+      api.getAppletFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-      }).then(() => {
-        this.saveReady = true;
-        // this.complete = true;
-        this.$emit('saveComplete', this.srcUrl, true);
-      }).catch(() => {
-        // console.log(err);
-      });
+        URI: this.applet.url,
+      })
+        .then((appletResp) => {
+          api.getActivityFromURI({
+            apiHost: this.apiHost,
+            token: this.user.authToken.token,
+            URI: this.srcUrl,
+          })
+            .then((activityResp) => {
+              api.sendActivityData({
+                data: {
+                  applet: appletResp.data._id,
+                  activity: activityResp.data._id,
+                  responses: this.responses,
+                },
+                apiHost: this.apiHost,
+                token: this.user.authToken.token,
+              }).then(() => {
+                this.saveReady = true;
+                // this.complete = true;
+                this.$emit('saveComplete', this.srcUrl, true);
+              }).catch(() => {
+                // console.log(err);
+              });
+            });
+        });
     },
   },
 };
