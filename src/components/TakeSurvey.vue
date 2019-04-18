@@ -87,17 +87,7 @@ export default {
       saveReady: true,
       // complete: false,
       error: {
-        show: falsethis.saveReady = true;
-        this.error.show = false;
-        // this.complete = true;
-        this.$emit('saveComplete', this.srcUrl, true);
-      }).catch((e) => {
-        // console.log(err);
-        this.error.show = true;
-        this.error.error = e;
-        this.saveReady = true;
-        this.$emit('saveComplete', this.srcUrl, true);,
-        error: null,
+        show: false,
       },
     };
   },
@@ -166,15 +156,15 @@ export default {
                 token: this.user.authToken.token,
               }).then(() => {
                 this.saveReady = true;
-       		this.error.show = false;
-        	// this.complete = true;
-        	this.$emit('saveComplete', this.srcUrl, true);
+       		      this.error.show = false;
+        	      // this.complete = true;
+        	      this.$emit('saveComplete', this.srcUrl, true);
       	      }).catch((e) => {
-        	// console.log(err);
-        	this.error.show = true;
-        	this.error.error = e;
-        	this.saveReady = true;
-        	this.$emit('saveComplete', this.srcUrl, true);
+        	      // console.log(err);
+        	      this.error.show = true;
+        	      this.error.error = e;
+        	      this.saveReady = true;
+                this.$emit('saveComplete', this.srcUrl, true);
               });
             });
         });
