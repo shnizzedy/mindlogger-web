@@ -132,6 +132,16 @@
     overflow: hidden;
   }
 
+  .extra {
+  height: 75px;
+}
+
+@media only screen and (min-width: 1025px) {
+  .extra {
+    height: 0;
+  }
+}
+
 </style>
 
 <script>

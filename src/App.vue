@@ -23,6 +23,7 @@
           © <a href="https://childmind.org">Child Mind Institute</a> MATTER Lab 2019</p>
         </b-col>
       </b-row>
+      <div class="extra"></div>
     </footer>
   </div>
 </template>

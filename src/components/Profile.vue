@@ -67,7 +67,7 @@
       <hr>
 
       <!-- change your password -->
-      <div class="changePassword mt-3 pt-3">
+      <div class="changePassword mt-3 pt-3 mb-3 pb-3">
         <h3>Change password</h3>
         <p class="lead">
         Make sure to set a complex password, and don't share it with anyone.
