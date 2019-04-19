@@ -203,7 +203,7 @@ export default {
         return { name: a['skos:prefLabel'],
           url: a.url,
           description: a['schema:description'],
-          image: `https://picsum.photos/400/400/?image=${350+index}`,
+          image: a['schema:image'] || `https://picsum.photos/400/400/?image=${350+index}`,
           selected: true,
         };
       });
