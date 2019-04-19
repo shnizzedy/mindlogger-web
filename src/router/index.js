@@ -7,6 +7,7 @@ import Profile from '@/components/Profile';
 import Landing from '@/components/Landing';
 import Applet from '@/components/Applet';
 import AppletParentRoute from '@/components/AppletParentRoute';
+import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
 import config from '../config';
@@ -39,6 +40,11 @@ const router = new Router({
           name: 'Applet',
           path: '/applet/:appletId',
           component: Applet,
+        },
+        {
+          name: 'AppletDashboard',
+          path: '/applet/:appletId/dashboard',
+          component: AppletDashboard,
         },
         {
           path: '/applet/:appletId/survey/:surveyId',

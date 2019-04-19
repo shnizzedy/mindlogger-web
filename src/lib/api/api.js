@@ -198,4 +198,5 @@ export default {
   getActivityFromURI,
   getAppletFromURI,
   getAppletsForUser,
+  getUserDataFromApplet,
   addAppletToUser };

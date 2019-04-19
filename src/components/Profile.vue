@@ -199,11 +199,12 @@ export default {
   },
   computed: {
     appletItems() {
+      // eslint-disable-next-line
       return _.map(this.appletsFromServer, (a, index) => {
         return { name: a['skos:prefLabel'],
           url: a.url,
           description: a['schema:description'],
-          image: a['schema:image'] || `https://picsum.photos/400/400/?image=${350+index}`,
+          image: a['schema:image'] || `https://picsum.photos/400/400/?image=${350 + index}`,
           selected: true,
         };
       });

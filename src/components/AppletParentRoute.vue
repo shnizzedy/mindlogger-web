@@ -9,7 +9,12 @@
               About
             </router-link>
           </p>
-
+          <p>
+            <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
+              class="link">
+              Data
+            </router-link>
+          </p>
           <p v-for="(act, index) in activityOrder" :key="index">
             <router-link
              :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
@@ -17,6 +22,7 @@
              v-if="visibility[index]"
              >
               <circle-progress
+                style="display: inline;"
                 :radius="20"
                 :progress="progress[act['@id']]"
                 :stroke="4"
@@ -28,12 +34,13 @@
         </b-col>
       </nav-side>
       <b-col>
-      <div class="right-side">
+      <div class="right-side ml-1 mr-1">
       <router-view
         :user="user"
         :data="data"
         :activityOrder="activityOrder"
         :activityDisplayNames="activityDisplayNames"
+        :appletUrl="appletUrl"
         :isLoggedIn="isLoggedIn"
         :applet="applet"
         :srcUrl="srcUrl"

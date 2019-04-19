@@ -14,6 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
     "@bit/akeshavan.mindlogger-web.circle": "0.0.2",
     "@bit/akeshavan.mindlogger-web.loader": "0.0.3",
     "@bit/akeshavan.mindlogger-web.survey": "0.0.30",
@@ -23,6 +24,8 @@
     "jsonld": "^1.5.2",
     "localStorage": "^1.0.4",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "v-calendar": "^1.0.0-beta.6",
     "vue": "^2.5.2",
     "vue-markdown": "^2.2.4",
     "vue-progressive-image": "^3.2.0",
