@@ -120,7 +120,7 @@ const sendActivityData = ({ apiHost, token, data }) => {
   const { formattedData } = formatData(data);
   return axios({
     method: 'post',
-    url: `${apiHost}/response`,
+    url: `${apiHost}/response/${data.applet}/${data.activity}`,
     headers: {
       'Content-Type': 'multipart/form-data', // 'application/x-www-form-urlencoded',
       'Girder-Token': token,
@@ -155,6 +155,22 @@ const getAppletsForUser = ({ apiHost, token, user, role = null }) => axios({
  * If the applet is already there, it shouldn't duplicate.
  */
 
+const getActivityFromURI = ({ apiHost, token, URI }) => axios({
+  method: 'get',
+  url: `${apiHost}/activity?url=${URI}`,
+  headers: {
+    'Girder-Token': token,
+  },
+});
+
+const getAppletFromURI = ({ apiHost, token, URI }) => axios({
+  method: 'get',
+  url: `${apiHost}/applet?url=${URI}`,
+  headers: {
+    'Girder-Token': token,
+  },
+});
+
 const addAppletToUser = ({ apiHost, appletId, token }) => axios({
   method: 'post',
   url: `${apiHost}/applet/invite?url=${appletId}&role=user&rsvp=false`,
@@ -167,4 +183,19 @@ const addAppletToUser = ({ apiHost, appletId, token }) => axios({
   },
 });
 
-export default { signIn, signUp, sendActivityData, getAppletsForUser, addAppletToUser };
+const getUserDataFromApplet = ({ apiHost, token, userId, appletId }) => axios({
+  method: 'get',
+  url: `${apiHost}/response?informant=${userId}&applet=${appletId}`,
+  headers: {
+    'girder-token': token,
+  },
+});
+
+export default {
+  signIn,
+  signUp,
+  sendActivityData,
+  getActivityFromURI,
+  getAppletFromURI,
+  getAppletsForUser,
+  addAppletToUser };

@@ -88,7 +88,6 @@ export default {
       // complete: false,
       error: {
         show: false,
-        error: null,
       },
     };
   },
@@ -135,26 +134,40 @@ export default {
 
       // restructure responses if they are nested?
 
-      api.sendActivityData({
-        data: {
-          applet: this.applet,
-          activity: this.$refs.surveyComponent.activity,
-          responses: this.responses,
-        },
+      api.getAppletFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-      }).then(() => {
-        this.saveReady = true;
-        this.error.show = false;
-        // this.complete = true;
-        this.$emit('saveComplete', this.srcUrl, true);
-      }).catch((e) => {
-        // console.log(err);
-        this.error.show = true;
-        this.error.error = e;
-        this.saveReady = true;
-        this.$emit('saveComplete', this.srcUrl, true);
-      });
+        URI: this.applet.url,
+      })
+        .then((appletResp) => {
+          api.getActivityFromURI({
+            apiHost: this.apiHost,
+            token: this.user.authToken.token,
+            URI: this.srcUrl,
+          })
+            .then((activityResp) => {
+              api.sendActivityData({
+                data: {
+                  applet: appletResp.data._id,
+                  activity: activityResp.data._id,
+                  responses: this.responses,
+                },
+                apiHost: this.apiHost,
+                token: this.user.authToken.token,
+              }).then(() => {
+                this.saveReady = true;
+       		      this.error.show = false;
+        	      // this.complete = true;
+        	      this.$emit('saveComplete', this.srcUrl, true);
+      	      }).catch((e) => {
+        	      // console.log(err);
+        	      this.error.show = true;
+        	      this.error.error = e;
+        	      this.saveReady = true;
+                this.$emit('saveComplete', this.srcUrl, true);
+              });
+            });
+        });
     },
   },
 };
