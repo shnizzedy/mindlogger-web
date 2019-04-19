@@ -3,36 +3,67 @@
     <b-row class="tall">
       <nav-side>
         <b-col>
-        <div class="ml-3 mr-3 mt-3 text-left">
-          <p>
-            <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
-              About
-            </router-link>
-          </p>
-          <p>
-            <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
-              class="link">
-              Data
-            </router-link>
-          </p>
-          <p v-for="(act, index) in activityOrder" :key="index">
-            <router-link
-             :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
-             class="link"
-             v-if="visibility[index]"
-             >
-              <circle-progress
-                style="display: inline;"
-                :radius="20"
-                :progress="progress[act['@id']]"
-                :stroke="4"
-                :strokeColor="complete[act['@id']] ? colors.success : colors.primary" />
-              {{getName(act['@id'])}}
-            </router-link>
-          </p>
-        </div>
+          <div class="ml-3 mr-3 mt-3 text-left">
+            <p>
+              <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
+                About
+              </router-link>
+            </p>
+            <p>
+              <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
+                class="link">
+                Data
+              </router-link>
+            </p>
+            <p v-for="(act, index) in activityOrder" :key="index">
+              <router-link
+              :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
+              class="link"
+              v-if="visibility[index]"
+              >
+                <circle-progress
+                  style="display: inline;"
+                  :radius="20"
+                  :progress="progress[act['@id']]"
+                  :stroke="4"
+                  :strokeColor="complete[act['@id']] ? colors.success : colors.primary" />
+                {{getName(act['@id'])}}
+              </router-link>
+            </p>
+          </div>
         </b-col>
       </nav-side>
+      <!-- only show this if we're on a small screen -->
+      <nav-bottom>
+        <span class="ml-3 mr-3 mt-2 mb-3">
+          <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
+             <div><i class="fas fa-info mb-2"></i></div>
+            About
+          </router-link>
+        </span>
+        <span class="ml-3 mr-3 mt-2 mb-3">
+          <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
+            class="link">
+            <div><i class="fas fa-chart-line mb-2"></i></div>
+            Data
+          </router-link>
+        </span>
+        <span class="ml-3 mr-3 mt-2 mb-3 bottomNav"
+          v-for="(act, index) in activityOrder" :key="index">
+              <router-link
+              :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
+              class="link"
+              v-if="visibility[index]"
+              >
+                <circle-progress
+                  :radius="14"
+                  :progress="progress[act['@id']]"
+                  :stroke="3"
+                  :strokeColor="complete[act['@id']] ? colors.success : colors.primary" />
+                {{getName(act['@id'])}}
+              </router-link>
+        </span>
+      </nav-bottom>
       <b-col>
       <div class="right-side ml-1 mr-1">
       <router-view
@@ -87,6 +118,20 @@
   .link {
     color: $secondary;
   }
+
+  .bottomNav svg {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bottomNav {
+    text-overflow: ellipsis;
+    width: 75px;
+    min-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
 </style>
 
 <script>
@@ -94,7 +139,9 @@ import jsonld from 'jsonld/dist/jsonld.min';
 import axios from 'axios';
 import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
+import '@fortawesome/fontawesome-free/css/all.css';
 import NavSide from './NavSide';
+import NavBottom from './NavBottom';
 import colors from '../custom-bootstrap.scss';
 
 function getFilename(s) {
@@ -133,6 +180,7 @@ export default {
   },
   components: {
     NavSide,
+    NavBottom,
     circleProgress: Circle,
   },
   data() {
