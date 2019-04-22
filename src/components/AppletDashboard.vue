@@ -23,6 +23,9 @@
           >
           </v-calendar>
         </div>
+        <div class="mt-3" v-for="(val, act) in datatables" :key="act">
+          <ActivityDash :data="val" :activityUrl="act"/>
+        </div>
     </div>
 
   </div>
@@ -38,6 +41,8 @@ import VCalendar from 'v-calendar';
 import _ from 'lodash';
 import api from '../lib/api';
 import BounceLoader from './BounceLoader';
+import ActivityDash from './Visualization/ActivityDash';
+
 
 Vue.use(VCalendar, {
   firstDayOfWeek: 2, // Monday
@@ -62,12 +67,16 @@ export default {
       type: [Object, String],
     },
   },
-  components: { BounceLoader },
+  components: {
+    BounceLoader,
+    ActivityDash,
+  },
   data() {
     return {
       responseDates: [],
       responses: [],
       status: 'loading',
+      datatables: {},
     };
   },
   mounted() {
@@ -139,6 +148,45 @@ export default {
         return moment(r.updated).startOf('day').toDate();
       });
       this.status = 'ready';
+      this.createDataTables();
+    },
+    /**
+     * We need to create tabular data to plot.
+     * For each activity, and for each item, we need
+     * tabular data, and we need to know its timescale,
+     * and how we plot it. We should get this information from
+     * the item URL. In the future, we may be able to encode
+     * variable relationships at the activity level, and activity-set
+     * level!
+     */
+    createDataTables() {
+      // go through all the responses and group them by activity and item.
+      const tables = {};
+      _.map(this.responses, (resp) => {
+        const meta = resp.meta;
+
+        // initialize a spot for the activity URI
+        if (!tables[meta.activity.url]) {
+          tables[meta.activity.url] = {};
+        }
+
+        _.map(meta.responses, (val, key) => {
+          // initialize a spot for this item within the activity
+          if (!tables[meta.activity.url][key]) {
+            tables[meta.activity.url][key] = [];
+          }
+
+          // push the response's information to the activity/item pair.
+          // TODO: we need to tell Vega what kind of response this is
+          // based on the metadata of the item!
+          // TODO: we need to encode *meaningful* responses here, based on the
+          // item metadata, not the numeric response
+          tables[meta.activity.url][key].push({
+            response: val,
+            time_of_response: moment(resp.updated).toDate() });
+        });
+      });
+      this.datatables = tables;
     },
   },
 };
