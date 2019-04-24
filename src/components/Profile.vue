@@ -14,6 +14,10 @@
 
       <!-- list of studies that the user is enrolled in -->
       <div class="yourStudies mt-3 pt-3 mb-3 pb-3">
+      <div class="text-right text-muted" v-if="status==='loading' && appletsFromServer.length">
+        <small>refreshing
+        <i class="fas fa-sync fa-spin ml-1"></i></small>
+      </div>
         <h2>Your studies</h2>
         <p class="lead">
           Below are the studies that you have enrolled in.
@@ -23,7 +27,7 @@
 
         <div class="userApplets">
           <!-- Loading status-->
-          <div v-if="status==='loading'">
+          <div v-if="status==='loading' && !appletsFromServer.length">
             <BounceLoader />
           </div>
           <!-- Ready to show the applets -->
@@ -154,7 +158,7 @@ export default {
         width: 50,
         height: 50,
         class: 'm1' },
-      appletsFromServer: [],
+      // appletsFromServer: [],
       status: 'loading',
       error: {},
       options: [
@@ -215,6 +219,9 @@ export default {
       }
       return this.newPassword.original === this.newPassword.repeat;
     },
+    appletsFromServer() {
+      return this.$store.state.applets;
+    },
   },
   methods: {
     getApplets() {
@@ -226,9 +233,10 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          this.appletsFromServer = resp.data.map(applet => applet.applet)
+          const appletsFromServer = resp.data.map(applet => applet.applet)
             .filter(a => a['http://schema.org/url']);
           this.status = 'ready';
+          this.$store.commit('setApplets', appletsFromServer);
         })
         .catch((e) => {
           this.error = e;
