@@ -148,7 +148,7 @@ export default {
             .then((activityResp) => {
               api.sendActivityData({
                 data: {
-                  applet: appletResp.data._id,
+                  applet: appletResp.data.applet._id.split('/')[1],
                   activity: activityResp.data._id,
                   responses: this.responses,
                 },
