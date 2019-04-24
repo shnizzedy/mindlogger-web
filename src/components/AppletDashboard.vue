@@ -125,13 +125,20 @@ export default {
       api.getAppletFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-        URI: this.applet.url,
-      }).then(resp => api.getUserDataFromApplet({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        userId: this.user.user._id,
-        appletId: resp.data._id,
-      })).then((resp) => {
+        URI: this.appletUrl,
+        // eslint-disable-next-line
+      }).then((resp) => {
+        /**
+         * TODO: this is messy: resp.data.applet._id.split('/')[1]
+         * lets fix this in the future.
+         */
+        return api.getUserDataFromApplet({
+          apiHost: this.apiHost,
+          token: this.user.authToken.token,
+          userId: this.user.user._id,
+          appletId: resp.data.applet._id.split('/')[1],
+        });
+      }).then((resp) => {
         this.responses = resp.data;
         this.parseDates();
       }).catch(() => {

@@ -93,7 +93,6 @@ export default {
         this.metadata = resp[0];
 
         // check if the valueconstraints need to be expanded.
-        console.log('metadata is', this.metadata);
         if (this.metadata['https://schema.repronim.org/valueconstraints'][0]['@id']) {
           jsonld.expand(this.metadata['https://schema.repronim.org/valueconstraints'][0]['@id']).then((vc) => {
             this.metadata['https://schema.repronim.org/valueconstraints'] = vc;
