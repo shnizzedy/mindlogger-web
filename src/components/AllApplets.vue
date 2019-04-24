@@ -30,7 +30,7 @@
         </div>
         <div
          v-for="(applet, index) in appletsFromServer"
-         :key="applet.url" class="mt-3 mb-3"
+         :key="applet['http://schema.org/url'][0]['@value']" class="mt-3 mb-3"
         >
           <!-- <b-card :img-src="`https://picsum.photos/200/200/?image=${index+350}`"
            img-alt="Card image"
@@ -49,19 +49,19 @@
           </b-card> -->
 
           <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
-            <router-link :to="{name: 'Applet', params: {appletId: applet.url}}">
+            <router-link :to="{name: 'Applet', params: {appletId: applet['http://schema.org/url'][0]['@value']}}">
             <b-row no-gutters>
               <b-col md="6">
                 <b-card-img
-                :src="appletData[applet.url]['http://schema.org/image'] ? appletData[applet.url]['http://schema.org/image'][0]['@value'] : `https://picsum.photos/400/400/?image=${350 + index}`"
+                :src="appletData[applet['http://schema.org/url'][0]['@value']]['http://schema.org/image'] ? appletData[applet['http://schema.org/url'][0]['@value']]['http://schema.org/image'][0]['@value'] : `https://picsum.photos/400/400/?image=${350 + index}`"
                 class="rounded-0 pt-3 pb-3 pl-3 pr-3"
                 style="width: 250px; height: 250px;"
                 />
               </b-col>
-              <b-col md="6" v-if="appletData[applet.url]">
-                <b-card-body :title="appletData[applet.url]['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
+              <b-col md="6" v-if="appletData[applet['http://schema.org/url'][0]['@value']]">
+                <b-card-body :title="appletData[applet['http://schema.org/url'][0]['@value']]['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
                   <b-card-text>
-                    {{appletData[applet.url]['http://schema.org/description'][0]['@value']}}
+                    {{appletData[applet['http://schema.org/url'][0]['@value']]['http://schema.org/description'][0]['@value']}}
                   </b-card-text>
                 </b-card-body>
               </b-col>
@@ -178,7 +178,8 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          this.appletsFromServer = resp.data.filter(applet => applet.url);
+          this.appletsFromServer = resp.data.map(applet => applet.applet)
+            .filter(a => a['http://schema.org/url']);
           this.status = 'ready';
         })
         .catch((e) => {

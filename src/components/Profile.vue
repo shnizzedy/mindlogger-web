@@ -201,10 +201,10 @@ export default {
     appletItems() {
       // eslint-disable-next-line
       return _.map(this.appletsFromServer, (a, index) => {
-        return { name: a['skos:prefLabel'],
-          url: a.url,
-          description: a['schema:description'],
-          image: a['schema:image'] || `https://picsum.photos/400/400/?image=${350 + index}`,
+        return { name: a['http://www.w3.org/2004/02/skos/core#prefLabel'] ? a['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'] : '',
+          url: a['http://schema.org/url'] ? a['http://schema.org/url'][0]['@value'] : a['http://schema.org/url'] || a.url || '',
+          description: a['http://schema.org/description'] ? a['http://schema.org/description'][0]['@value'] : '',
+          image: a['http://schema.org/image'] ? a['http://schema.org/image'][0]['@value'] : a['http://schema.org/image'] || `https://picsum.photos/400/400/?image=${350 + index}`,
           selected: true,
         };
       });
@@ -226,7 +226,8 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          this.appletsFromServer = resp.data.filter(applet => applet.url);
+          this.appletsFromServer = resp.data.map(applet => applet.applet)
+            .filter(a => a['http://schema.org/url']);
           this.status = 'ready';
         })
         .catch((e) => {
