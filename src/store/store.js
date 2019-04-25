@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
 const state = {
   applets: [],
-  appletData: {},
+  appletResponses: {},
 };
 
 const getters = {
@@ -16,8 +17,8 @@ const mutations = {
   setApplets(state, data) {
     state.applets = data;
   },
-  setAppletData(state, appletURI, data) {
-    state.appletData[appletURI] = data;
+  setAppletResponses(state, { appletURI, data }) {
+    state.appletResponses[appletURI] = data;
   },
 };
 
@@ -30,4 +31,5 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
+  plugins: [createPersistedState()],
 });

@@ -1,16 +1,23 @@
 <template>
   <div class="mt-3 pt-3 container">
-    <div v-if="status === 'loading'">
+    <div v-if="status === 'loading' && !responses.length">
       <BounceLoader />
     </div>
-    <div v-else-if="status === 'error'">
+    <!-- <div v-else-if="status === 'error'">
       <b-alert show variant="danger">Something went wrong!</b-alert>
-    </div>
+    </div> -->
     <div v-else-if="!responses.length && this.status === 'ready'">
       You haven't saved any data yet.
     </div>
     <div v-else class="mb-3">
         <div>
+          <div class="text-right text-muted" v-if="status==='loading' && responses.length">
+            <small>refreshing
+            <i class="fas fa-sync fa-spin ml-1"></i></small>
+          </div>
+          <div v-if="status === 'error'">
+            <b-alert show variant="danger">Something went wrong!</b-alert>
+          </div>
           <h1>Your Data</h1>
           <p class="lead">
             {{applet.name}}
@@ -73,8 +80,8 @@ export default {
   },
   data() {
     return {
-      responseDates: [],
-      responses: [],
+      // responseDates: [],
+      // responses: [],
       status: 'loading',
       datatables: {},
     };
@@ -118,6 +125,18 @@ export default {
         dates: new Date(),
       }];
     },
+    responses() {
+      if (this.appletUrl && this.$store.state.appletResponses) {
+        return this.$store.state.appletResponses[this.appletUrl];
+      }
+      return [];
+    },
+    responseDates() {
+      if (this.responses.length) {
+        return this.parseDates(this.responses);
+      }
+      return [];
+    },
   },
   methods: {
     getUserResponses() {
@@ -139,23 +158,26 @@ export default {
           appletId: resp.data.applet._id.split('/')[1],
         });
       }).then((resp) => {
-        this.responses = resp.data;
+        const responses = resp.data;
+        this.$store.commit('setAppletResponses', { appletURI: this.appletUrl, data: responses });
         this.parseDates();
       }).catch(() => {
         this.status = 'error';
       });
     },
-    parseDates() {
+    parseDates(responses) {
       // TODO: make these UNIQUE days.
       // eslint-disable-next-line
-      this.responseDates = _.map(this.responses, (r) => {
+      const responseDates = _.map(responses, (r) => {
         // TODO: use a nice ISO-formatted date that isn't updated
         // when the user's response is for a different day than when
         // they responded.
         return moment(r.updated).startOf('day').toDate();
       });
+      // this.$store.commit('setAppletResponseDates', { appletURI: this.appletUrl, data: responseDates });
       this.status = 'ready';
       this.createDataTables();
+      return responseDates;
     },
     /**
      * We need to create tabular data to plot.
