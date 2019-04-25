@@ -1,6 +1,6 @@
 <template name="login">
   <div id="login" class="text-center mb-0">
-    <h1 v-if='useTitle'> Log In </h1>
+    <h1 v-if="useTitle"> Log In </h1>
 
     <div id="signupForm" class="container fluid">
       <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
@@ -37,7 +37,7 @@
       </b-form>
 
       <p class="mt-3" v-if="signupLink">
-        Don't have an account? <router-link :to="{...signupLink, query}">Create one</router-link>
+        Don't have an account? <router-link :to="signupWithQuery">Create one</router-link>
       </p>
       <p class="mt-3" v-if="forgotLink">
         Forgot your password? <router-link :to="forgotLink">Reset it</router-link>
@@ -61,7 +61,7 @@
 </style>
 
 <script>
-import api from '../../lib/api/';
+import api from '../../lib/api';
 
 /**
  * # Login
@@ -145,6 +145,11 @@ export default {
         code: null,
       },
     };
+  },
+  computed: {
+    signupWithQuery() {
+      return { ...this.signupLink, query: this.query };
+    },
   },
   methods: {
     /**

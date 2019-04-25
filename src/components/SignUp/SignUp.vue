@@ -87,7 +87,7 @@
         </b-button>
 
         <p class="mt-3" v-if="loginLink">
-          Already have an account? <router-link :to="{...loginLink, query}">Log In</router-link>
+          Already have an account? <router-link :to="loginWithQuery">Log In</router-link>
         </p>
 
       </b-form>
@@ -166,6 +166,9 @@ export default {
   computed: {
     validated() {
       return this.form.password === this.form.password2;
+    },
+    loginWithQuery() {
+      return { ...this.loginLink, query: this.query };
     },
   },
   methods: {

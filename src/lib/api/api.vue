@@ -1,3 +1,4 @@
+<script>
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -200,3 +201,4 @@ export default {
   getAppletsForUser,
   getUserDataFromApplet,
   addAppletToUser };
+</script>

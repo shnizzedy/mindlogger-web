@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export { default } from './Navbar';
+export { default } from './Navbar.vue';

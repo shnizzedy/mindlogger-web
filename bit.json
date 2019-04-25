@@ -1,9 +1,8 @@
 {
     "env": {
+        "compiler": "bit.envs/bundlers/vue@0.0.4"
     },
-    "dependencies": {
-        "akeshavan.mindlogger-web/survey": "0.0.5"
-    },
+    "dependencies": {},
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
 }

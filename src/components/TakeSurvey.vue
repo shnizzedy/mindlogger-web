@@ -48,7 +48,7 @@
 import Survey from '@bit/akeshavan.mindlogger-web.survey';
 import SaveButton from './SaveButton';
 import Login from './Login/';
-import api from '../lib/api/api';
+import api from '../lib/api/';
 
 export default {
   name: 'TakeSurvey',
