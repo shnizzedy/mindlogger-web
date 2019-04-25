@@ -1,17 +1,17 @@
 <template>
   <div class="mt-3 pt-3 container">
-    <div v-if="status === 'loading' && !responses">
+    <div v-if="status === 'loading' && !responses.length">
       <BounceLoader />
     </div>
     <!-- <div v-else-if="status === 'error'">
       <b-alert show variant="danger">Something went wrong!</b-alert>
     </div> -->
-    <div v-else-if="!responses && this.status === 'ready'">
+    <div v-else-if="!responses.length && this.status === 'ready'">
       You haven't saved any data yet.
     </div>
     <div v-else class="mb-3">
         <div>
-          <div class="text-right text-muted" v-if="status==='loading' && responses">
+          <div class="text-right text-muted" v-if="status==='loading' && responses.length">
             <small>refreshing
             <i class="fas fa-sync fa-spin ml-1"></i></small>
           </div>
@@ -81,9 +81,9 @@ export default {
   data() {
     return {
       // responseDates: [],
-      // responses: [],
+      responses: [],
       status: 'loading',
-      datatables: {},
+      // datatables: {},
     };
   },
   mounted() {
@@ -125,22 +125,25 @@ export default {
         dates: new Date(),
       }];
     },
-    responses() {
-      if (this.appletUrl && this.$store.state.appletResponses) {
-        return this.$store.state.appletResponses[this.appletUrl];
-      }
-      return [];
-    },
     responseDates() {
       if (this.responses.length) {
         return this.parseDates(this.responses);
       }
       return [];
     },
+    datatables() {
+      return this.createDataTables();
+    },
   },
   methods: {
     getUserResponses() {
       this.status = 'loading';
+      /**
+       * if there is something in the store, use it.
+       */
+      if (this.$store.state.appletResponses[this.appletUrl]) {
+        this.responses = this.$store.state.appletResponses[this.appletUrl];
+      }
       api.getAppletFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
@@ -160,7 +163,8 @@ export default {
       }).then((resp) => {
         const responses = resp.data;
         this.$store.commit('setAppletResponses', { appletURI: this.appletUrl, data: responses });
-        this.parseDates();
+        this.responses = responses;
+        this.$forceUpdate();
       }).catch(() => {
         this.status = 'error';
       });
@@ -174,9 +178,10 @@ export default {
         // they responded.
         return moment(r.updated).startOf('day').toDate();
       });
-      // this.$store.commit('setAppletResponseDates', { appletURI: this.appletUrl, data: responseDates });
+      // this.$store.commit('setAppletResponseDates',
+      // { appletURI: this.appletUrl, data: responseDates });
       this.status = 'ready';
-      this.createDataTables();
+      // this.createDataTables();
       return responseDates;
     },
     /**
@@ -215,7 +220,8 @@ export default {
             time_of_response: moment(resp.updated).toDate() });
         });
       });
-      this.datatables = tables;
+      // this.datatables = tables;
+      return tables;
     },
   },
 };

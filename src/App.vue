@@ -76,6 +76,7 @@ export default {
       this.user = {};
       this.$router.push('/login');
       localStorage.setItem('user', {});
+      this.$store.commit('reinitializeState');
     },
     /**
      * save the authtoken to localstorage

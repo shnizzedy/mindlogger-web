@@ -201,7 +201,7 @@ export default {
       data: {},
       colors,
       visibility: {},
-      cache: {},
+      // cache: {},
     };
   },
   mounted() {
@@ -240,6 +240,9 @@ export default {
         }
       }
       return {};
+    },
+    cache() {
+      return this.$store.state.branchingCache;
     },
     nextActivity() {
       const nextObj = {};
@@ -411,8 +414,8 @@ export default {
         const resp = await axios(request);
 
         // this.visibility[index] = resp.data;
-        this.cache[cacheKey] = resp.data;
-
+        // this.cache[cacheKey] = resp.data;
+        this.$store.commit('setBranchingCache', { key: cacheKey, data: resp.data });
         return resp.data;
       } else if (_.isString(cond)) {
         // todo: implement client-side evaluation!
