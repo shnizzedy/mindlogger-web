@@ -1,17 +1,17 @@
 <template>
   <div class="mt-3 pt-3 container">
-    <div v-if="status === 'loading' && !responses.length">
+    <div v-if="status === 'loading' && !responses">
       <BounceLoader />
     </div>
     <!-- <div v-else-if="status === 'error'">
       <b-alert show variant="danger">Something went wrong!</b-alert>
     </div> -->
-    <div v-else-if="!responses.length && this.status === 'ready'">
+    <div v-else-if="!responses && this.status === 'ready'">
       You haven't saved any data yet.
     </div>
     <div v-else class="mb-3">
         <div>
-          <div class="text-right text-muted" v-if="status==='loading' && responses.length">
+          <div class="text-right text-muted" v-if="status==='loading' && responses">
             <small>refreshing
             <i class="fas fa-sync fa-spin ml-1"></i></small>
           </div>
@@ -127,7 +127,7 @@ export default {
     },
     responses() {
       if (this.appletUrl && this.$store.state.appletResponses) {
-        return this.$store.state.appletResponses[this.appletUrl] || [];
+        return this.$store.state.appletResponses[this.appletUrl];
       }
       return [];
     },
