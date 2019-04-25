@@ -127,7 +127,7 @@ export default {
     },
     responses() {
       if (this.appletUrl && this.$store.state.appletResponses) {
-        return this.$store.state.appletResponses[this.appletUrl];
+        return this.$store.state.appletResponses[this.appletUrl] || [];
       }
       return [];
     },
