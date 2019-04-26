@@ -164,6 +164,7 @@ export default {
         const responses = resp.data;
         this.$store.commit('setAppletResponses', { appletURI: this.appletUrl, data: responses });
         this.responses = responses;
+        this.status = 'ready';
         this.$forceUpdate();
       }).catch(() => {
         this.status = 'error';
