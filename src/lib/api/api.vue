@@ -38,7 +38,7 @@ const formatData = (data) => {
           if (!metadata[key]) {
             metadata[key] = {};
           }
-          metadata[key][key2] = val;
+          metadata[key][key2] = val2;
         }
       });
     } else {
