@@ -382,14 +382,12 @@ export default {
       // this.$set(this.complete, activity, complete);
     },
     getName(url) {
-      // TODO: this is a hack. the jsonld expander should give us this info.
       if (url) {
         if (url in this.activities) {
           return(this.activities[url]['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'] || this.activities[url]['http://www.w3.org/2004/02/skos/core#altLabel'][0]['@value'] || undefined)
         }
         const nameMap = this.data['https://schema.repronim.org/activity_display_name'][0];
         if (url in nameMap) {
-          // console.log(123, nameMap[url][0]['@id']);
           const mappedUrl = nameMap[url][0]['@id'];
           const folders = mappedUrl.split('/');
           const N = folders.length;
