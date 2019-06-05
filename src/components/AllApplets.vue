@@ -112,6 +112,9 @@ export default {
     user: {
       type: Object,
     },
+    activities: {
+      type: Object
+    },
     applets: {
       type: Array,
     },
@@ -163,7 +166,9 @@ export default {
         .then((resp) => {
           const appletsFromServer = resp.data.map(applet => applet.applet)
             .filter(a => a['http://schema.org/url']);
+          const activitiesFromServer = Object.assign(...resp.data.map(activity => activity.activities));
           this.$store.commit('setApplets', appletsFromServer);
+          this.$store.commit('setActivities', activitiesFromServer);
           this.status = 'ready';
         })
         .catch((e) => {

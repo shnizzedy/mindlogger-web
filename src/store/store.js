@@ -18,7 +18,7 @@ const getInitialState = () => {
     applets: [],
     appletResponses: {},
     branchingCache: {},
-    activities: [], // TODO: remove this and fix a bug in Survey
+    activities: {}, // TODO: fix a bug in Survey
   };
 };
 
@@ -31,6 +31,9 @@ const getters = {
 };
 
 const mutations = {
+  setActivities(state, data) {
+    state.activities = data;
+  },
   setApplets(state, data) {
     state.applets = data;
   },
