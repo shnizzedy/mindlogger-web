@@ -8,9 +8,9 @@
 
 <script>
 import _ from 'lodash';
+import moment from 'moment';
 import jsonld from 'jsonld/dist/jsonld.min';
 import ItemPlot from '../ItemPlot';
-import moment from 'moment';
 
 export default {
   name: 'ActivityDash',
@@ -34,7 +34,7 @@ export default {
     activityTimeUnit() {
       if (!_.isEmpty(this.metadata)) {
         if (this.metadata[0]['https://schema.repronim.org/timeUnit']) {
-          return this.metadata[0]['https://schema.repronim.org/timeUnit'][0]['@value']
+          return this.metadata[0]['https://schema.repronim.org/timeUnit'][0]['@value'];
         }
         return null;
       }
@@ -71,4 +71,3 @@ export default {
   },
 };
 </script>
-

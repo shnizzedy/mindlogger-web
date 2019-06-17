@@ -3,7 +3,7 @@
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand to="/" exact>Mindlogger</b-navbar-brand>
+      <b-navbar-brand to="/" exact>MindLogger</b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
         <slot></slot>

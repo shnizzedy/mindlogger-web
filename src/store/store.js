@@ -39,6 +39,7 @@ const mutations = {
   },
   setAppletResponses(state, { appletURI, data }) {
     state.appletResponses[appletURI] = data;
+    // eslint-disable-next-line
     console.log('committing applet responses', state.appletResponses[appletURI]);
   },
   setBranchingCache(state, { key, data }) {

@@ -130,6 +130,7 @@ export default {
             output[key] = value;
           });
         } else {
+          // eslint-disable-next-line
           console.log('something wrong with options', vc[0]);
         }
       }
@@ -141,4 +142,3 @@ export default {
   },
 };
 </script>
-
