@@ -1,9 +1,9 @@
 <template>
-    <b-navbar toggleable="md" type="dark" class="site-header">
+    <b-navbar toggleable="md" type="dark" class="site-header" v-bind:style="skinStyles.backgroundSkinColor">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand to="/" exact>Mindlogger</b-navbar-brand>
+      <b-navbar-brand to="/" exact>{{ this.$attrs.skin.name }}</b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
         <slot></slot>
@@ -47,7 +47,9 @@ export default {
     query: {
       type: Object,
     },
+    skinStyles: {
+      type: Object,
+    },
   },
 };
 </script>
-

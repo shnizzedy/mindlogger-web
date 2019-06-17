@@ -44,6 +44,9 @@ const mutations = {
   setBranchingCache(state, { key, data }) {
     state.branchingCache[key] = data;
   },
+  setSkin(state, data) {
+    state.skin = data;
+  },
   reinitializeState(state) {
     const newState = getInitialState();
     _.map(state, (val, key) => {

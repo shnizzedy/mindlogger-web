@@ -232,16 +232,16 @@ export default {
         user: this.user.user._id,
         role: 'user',
       })
-        .then((resp) => {
-          const appletsFromServer = resp.data.map(applet => applet.applet)
-            .filter(a => a['http://schema.org/url']);
-          this.status = 'ready';
-          this.$store.commit('setApplets', appletsFromServer);
-        })
-        .catch((e) => {
-          this.error = e;
-          this.status = 'error';
-        });
+      .then((resp) => {
+        const appletsFromServer = resp.data.map(applet => applet.applet)
+          .filter(a => a['http://schema.org/url']);
+        this.status = 'ready';
+        this.$store.commit('setApplets', appletsFromServer);
+      })
+      .catch((e) => {
+        this.error = e;
+        this.status = 'error';
+      });
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout" :query="query">
+  <div id="app" v-bind:style="skinStyles.skinColor">
+    <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout" :query="query" :skin="skin" :skinStyles="skinStyles">
       <b-nav-item v-if="isLoggedIn" :to="{name: 'AllApplets', query}">Home</b-nav-item>
     </Navbar>
     <div class="demo mb-3">
@@ -11,6 +11,7 @@
         :applets="config.applets"
         :user="user"
         :query="query"
+        :skin="skin"
       />
     </div>
     <!-- The footer -->
@@ -20,7 +21,7 @@
         <b-col class="text-center">
           <p class="mt-3">
           <!-- TODO: unhardcode this logo and text! -->
-          <img class="logo"
+          <img class="logo" v-bind:style="skinStyles.backgroundSkinColor"
           src="https://27c2s3mdcxk2qzutg1z8oa91-wpengine.netdna-ssl.com/wp-content/themes/childmind/assets/img/cmi-logo-vert-ko.svg" />
           © <a href="https://childmind.org">Child Mind Institute</a> MATTER Lab 2019</p>
         </b-col>
@@ -36,6 +37,7 @@ import BootstrapVue from 'bootstrap-vue';
 import _ from 'lodash';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import api from './lib/api/';
 import config from './config';
 import Navbar from './components/Navbar/';
 
@@ -49,6 +51,16 @@ export default {
     return {
       user: {},
       config,
+      skinStyles: {
+        backgroundSkinColor: {
+          background: this.$store.state.skin.colors.primary,
+          color: this.$store.state.skin.colors.secondary
+        },
+        skinColor: {
+          color: this.$store.state.skin.colors.primary,
+          background: this.$store.state.skin.colors.secondary
+        }
+      }
     };
   },
   computed: {
@@ -58,6 +70,9 @@ export default {
     query() {
       return this.$route.query;
     },
+    skin() {
+      return this.$store.state.skin;
+    }
   },
   mounted() {
     try {
@@ -65,11 +80,27 @@ export default {
     } catch (error) {
       this.user = {};
     }
+    this.getSkin();
   },
   components: {
     Navbar,
   },
   methods: {
+    getSkin() {
+      this.status = 'loading';
+      return api.getSkin({
+        apiHost: this.config.apiHost,
+        token: this.user.authToken.token || null
+      })
+      .then((resp) => {
+        this.status = 'ready';
+        this.$store.commit('setSkin', resp.data);
+      })
+      .catch((e) => {
+        this.error = e;
+        this.status = 'error';
+      });
+    },
     saveUser(u) {
       this.user = u;
       this.saveToken(u);

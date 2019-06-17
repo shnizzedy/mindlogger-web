@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 mb-3 h-100">
     <div class="mb-3 pt-3">
-      <h1>Welcome to Mindlogger</h1>
+      <h1>Welcome to {{ this.$attrs.skin.name }}</h1>
       <p class="lead">
         <!-- Mindlogger is an online data collection platform for scientific research. -->
         Participate in scientific research studies online!
