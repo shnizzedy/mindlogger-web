@@ -184,14 +184,6 @@ const addAppletToUser = ({ apiHost, appletId, token }) => axios({
   },
 });
 
-const getSkin = ({ apiHost, token = null, language = 'en-US' }) => axios({
-  method: 'get',
-  url: `${apiHost}/context/skin?lang=${language}`,
-  headers: {
-    'Girder-Token': token,
-  },
-});
-
 const getUserDataFromApplet = ({ apiHost, token, userId, appletId }) => axios({
   method: 'get',
   url: `${apiHost}/response?informant=${userId}&applet=${appletId}`,
@@ -207,7 +199,6 @@ export default {
   getActivityFromURI,
   getAppletFromURI,
   getAppletsForUser,
-  getSkin,
   getUserDataFromApplet,
   addAppletToUser };
 </script>
