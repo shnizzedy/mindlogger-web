@@ -39,6 +39,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 Click on these invite links to go through consent, and then add an activity set to your account in mindlogger:
 
-* MIT voice pilot link: https://mindlogger-web.anisha.pizza/#/consent/https%3A%2F%2Fraw.githubusercontent.com%2FReproNim%2Fschema-standardization%2Fmaster%2Factivity-sets%2Fvoice-pilot%2Fvoice_pilot_schema.jsonld
+* MIT voice pilot link: https://web.mindlogger.org/#/consent/https%3A%2F%2Fraw.githubusercontent.com%2FReproNim%2Fschema-standardization%2Fmaster%2Factivity-sets%2Fvoice-pilot%2Fvoice_pilot_schema.jsonld
 
-* HBN EMA link: https://mindlogger-web.anisha.pizza/#/consent/https%3A%2F%2Fraw.githubusercontent.com%2FReproNim%2Fschema-standardization%2Fmaster%2Factivity-sets%2Fema-hbn%2Fema-hbn_schema.jsonld
+* HBN EMA link: https://web.mindlogger.org/#/consent/https%3A%2F%2Fraw.githubusercontent.com%2FReproNim%2Fschema-standardization%2Fmaster%2Factivity-sets%2Fema-hbn%2Fema-hbn_schema.jsonld
