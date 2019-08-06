@@ -149,7 +149,7 @@ export default {
               api.sendActivityData({
                 data: {
                   applet: appletResp.data.applet._id.split('/')[1],
-                  activity: activityResp.data._id,
+                  activity: activityResp.data._id.split('/')[1],
                   responses: this.responses,
                 },
                 apiHost: this.apiHost,
