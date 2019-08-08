@@ -16,6 +16,7 @@
                         type="email"
                         v-model="form.email"
                         required
+                        :disabled="freezeEmail"
                         placeholder="Enter email">
           </b-form-input>
         </b-form-group>
@@ -156,6 +157,7 @@ export default {
         lastName: '',
       },
       show: true,
+      freezeEmail: false,
       errors: {
         show: false,
         message: null,
@@ -170,6 +172,13 @@ export default {
     loginWithQuery() {
       return { ...this.loginLink, query: this.query };
     },
+  },
+  mounted() {
+    console.log(this.$route.query);
+    if (this.$route.query.email) {
+      this.freezeEmail = true;
+      this.form.email = this.$route.query.email;
+    }
   },
   methods: {
     /**
