@@ -32,31 +32,32 @@
           </p>
           <img src="@/assets/undraw_no_data_qbuo.svg" class="illustration" />
         </div>
-        <div
-          v-for="(applet, index) in appletsFromServer"
-          :key="applet['http://schema.org/url'][0]['@value']" class="mt-3 mb-3"
-        >
-          <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
-            <router-link :to="{name: 'Applet', params: {appletId: applet['http://schema.org/url'][0]['@value']}}">
-            <b-row no-gutters>
-              <b-col md="6">
-                <b-card-img
-                :src="applet['http://schema.org/image'] ? applet['http://schema.org/image'][0]['@value'] : `https://picsum.photos/400/400/?image=${350 + index}`"
-                class="rounded-0 pt-3 pb-3 pl-3 pr-3"
-                style="width: 250px; height: 250px;"
-                />
-              </b-col>
-              <b-col md="6" v-if="applet['http://schema.org/url'][0]['@value']">
-                <b-card-body :title="applet['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
-                  <b-card-text>
-                    {{applet['http://schema.org/description'][0]['@value']}}
-                  </b-card-text>
-                </b-card-body>
-              </b-col>
-            </b-row>
-            </router-link>
-          </b-card>
-
+        <div v-else>
+          <div
+            v-for="(applet, index) in appletsFromServer"
+            :key="applet['http://schema.org/url'][0]['@value']" class="mt-3 mb-3"
+          >
+            <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
+              <router-link :to="{name: 'Applet', params: {appletId: applet['http://schema.org/url'][0]['@value']}}">
+              <b-row no-gutters>
+                <b-col md="6">
+                  <b-card-img
+                  :src="applet['http://schema.org/image'] ? applet['http://schema.org/image'][0]['@value'] : `https://picsum.photos/400/400/?image=${350 + index}`"
+                  class="rounded-0 pt-3 pb-3 pl-3 pr-3"
+                  style="width: 250px; height: 250px;"
+                  />
+                </b-col>
+                <b-col md="6" v-if="applet['http://schema.org/url'][0]['@value']">
+                  <b-card-body :title="applet['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
+                    <b-card-text>
+                      {{applet['http://schema.org/description'][0]['@value']}}
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
+              </router-link>
+            </b-card>
+          </div>
         </div>
       </div>
       <BounceLoader v-else-if="status==='loading'" class="top80"/>
@@ -97,9 +98,9 @@
 </style>
 
 <script>
-import jsonld from 'jsonld/dist/jsonld.min';
+// import jsonld from 'jsonld/dist/jsonld.min';
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
-import _ from 'lodash';
+// import _ from 'lodash';
 import api from '../lib/api/';
 import BounceLoader from './BounceLoader';
 
@@ -113,7 +114,7 @@ export default {
       type: Object,
     },
     activities: {
-      type: Object
+      type: Object,
     },
     applets: {
       type: Array,
@@ -164,11 +165,15 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          const appletsFromServer = resp.data.map(applet => applet.applet)
-            .filter(a => a['http://schema.org/url']);
-          const activitiesFromServer = Object.assign(...resp.data.map(activity => activity.activities));
-          this.$store.commit('setApplets', appletsFromServer);
-          this.$store.commit('setActivities', activitiesFromServer);
+          if (resp.data.length) {
+            const appletsFromServer = resp.data.map(applet => applet.applet)
+              .filter(a => a['http://schema.org/url']);
+            const activitiesFromServer = Object.assign(...resp.data.map(
+              activity => activity.activities,
+            ));
+            this.$store.commit('setApplets', appletsFromServer);
+            this.$store.commit('setActivities', activitiesFromServer);
+          }
           this.status = 'ready';
         })
         .catch((e) => {

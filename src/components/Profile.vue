@@ -233,10 +233,14 @@ export default {
         role: 'user',
       })
         .then((resp) => {
-          const appletsFromServer = resp.data.map(applet => applet.applet)
-            .filter(a => a['http://schema.org/url']);
-          this.status = 'ready';
-          this.$store.commit('setApplets', appletsFromServer);
+          if (resp) {
+            const appletsFromServer = resp.data.map(applet => applet.applet)
+              .filter(a => a['http://schema.org/url']);
+            this.status = 'ready';
+            this.$store.commit('setApplets', appletsFromServer);
+          } else {
+            this.status = 'ready';
+          }
         })
         .catch((e) => {
           this.error = e;
