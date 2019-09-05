@@ -174,6 +174,7 @@ export default {
     },
   },
   mounted() {
+    // eslint-disable-next-line
     console.log(this.$route.query);
     if (this.$route.query.email) {
       this.freezeEmail = true;
