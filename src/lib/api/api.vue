@@ -192,6 +192,14 @@ const getUserDataFromApplet = ({ apiHost, token, userId, appletId }) => axios({
   },
 });
 
+const getInvite = ({ apiHost, token, invitationId }) => axios({
+  method: 'get',
+  url: `${apiHost}/invitation/${invitationId}`,
+  headers: {
+    'girder-token': token,
+  },
+})
+
 export default {
   signIn,
   signUp,
@@ -200,5 +208,7 @@ export default {
   getAppletFromURI,
   getAppletsForUser,
   getUserDataFromApplet,
-  addAppletToUser };
+  addAppletToUser,
+  getInvite
+};
 </script>

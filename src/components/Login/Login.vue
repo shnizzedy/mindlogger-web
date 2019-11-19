@@ -111,7 +111,7 @@ export default {
     },
     redirect: {
       type: [Object, String],
-      default: () => ({ name: 'AllApplets', query: this.query }),
+      default: () => ({ name: 'Profile', query: this.query }),
     },
   },
   data() {

@@ -12,7 +12,7 @@
 
       <hr>
 
-      <!-- list of studies that the user is enrolled in -->
+      <!-- link to view study invitations -->
       <div class="yourStudies mt-3 pt-3 mb-3 pb-3">
       <div class="text-right text-muted" v-if="status==='loading' && appletsFromServer.length">
         <small>refreshing

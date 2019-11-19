@@ -142,7 +142,7 @@ export default {
     },
     redirect: {
       type: [String, Object],
-      default: '/allapplets',
+      default: '/profile',
     },
   },
   data() {

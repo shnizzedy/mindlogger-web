@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar :user="user.user" :isLoggedIn="isLoggedIn" :logout="logout" :query="query">
-      <b-nav-item v-if="isLoggedIn" :to="{name: 'AllApplets', query}">Home</b-nav-item>
+      <b-nav-item v-if="isLoggedIn" :to="{name: 'Profile', query}">Home</b-nav-item>
     </Navbar>
     <div class="demo mb-3">
       <router-view
