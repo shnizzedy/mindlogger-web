@@ -1,8 +1,6 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div v-if="isLoggedIn">
-
-      <!-- top thing with avatar and username's profile -->
       <div class="heading">
         <h1 v-if="status === 'ready'">
           {{user.user.firstName}}, you're invited!
@@ -13,25 +11,38 @@
       </div>
 
       <hr>
-      <div
-        v-if="status === 'ready'"
-        v-html="inviteText" >
+      <div v-if="status === 'ready'">
+        <div v-html="inviteText" />
+        <b-button
+          @click="acceptInvitation"
+          class="acceptButton"
+          variant="success"
+          size="lg">Accept Invitation
+        </b-button>
       </div>
       <BounceLoader v-else />
 
     </div>
     <div v-else class="heading">
       <h1>
-        Please <router-link to="/login"> log in </router-link> or <router-link to="/signup"> sign up </router-link> to view this invitation!
+        Please
+        <router-link to="/login">
+          log in
+        </router-link>
+        or
+        <router-link to="/signup">
+          sign up
+        </router-link>
+        to view this invitation!
       </h1>
     </div>
   </div>
 </template>
 
-<style>
- td {
-   vertical-align: middle !important;
- }
+<style scoped>
+  .acceptButton {
+    margin: 18px;
+  }
 </style>
 
 <script>
@@ -79,6 +90,9 @@ export default {
   mounted() {
     if (this.isLoggedIn) {
       this.getInvite();
+    } else {
+      const route = `invitation/${this.$route.params.invitationId}`;
+      this.$store.commit('setRedirect', route);
     }
   },
   methods: {
@@ -89,14 +103,14 @@ export default {
         token: this.user.authToken.token,
         invitationId: this.$route.params.invitationId,
       }).then((resp) => {
-        console.log('resp');
-        console.log(resp);
         this.status = 'ready';
         this.inviteText = resp.data;
-      }).catch((e) => {
-        console.log('error:');
-        console.log(e);
+      }).catch(() => {
+        this.$router.push('Profile');
       });
+    },
+    acceptInvitation() {
+      console.log('accepted');
     },
   },
 };

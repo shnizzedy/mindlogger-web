@@ -109,10 +109,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    redirect: {
-      type: [Object, String],
-      default: () => ({ name: 'Profile', query: this.query }),
-    },
   },
   data() {
     return {
@@ -166,7 +162,8 @@ export default {
         user: this.form.username,
         password: this.form.password }).then((resp) => {
         this.$emit('login', resp.data);
-        this.$router.push(this.redirect);
+        this.$router.push(this.$store.state.redirect);
+        this.$store.commit('setRedirect', 'Profile');
         this.status = 'ready';
       }).catch((err) => {
         this.errors.code = err.response;
