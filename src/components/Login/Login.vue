@@ -48,10 +48,6 @@
 </template>
 
 <style>
-  #login {
-    /* min-height: 100vh; */
-  }
-
   #signupForm {
     max-width: 400px;
     padding: 20px;

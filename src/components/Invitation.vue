@@ -12,12 +12,18 @@
 
       <hr>
       <div v-if="status === 'ready'">
-        <div v-html="inviteText" />
+        <div v-html="invitationText" />
         <b-button
           @click="acceptInvitation"
           class="acceptButton"
           variant="success"
           size="lg">Accept Invitation
+        </b-button>
+        <b-button
+          @click="declineInvitation"
+          class="acceptButton"
+          variant="danger"
+          size="lg">Decline Invitation
         </b-button>
       </div>
       <BounceLoader v-else />
@@ -41,7 +47,7 @@
 
 <style scoped>
   .acceptButton {
-    margin: 18px;
+    margin-top: 18px;
   }
 </style>
 
@@ -77,41 +83,53 @@ export default {
         height: 50,
         class: 'm1' },
       status: 'loading',
-      inviteText: '',
+      invitationText: '',
     };
   },
   watch: {
     isLoggedIn() {
       if (this.isLoggedIn) {
-        this.getInvite();
+        this.getInvitation();
       }
     },
   },
   mounted() {
     if (this.isLoggedIn) {
-      this.getInvite();
+      this.getInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}`;
       this.$store.commit('setRedirect', route);
     }
   },
   methods: {
-    getInvite() {
+    getInvitation() {
       this.status = 'loading';
-      api.getInvite({
+      api.getInvitation({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
         invitationId: this.$route.params.invitationId,
       }).then((resp) => {
         this.status = 'ready';
-        this.inviteText = resp.data;
+        this.invitationText = resp.data;
       }).catch(() => {
         this.$router.push('Profile');
       });
     },
     acceptInvitation() {
       console.log('accepted');
+      api.acceptInvitation({
+        apiHost: this.apiHost,
+        token: this.user.authToken.token,
+        invitationId: this.$route.params.invitationId,
+      }).then((resp) => {
+        console.log(resp);
+      }).catch((e) => {
+        console.log(e);
+      });
     },
+    declineInvitation() {
+      console.log('declined');
+    }
   },
 };
 </script>
