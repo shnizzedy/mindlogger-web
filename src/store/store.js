@@ -18,7 +18,8 @@ const getInitialState = () => {
     applets: [],
     appletResponses: {},
     branchingCache: {},
-    activities: {}, // TODO: fix a bug in Survey
+    activities: {},
+    redirect: 'Profile',
   };
 };
 
@@ -44,6 +45,9 @@ const mutations = {
   },
   setBranchingCache(state, { key, data }) {
     state.branchingCache[key] = data;
+  },
+  setRedirect(state, data) {
+    state.redirect = data;
   },
   reinitializeState(state) {
     const newState = getInitialState();

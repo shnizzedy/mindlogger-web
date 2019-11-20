@@ -12,64 +12,6 @@
 
       <hr>
 
-      <!-- list of studies that the user is enrolled in -->
-      <div class="yourStudies mt-3 pt-3 mb-3 pb-3">
-      <div class="text-right text-muted" v-if="status==='loading' && appletsFromServer.length">
-        <small>refreshing
-        <i class="fas fa-sync fa-spin ml-1"></i></small>
-      </div>
-        <h2>Your studies</h2>
-        <p class="lead">
-          Below are the studies that you have enrolled in.
-          <br>
-          You can remove yourself from these studies at any time.
-        </p>
-
-        <div class="userApplets">
-          <!-- Loading status-->
-          <div v-if="status==='loading' && !appletsFromServer.length">
-            <BounceLoader />
-          </div>
-          <!-- Ready to show the applets -->
-          <div v-else>
-            <b-table borderless striped hover responsive :items="appletItems" :fields="appletFields"
-              tbody-td-class="align-middle">
-              <!-- A custom formatted column -->
-              <template slot="image" slot-scope="data">
-                 <b-img rounded="circle" alt="Circle image" :src="data.value" v-bind="imgProps">
-
-                 </b-img>
-              </template>
-
-              <template slot="name" slot-scope="data">
-                <router-link :to="`/applet/${encodeURIComponent(data.item.url)}`">
-                  {{data.value}}
-                </router-link>
-              </template>
-
-              <template slot="active" slot-scope="data">
-                <b-form-group class="align-middle">
-                  <b-form-radio-group
-                    id="btn-radios-2"
-                    v-model="data.item.selected"
-                    :options="options"
-                    buttons
-                    button-variant="outline-primary"
-                    size="sm"
-                    class="pt-3"
-                    name="radio-btn-outline"
-                  ></b-form-radio-group>
-                </b-form-group>
-              </template>
-
-            </b-table>
-          </div>
-        </div>
-
-      </div>
-
-      <hr>
-
       <!-- change your password -->
       <div class="changePassword mt-3 pt-3 mb-3 pb-3">
         <h3>Change password</h3>

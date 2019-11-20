@@ -10,6 +10,7 @@ import AppletParentRoute from '@/components/AppletParentRoute';
 import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
+import Invitation from '@/components/Invitation';
 import config from '../config';
 
 Vue.use(Router);
@@ -75,6 +76,11 @@ const router = new Router({
         apiHost: config.apiHost,
         loginLink: { name: 'Login' },
       },
+    },
+    {
+      path: '/invitation/:invitationId',
+      name: 'Invitation',
+      component: Invitation,
     },
   ],
 });

@@ -16,7 +16,7 @@
         <b-button :to="{name: 'SignUp', query}" variant="success" size="lg">Sign Up</b-button>
       </div>
       <div class="mt-3" v-else>
-        <b-button :to="{name: 'AllApplets', query}"
+        <b-button :to="{name: 'Profile', query}"
         variant="danger" size="lg">Get Started</b-button>
       </div>
     </div>
