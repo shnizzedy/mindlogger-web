@@ -201,12 +201,19 @@ const getInvitation = ({ apiHost, token, invitationId }) => axios({
 });
 
 const acceptInvitation = ({ apiHost, token, invitationId }) => axios({
-  method: 'get',
+  method: 'post',
   url: `${apiHost}/invitation/${invitationId}/accept`,
-  token: token,
   headers: {
     'girder-token': token,
-  }
+  },
+});
+
+const removeInvitation = ({ apiHost, token, invitationId }) => axios({
+  method: 'delete',
+  url: `${apiHost}/invitation/${invitationId}/remove`,
+  headers: {
+    'girder-token': token,
+  },
 });
 
 export default {
@@ -220,5 +227,6 @@ export default {
   addAppletToUser,
   getInvitation,
   acceptInvitation,
+  removeInvitation,
 };
 </script>

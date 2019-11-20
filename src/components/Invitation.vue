@@ -20,7 +20,7 @@
           size="lg">Accept Invitation
         </b-button>
         <b-button
-          @click="declineInvitation"
+          @click="removeInvitation"
           class="acceptButton"
           variant="danger"
           size="lg">Decline Invitation
@@ -56,7 +56,7 @@ import api from '../lib/api/';
 import BounceLoader from './BounceLoader';
 
 export default {
-  name: 'Profile',
+  name: 'Invitation',
   props: {
     user: {
       type: Object,
@@ -116,7 +116,6 @@ export default {
       });
     },
     acceptInvitation() {
-      console.log('accepted');
       api.acceptInvitation({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
@@ -127,9 +126,17 @@ export default {
         console.log(e);
       });
     },
-    declineInvitation() {
-      console.log('declined');
-    }
+    removeInvitation() {
+      api.removeInvitation({
+        apiHost: this.apiHost,
+        token: this.user.authToken.token,
+        invitationId: this.$route.params.invitationId,
+      }).then((resp) => {
+        console.log(resp);
+      }).catch((e) => {
+        console.log(e);
+      });
+    },
   },
 };
 </script>

@@ -206,9 +206,8 @@ export default {
         });
         // tell the parent we've logged in with this token info.
         this.$emit('login', { authToken: resp.data.authToken, user: cleanedUser });
-
-        // redirect home
-        this.$router.push(this.redirect);
+        this.$router.push(this.$store.state.redirect);
+        //this.$store.commit('setRedirect', 'Profile');
       }).catch((err) => {
         this.errors.show = true;
         this.errors.code = err.response;
