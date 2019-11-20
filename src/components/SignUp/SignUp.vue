@@ -140,10 +140,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    redirect: {
-      type: [String, Object],
-      default: '/profile',
-    },
   },
   data() {
     return {
@@ -207,7 +203,7 @@ export default {
         // tell the parent we've logged in with this token info.
         this.$emit('login', { authToken: resp.data.authToken, user: cleanedUser });
         this.$router.push(this.$store.state.redirect);
-        //this.$store.commit('setRedirect', 'Profile');
+        this.$store.commit('setRedirect', 'Profile');
       }).catch((err) => {
         this.errors.show = true;
         this.errors.code = err.response;

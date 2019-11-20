@@ -26,6 +26,9 @@
           size="lg">Decline Invitation
         </b-button>
       </div>
+      <div v-if="status === 'error'">
+        Invitation not found
+      </div>
       <BounceLoader v-else />
 
     </div>
@@ -109,10 +112,10 @@ export default {
         token: this.user.authToken.token,
         invitationId: this.$route.params.invitationId,
       }).then((resp) => {
-        this.status = 'ready';
         this.invitationText = resp.data;
+        this.status = 'ready';
       }).catch(() => {
-        this.$router.push('Profile');
+        this.status = 'error';
       });
     },
     acceptInvitation() {
