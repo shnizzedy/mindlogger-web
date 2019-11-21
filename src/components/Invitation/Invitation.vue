@@ -119,19 +119,20 @@ export default {
       }).then(() => {
         this.status = 'accepted';
       }).catch(() => {
+        this.status = 'error';
       });
     },
     removeInvitation() {
       this.status = 'loading';
-      // api.removeInvitation({
-      //   apiHost: this.apiHost,
-      //   token: this.user.authToken.token,
-      //   invitationId: this.$route.params.invitationId,
-      // }).then(() => {
-      //   this.status = 'removed';
-      // }).catch(() => {
-      //   this.status = 'error';
-      // });
+      api.removeInvitation({
+        apiHost: this.apiHost,
+        token: this.user.authToken.token,
+        invitationId: this.$route.params.invitationId,
+      }).then(() => {
+        this.status = 'removed';
+      }).catch(() => {
+        this.status = 'error';
+      });
       this.status = 'removed';
     },
   },
