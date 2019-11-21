@@ -13,7 +13,10 @@
         class="invitationBody"
         v-html="invitationText" />
       <div v-else-if="status === 'error'">
-        Invitation not found
+        Network Error. Return
+        <router-link to="/profile">
+          home
+        </router-link>
       </div>
       <h1 v-else-if="status === 'accepted'">
         Invitation Accepted
