@@ -54,5 +54,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // allow shadow
     'no-shadow': ["error", {"allow": ["state"]}],
+    'linebreak-style': 'off',
   }
 }
