@@ -194,7 +194,7 @@ const getUserDataFromApplet = ({ apiHost, token, userId, appletId }) => axios({
 
 const getInvitation = ({ apiHost, token, invitationId }) => axios({
   method: 'get',
-  url: `${apiHost}/invitation/${invitationId}`,
+  url: `${apiHost}/invitation/${invitationId}?includeLink=false`,
   headers: {
     'girder-token': token,
   },
@@ -210,7 +210,7 @@ const acceptInvitation = ({ apiHost, token, invitationId }) => axios({
 
 const removeInvitation = ({ apiHost, token, invitationId }) => axios({
   method: 'delete',
-  url: `${apiHost}/invitation/${invitationId}/remove`,
+  url: `${apiHost}/invitation/${invitationId}`,
   headers: {
     'girder-token': token,
   },
