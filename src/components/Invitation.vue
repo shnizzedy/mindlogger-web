@@ -12,7 +12,9 @@
 
       <hr>
       <div v-if="status === 'ready'">
-        <div v-html="invitationText" />
+        <div 
+          class="invitationBody"
+          v-html="invitationText" />
         <b-button
           @click="acceptInvitation"
           class="acceptButton"
@@ -26,7 +28,7 @@
           size="lg">Decline Invitation
         </b-button>
       </div>
-      <div v-if="status === 'error'">
+      <div v-else-if="status === 'error'">
         Invitation not found
       </div>
       <BounceLoader v-else />
@@ -51,6 +53,10 @@
 <style scoped>
   .acceptButton {
     margin-top: 18px;
+  }
+
+  .invitationBody {
+    text-align: left;
   }
 </style>
 
