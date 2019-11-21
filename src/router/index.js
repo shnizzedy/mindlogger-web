@@ -10,7 +10,7 @@ import AppletParentRoute from '@/components/AppletParentRoute';
 import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
-import Invitation from '@/components/Invitation';
+import Invitation from '@/components/Invitation/Invitation';
 import config from '../config';
 
 Vue.use(Router);

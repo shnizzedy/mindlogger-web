@@ -1,58 +1,51 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div v-if="isLoggedIn">
-      <div class="heading">
-        <h1 v-if="status === 'ready'">
-          {{user.user.firstName}}, you're invited!
-        </h1>
-        <h1 v-else>
+      <div
+        v-if="status === 'loading'"
+        class="heading">
+        <h1>
           Loading Invitation
         </h1>
       </div>
-
-      <hr>
-      <div v-if="status === 'ready'">
-        <div 
-          class="invitationBody"
-          v-html="invitationText" />
-        <b-button
-          @click="acceptInvitation"
-          class="acceptButton"
-          variant="success"
-          size="lg">Accept Invitation
-        </b-button>
-        <b-button
-          @click="removeInvitation"
-          class="acceptButton"
-          variant="danger"
-          size="lg">Decline Invitation
-        </b-button>
-      </div>
+      <div
+        v-if="status === 'ready'"
+        class="invitationBody"
+        v-html="invitationText" />
       <div v-else-if="status === 'error'">
         Invitation not found
       </div>
+      <h1 v-else-if="status === 'accepted'">
+        Invitation Accepted
+      </h1>
+      <h1 v-else-if="status === 'removed'">
+        Invitation Removed
+      </h1>
       <BounceLoader v-else />
-
+      <ButtonGroup
+        v-if="status === 'ready'"
+        v-on:accept="acceptInvitation"
+        v-on:remove="removeInvitation"
+      />
     </div>
     <div v-else class="heading">
-      <h1>
-        Please
-        <router-link to="/login">
-          log in
-        </router-link>
-        or
-        <router-link to="/signup">
-          sign up
-        </router-link>
-        to view this invitation!
-      </h1>
+      Please
+      <router-link to="/login">
+        log in
+      </router-link>
+      or
+      <router-link to="/signup">
+        sign up
+      </router-link>
+      to view this invitation!
     </div>
   </div>
 </template>
 
-<style scoped>
-  .acceptButton {
-    margin-top: 18px;
+<style>
+  .invitationBody *{
+    text-align: left;
+    font-size: 16px;
   }
 
   .invitationBody {
@@ -61,8 +54,9 @@
 </style>
 
 <script>
-import api from '../lib/api/';
-import BounceLoader from './BounceLoader';
+import api from '../../lib/api/';
+import BounceLoader from '../BounceLoader';
+import ButtonGroup from './ButtonGroup';
 
 export default {
   name: 'Invitation',
@@ -78,19 +72,11 @@ export default {
     },
   },
   components: {
+    ButtonGroup,
     BounceLoader,
   },
   data() {
     return {
-      mainProps: { blank: true,
-        blankColor: '#777',
-        width: 75,
-        height: 75,
-        class: 'm1' },
-      imgProps: { blank: false,
-        width: 50,
-        height: 50,
-        class: 'm1' },
       status: 'loading',
       invitationText: '',
     };
@@ -125,26 +111,28 @@ export default {
       });
     },
     acceptInvitation() {
+      this.status = 'loading';
       api.acceptInvitation({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
         invitationId: this.$route.params.invitationId,
-      }).then((resp) => {
-        console.log(resp);
-      }).catch((e) => {
-        console.log(e);
+      }).then(() => {
+        this.status = 'accepted';
+      }).catch(() => {
       });
     },
     removeInvitation() {
-      api.removeInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then((resp) => {
-        console.log(resp);
-      }).catch((e) => {
-        console.log(e);
-      });
+      this.status = 'loading';
+      // api.removeInvitation({
+      //   apiHost: this.apiHost,
+      //   token: this.user.authToken.token,
+      //   invitationId: this.$route.params.invitationId,
+      // }).then(() => {
+      //   this.status = 'removed';
+      // }).catch(() => {
+      //   this.status = 'error';
+      // });
+      this.status = 'removed';
     },
   },
 };
