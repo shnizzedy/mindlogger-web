@@ -9,8 +9,4 @@ export default {
       url: 'https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activity-sets/ema-hbn/ema-hbn_schema.jsonld',
     },
   ],
-  mobileAppLinks: {
-    ios: 'https://testflight.apple.com/join/XbOijcEc',
-    android: 'https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1',
-  },
 };

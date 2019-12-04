@@ -16,11 +16,11 @@
 
         Download MindLogger to get started.
         <div>
-          <a href='config.mobileAppLinks.iOS'>
+          <a href='https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
             <img class="linkAndroid" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
           </a>
 
-          <a href='config.mobileAppLinks.iOS'>
+          <a href='https://testflight.apple.com/join/XbOijcEc'>
             <img class="linkApple" alt='Get it on Apple Test Flight' src='https://developer.foursquare.com/docs/images/testflight-badge.png'/>
           </a>
         </div>
@@ -56,7 +56,6 @@
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
 import _ from 'lodash';
 import api from '../lib/api/';
-import config from '../config';
 import BounceLoader from './BounceLoader';
 
 export default {
@@ -115,7 +114,6 @@ export default {
           label: 'Active',
         },
       ],
-      config,
     };
   },
   watch: {
