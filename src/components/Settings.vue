@@ -6,30 +6,54 @@
       <div class="heading">
         <h1>
           <b-img v-bind="mainProps" rounded="circle" alt="Circle image" class="mr-3"></b-img>
-          {{user.user.firstName}}
+          {{user.user.firstName}}'s Settings
         </h1>
       </div>
 
       <hr>
 
-      <div v-if="isMobile()">
+      <!-- change your password -->
+      <div class="changePassword mt-3 pt-3 mb-3 pb-3">
+        <h3>Change password</h3>
+        <p class="lead">
+        Make sure to set a complex password, and don't share it with anyone.
+        <br>
+        </p>
 
-        Download MindLogger to get started.
+        <!-- change password form -->
         <div>
-          <a href='https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-            <img class="linkAndroid" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
-          </a>
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-valid">New password:</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input v-model="newPassword.original"
+              type="password"
+              id="input-valid" placeholder="New password">
+              </b-form-input>
+            </b-col>
+          </b-row>
 
-          <a href='https://testflight.apple.com/join/XbOijcEc'>
-            <img class="linkApple" alt='Get it on Apple Test Flight' src='https://developer.foursquare.com/docs/images/testflight-badge.png'/>
-          </a>
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-invalid">Confirm password:</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input id="input-invalid" v-model="newPassword.repeat"
+              type="password"
+              :state="validatePass" placeholder="Confirm new password">
+              </b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="my-1 mt-3">
+            <b-col>
+              <b-button :disabled="!validatePass || validatePass == null || !newPassword.original"
+              variant="success">Submit</b-button>
+            </b-col>
+          </b-row>
         </div>
       </div>
 
-      <div v-else>
-        Thank you for creating an account with MindLogger.
-        Download MindLogger on an iOS or Android device to get started.
-      </div>
     </div>
     <div v-else>
       Please <router-link to="/login"> log in </router-link> to see the page!
@@ -40,15 +64,6 @@
 <style>
  td {
    vertical-align: middle !important;
- }
-
- .linkAndroid {
-   margin-top: 8px;
-   width: 52%;
- }
- .linkApple {
-   margin-top: 8px;
-   width: 44%
  }
 </style>
 
@@ -173,12 +188,6 @@ export default {
           this.error = e;
           this.status = 'error';
         });
-    },
-    isMobile() {
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        return true;
-      }
-      return false;
     },
   },
 };

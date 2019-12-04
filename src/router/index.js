@@ -11,6 +11,7 @@ import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
 import Invitation from '@/components/Invitation/Invitation';
+import Settings from '@/components/Settings';
 import config from '../config';
 
 Vue.use(Router);
@@ -75,6 +76,14 @@ const router = new Router({
       props: {
         apiHost: config.apiHost,
         loginLink: { name: 'Login' },
+      },
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
+      props: {
+        apiHost: config.apiHost,
       },
     },
     {

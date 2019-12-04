@@ -21,6 +21,7 @@
             </template>
             <b-dropdown-item to="/profile">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Signout</b-dropdown-item>
+            <b-dropdown-item to="/settings">Settings</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item v-else :to="{name: 'Login', query }">Login</b-nav-item>
