@@ -6,12 +6,30 @@
       <div class="heading">
         <h1>
           <b-img v-bind="mainProps" rounded="circle" alt="Circle image" class="mr-3"></b-img>
-          {{user.user.firstName}}'s Profile
+          {{user.user.firstName}}
         </h1>
       </div>
 
       <hr>
 
+      <div v-if="isMobile()">
+
+        Download MindLogger to get started.
+        <div>
+          <a href='config.mobileAppLinks.iOS'>
+            <img class="linkAndroid" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
+          </a>
+
+          <a href='config.mobileAppLinks.iOS'>
+            <img class="linkApple" alt='Get it on Apple Test Flight' src='https://developer.foursquare.com/docs/images/testflight-badge.png'/>
+          </a>
+        </div>
+      </div>
+
+      <div v-else>
+        Thank you for creating an account with MindLogger.
+        Download MindLogger on an iOS or Android device to get started.
+      </div>
     </div>
     <div v-else>
       Please <router-link to="/login"> log in </router-link> to see the page!
@@ -23,12 +41,22 @@
  td {
    vertical-align: middle !important;
  }
+
+ .linkAndroid {
+   margin-top: 8px;
+   width: 52%;
+ }
+ .linkApple {
+   margin-top: 8px;
+   width: 44%
+ }
 </style>
 
 <script>
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
 import _ from 'lodash';
 import api from '../lib/api/';
+import config from '../config';
 import BounceLoader from './BounceLoader';
 
 export default {
@@ -87,6 +115,7 @@ export default {
           label: 'Active',
         },
       ],
+      config,
     };
   },
   watch: {
@@ -146,6 +175,12 @@ export default {
           this.error = e;
           this.status = 'error';
         });
+    },
+    isMobile() {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true;
+      }
+      return false;
     },
   },
 };
