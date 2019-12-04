@@ -6,11 +6,53 @@
       <div class="heading">
         <h1>
           <b-img v-bind="mainProps" rounded="circle" alt="Circle image" class="mr-3"></b-img>
-          {{user.user.firstName}}'s Profile
+          {{user.user.firstName}}'s Settings
         </h1>
       </div>
 
       <hr>
+
+      <!-- change your password -->
+      <div class="changePassword mt-3 pt-3 mb-3 pb-3">
+        <h3>Change password</h3>
+        <p class="lead">
+        Make sure to set a complex password, and don't share it with anyone.
+        <br>
+        </p>
+
+        <!-- change password form -->
+        <div>
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-valid">New password:</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input v-model="newPassword.original"
+              type="password"
+              id="input-valid" placeholder="New password">
+              </b-form-input>
+            </b-col>
+          </b-row>
+
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-invalid">Confirm password:</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input id="input-invalid" v-model="newPassword.repeat"
+              type="password"
+              :state="validatePass" placeholder="Confirm new password">
+              </b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="my-1 mt-3">
+            <b-col>
+              <b-button :disabled="!validatePass || validatePass == null || !newPassword.original"
+              variant="success">Submit</b-button>
+            </b-col>
+          </b-row>
+        </div>
+      </div>
 
     </div>
     <div v-else>
