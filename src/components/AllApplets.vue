@@ -100,9 +100,6 @@
 </style>
 
 <script>
-// import jsonld from 'jsonld/dist/jsonld.min';
-// import Loader from '@bit/akeshavan.mindlogger-web.loader';
-// import _ from 'lodash';
 import api from '../lib/api/';
 import BounceLoader from './BounceLoader';
 

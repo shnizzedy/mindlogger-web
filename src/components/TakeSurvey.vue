@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import Survey from '@bit/akeshavan.mindlogger-web.survey';
+import Survey from './Survey';
 import SaveButton from './SaveButton';
 import Login from './Login/';
 import api from '../lib/api/';

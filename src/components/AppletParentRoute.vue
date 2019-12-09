@@ -147,9 +147,9 @@
 
 <script>
 import axios from 'axios';
-import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
 import '@fortawesome/fontawesome-free/css/all.css';
+import Circle from './Circle';
 import NavSide from './NavSide';
 import NavBottom from './NavBottom';
 import colors from '../custom-bootstrap.scss';
