@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     // activityOrder() {
-    //   const tmp = this.data['https://schema.repronim.org/order'];
+    //   const tmp = this.data['reprolib:terms/order'];
     //   if (tmp) {
     //     return tmp[0]['@list'];
     //   }
@@ -127,8 +127,8 @@ export default {
     //   });
     // },
     getAboutData() {
-      if (this.data['http://schema.org/about']) {
-        axios.get(this.data['http://schema.org/about'][0]['@value']).then((resp) => {
+      if (this.data['schema:about']) {
+        axios.get(this.data['schema:about'][0]['@value']).then((resp) => {
           this.about = resp.data;
         });
       }
@@ -136,4 +136,3 @@ export default {
   },
 };
 </script>
-

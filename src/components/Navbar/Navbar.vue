@@ -19,6 +19,7 @@
             <template slot="button-content">
               <em>{{user.login}}</em>
             </template>
+            <b-dropdown-item to="/allapplets">Applets</b-dropdown-item>
             <b-dropdown-item to="/profile">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Signout</b-dropdown-item>
             <b-dropdown-item to="/settings">Settings</b-dropdown-item>
@@ -51,4 +52,3 @@ export default {
   },
 };
 </script>
-

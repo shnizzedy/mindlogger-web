@@ -39,13 +39,13 @@ export default {
   computed: {
     inputType() {
       if (!_.isEmpty(this.metadata)) {
-        return this.metadata['https://schema.repronim.org/inputType'][0]['@value'];
+        return this.metadata['reprolib:terms/inputType'][0]['@value'];
       }
       return null;
     },
     description() {
       if (!_.isEmpty(this.metadata)) {
-        return this.metadata['http://schema.org/description'][0]['@value'];
+        return this.metadata['schema:description'][0]['@value'];
       }
       return null;
     },
@@ -93,9 +93,9 @@ export default {
         this.metadata = resp[0];
 
         // check if the valueconstraints need to be expanded.
-        if (this.metadata['https://schema.repronim.org/valueconstraints'][0]['@id']) {
-          jsonld.expand(this.metadata['https://schema.repronim.org/valueconstraints'][0]['@id']).then((vc) => {
-            this.metadata['https://schema.repronim.org/valueconstraints'] = vc;
+        if (this.metadata['reprolib:terms/valueconstraints'][0]['@id']) {
+          jsonld.expand(this.metadata['reprolib:terms/valueconstraints'][0]['@id']).then((vc) => {
+            this.metadata['reprolib:terms/valueconstraints'] = vc;
             this.meaningfulResponses = this.getMeaningfulResponses();
             this.$forceUpdate();
           });
@@ -120,13 +120,13 @@ export default {
      */
     getMeaningfulResponses() {
       const output = {};
-      const vc = this.metadata['https://schema.repronim.org/valueconstraints'];
+      const vc = this.metadata['reprolib:terms/valueconstraints'];
       if (this.inputType === 'radio') {
-        if (vc[0]['http://schema.org/itemListElement']) {
-          const options = vc[0]['http://schema.org/itemListElement'][0]['@list'];
+        if (vc[0]['schema:itemListElement']) {
+          const options = vc[0]['schema:itemListElement'][0]['@list'];
           _.map(options, (o) => {
-            const key = o['http://schema.org/value'][0]['@value'];
-            const value = o['http://schema.org/name'][0]['@value'];
+            const key = o['schema:value'][0]['@value'];
+            const value = o['schema:name'][0]['@value'];
             output[key] = value;
           });
         } else {

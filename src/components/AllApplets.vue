@@ -28,29 +28,29 @@
       <div v-if="status==='ready' || appletsFromServer.length" class="mb-3 pb-3">
         <div v-if="!appletsFromServer.length && status==='ready'">
           <p class="lead">
-            You have no apps yet!
+            You have no applets yet!
           </p>
           <img src="@/assets/undraw_no_data_qbuo.svg" class="illustration" />
         </div>
         <div v-else>
           <div
             v-for="(applet, index) in appletsFromServer"
-            :key="applet['http://schema.org/url'][0]['@value']" class="mt-3 mb-3"
+            :key="applet['schema:url']" class="mt-3 mb-3"
           >
             <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
-              <router-link :to="{name: 'Applet', params: {appletId: applet['http://schema.org/url'][0]['@value']}}">
+              <router-link :to="{name: 'Applet', params: {appletId: applet['schema:url']}}">
               <b-row no-gutters>
                 <b-col md="6">
                   <b-card-img
-                  :src="applet['http://schema.org/image'] ? applet['http://schema.org/image'][0]['@value'] : `https://picsum.photos/400/400/?image=${350 + index}`"
+                  :src="applet['schema:image'] ? applet['schema:image'] : `https://picsum.photos/400/400/?image=${350 + index}`"
                   class="rounded-0 pt-3 pb-3 pl-3 pr-3"
                   style="width: 250px; height: 250px;"
                   />
                 </b-col>
-                <b-col md="6" v-if="applet['http://schema.org/url'][0]['@value']">
+                <b-col md="6" v-if="applet['schema:url']">
                   <b-card-body :title="applet['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
                     <b-card-text>
-                      {{applet['http://schema.org/description'][0]['@value']}}
+                      {{applet['schema:description'][0]['@value']}}
                     </b-card-text>
                   </b-card-body>
                 </b-col>
@@ -167,7 +167,7 @@ export default {
         .then((resp) => {
           if (resp.data.length) {
             const appletsFromServer = resp.data.map(applet => applet.applet)
-              .filter(a => a['http://schema.org/url']);
+              .filter(a => a['_id']);
             const activitiesFromServer = Object.assign(...resp.data.map(
               activity => activity.activities,
             ));
