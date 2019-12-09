@@ -164,9 +164,9 @@ const getActivityFromURI = ({ apiHost, token, URI }) => axios({
   },
 });
 
-const getAppletFromURI = ({ apiHost, token, URI }) => axios({
+const getApplet = ({ apiHost, token, appletId }) => axios({
   method: 'get',
-  url: `${apiHost}/applet?url=${URI}`,
+  url: `${apiHost}/applet/${appletId}`,
   headers: {
     'Girder-Token': token,
   },
@@ -221,7 +221,7 @@ export default {
   signUp,
   sendActivityData,
   getActivityFromURI,
-  getAppletFromURI,
+  getApplet,
   getAppletsForUser,
   getUserDataFromApplet,
   addAppletToUser,

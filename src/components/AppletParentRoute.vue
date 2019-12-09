@@ -5,19 +5,19 @@
         <b-col>
           <div class="ml-3 mr-3 mt-3 text-left">
             <p>
-              <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
+              <router-link exact :to="{name: 'Applet', params: {appletId: appletId}}" class="link">
                 About
               </router-link>
             </p>
             <p>
-              <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
+              <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletId}}"
                 class="link">
                 Data
               </router-link>
             </p>
             <p v-for="(act, index) in activityOrder" :key="index">
               <router-link
-              :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
+              :to="{name: 'TakeSurvey', params: {appletId: appletId, surveyId: act['@id']}}"
               class="link"
               v-if="visibility[index]"
               >
@@ -36,13 +36,13 @@
       <!-- only show this if we're on a small screen -->
       <nav-bottom>
         <span class="ml-3 mr-3 mt-2 mb-3">
-          <router-link exact :to="{name: 'Applet', params: {appletId: appletUrl}}" class="link">
+          <router-link exact :to="{name: 'Applet', params: {appletId: appletId}}" class="link">
              <div><i class="fas fa-info mb-2"></i></div>
             About
           </router-link>
         </span>
         <span class="ml-3 mr-3 mt-2 mb-3">
-          <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletUrl}}"
+          <router-link exact :to="{name: 'AppletDashboard', params: {appletId: appletId}}"
             class="link">
             <div><i class="fas fa-chart-line mb-2"></i></div>
             Data
@@ -51,7 +51,7 @@
         <span class="ml-3 mr-3 mt-2 mb-3 bottomNav"
           v-for="(act, index) in activityOrder" :key="index">
               <router-link
-              :to="{name: 'TakeSurvey', params: {appletId: appletUrl, surveyId: act['@id']}}"
+              :to="{name: 'TakeSurvey', params: {appletId: appletId, surveyId: act['@id']}}"
               class="link"
               v-if="visibility[index]"
               >
@@ -71,7 +71,7 @@
         :data="data"
         :activityOrder="activityOrder"
         :activityDisplayNames="activityDisplayNames"
-        :appletUrl="appletUrl"
+        :appletId="appletId"
         :isLoggedIn="isLoggedIn"
         :activities="activities"
         :applet="applet"
@@ -146,7 +146,6 @@
 </style>
 
 <script>
-import jsonld from 'jsonld/dist/jsonld.min';
 import axios from 'axios';
 import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
@@ -206,27 +205,20 @@ export default {
     };
   },
   mounted() {
-    this.getAppletData();
   },
   computed: {
-    appletUrl() {
+    applet() {
+      return this.applets.filter(a => a._id === `applet/${this.appletId}`)[0];
+    },
+    applets() {
+      return this.$store.state.applets;
+    },
+    appletId() {
       return this.$route.params.appletId;
     },
-    applet() {
-      try {
-        return {
-          url: this.appletUrl,
-          name: this.data['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'],
-        };
-      } catch (error) {
-        return {
-          name: 'loading',
-        };
-      }
-    },
     activityOrder() {
-      if (this.data) {
-        const tmp = this.data['reprolib:terms/order'];
+      if (this.applet) {
+        const tmp = this.applet['reprolib:terms/order'];
         if (tmp) {
           return tmp[0]['@list'];
         }
@@ -336,13 +328,6 @@ export default {
     },
   },
   methods: {
-    getAppletData() {
-      jsonld.expand(this.appletUrl).then((resp) => {
-        this.data = resp[0];
-        this.initializeStorage();
-        this.$forceUpdate();
-      });
-    },
     initializeStorage() {
       _.map(this.activityOrder, (a) => {
         const id = a['@id'];

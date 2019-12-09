@@ -67,7 +67,7 @@ export default {
     apiHost: {
       type: String,
     },
-    appletUrl: {
+    appletUId: {
       type: String,
     },
     applet: {
@@ -141,13 +141,13 @@ export default {
       /**
        * if there is something in the store, use it.
        */
-      if (this.$store.state.appletResponses[this.appletUrl]) {
-        this.responses = this.$store.state.appletResponses[this.appletUrl];
+      if (this.$store.state.appletResponses[this.appletUId]) {
+        this.responses = this.$store.state.appletResponses[this.appletUId];
       }
-      api.getAppletFromURI({
+      api.getApplet({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-        URI: this.appletUrl,
+        _id: this.appletId,
         // eslint-disable-next-line
       }).then((resp) => {
         /**
@@ -162,7 +162,7 @@ export default {
         });
       }).then((resp) => {
         const responses = resp.data;
-        this.$store.commit('setAppletResponses', { appletURI: this.appletUrl, data: responses });
+        this.$store.commit('setAppletResponses', { appletId: this.appletId, data: responses });
         this.responses = responses;
         this.status = 'ready';
         this.$forceUpdate();
@@ -180,7 +180,7 @@ export default {
         return moment(r.updated).startOf('day').toDate();
       });
       // this.$store.commit('setAppletResponseDates',
-      // { appletURI: this.appletUrl, data: responseDates });
+      // { appletUId: this.appletUId, data: responseDates });
       this.status = 'ready';
       // this.createDataTables();
       return responseDates;
@@ -227,4 +227,3 @@ export default {
   },
 };
 </script>
-

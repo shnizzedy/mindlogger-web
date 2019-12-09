@@ -163,11 +163,11 @@ export default {
     };
   },
   computed: {
-    appletURL() {
+    appletUId() {
       return this.$route.params.inviteURL;
     },
     redirect() {
-      return { name: 'Applet', params: { appletId: this.appletURL }, query: { ...this.query, consent: true } };
+      return { name: 'Applet', params: { appletId: this.appletUId }, query: { ...this.query, consent: true } };
     },
   },
   mounted() {
@@ -187,7 +187,7 @@ export default {
       window.scrollTo(0, 0);
       if (this.isLoggedIn) {
         // sign up the user on the applet and then redirect to that applet
-        this.addAppletToUser(this.appletURL, this.user);
+        this.addAppletToUser(this.appletUId, this.user);
         this.$router.push(this.redirect);
       } else {
         this.showLogin = true;
@@ -205,7 +205,7 @@ export default {
     },
     emitLogin(loginData) {
       this.$emit('login', loginData);
-      this.addAppletToUser(this.appletURL, loginData);
+      this.addAppletToUser(this.appletUId, loginData);
     },
   },
 };

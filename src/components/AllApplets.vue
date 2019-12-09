@@ -35,10 +35,12 @@
         <div v-else>
           <div
             v-for="(applet, index) in appletsFromServer"
-            :key="applet['schema:url']" class="mt-3 mb-3"
+            :key="applet['_id']" class="mt-3 mb-3"
           >
             <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
-              <router-link :to="{name: 'Applet', params: {appletId: applet['schema:url']}}">
+              <router-link :to="{name: 'Applet', params: {
+                appletId: applet._id.split('applet/')[1]}
+              }">
               <b-row no-gutters>
                 <b-col md="6">
                   <b-card-img
@@ -167,7 +169,7 @@ export default {
         .then((resp) => {
           if (resp.data.length) {
             const appletsFromServer = resp.data.map(applet => applet.applet)
-              .filter(a => a['_id']);
+              .filter(a => a._id);
             const activitiesFromServer = Object.assign(...resp.data.map(
               activity => activity.activities,
             ));
