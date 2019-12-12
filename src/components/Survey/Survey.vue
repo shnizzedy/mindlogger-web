@@ -75,10 +75,9 @@ const safeEval = require('safe-eval');
 
 export default {
   name: 'Survey',
-  props: ['srcUrl', 'responses', 'selected_language', 'progress'],
+  props: ['activity', 'items', 'srcUrl', 'responses', 'selected_language', 'progress'],
   data() {
     return {
-      activity: {},
       listShow: [],
       parsedJSONLD: {},
       visibility: {},
@@ -93,30 +92,27 @@ export default {
   methods: {
     getData() {
       // this.$store.dispatch('getActivityData');
-      jsonld.expand(this.srcUrl).then((resp) => {
-        this.activity = resp[0];
-        this.listShow = [0];
-        this.$nextTick(() => {
+      this.listShow = [0];
+      this.$nextTick(() => {
+        // eslint-disable-next-line
+        // console.log(86, this.context);
+        // set listShow if there are responses for items in the context
+        const answered = _.filter(this.context, c =>
+          Object.keys(this.responses).indexOf(c['@id']) > -1);
+        if (!answered.length) {
+          this.listShow = [0];
           // eslint-disable-next-line
-          // console.log(86, this.context);
-          // set listShow if there are responses for items in the context
-          const answered = _.filter(this.context, c =>
-            Object.keys(this.responses).indexOf(c['@id']) > -1);
-          if (!answered.length) {
-            this.listShow = [0];
-            // eslint-disable-next-line
-            // console.log(92, this.listShow);
-          } else {
-            this.listShow = _.map(new Array(answered.length + 1), (c, i) => i);
-            // eslint-disable-next-line
-            // console.log(95, this.listShow);
-          }
-          this.visibility = this.getVisibility(this.responses);
-        });
+          // console.log(92, this.listShow);
+        } else {
+          this.listShow = _.map(new Array(answered.length + 1), (c, i) => i);
+          // eslint-disable-next-line
+          // console.log(95, this.listShow);
+        }
+        this.visibility = this.getVisibility(this.responses);
       });
     },
     evaluateScoringLogic() {
-      const scoringLogic = (this.activity['https://schema.repronim.org/scoringLogic'][0]['@value']).split('= ')[1];
+      const scoringLogic = (this.activity['reprolib:terms/scoringLogic'][0]['@value']).split('= ')[1];
       if (this.responses) {
         let str = '';
         _.forOwn(this.responses, (val, key) => {
@@ -142,14 +138,14 @@ export default {
       if (skip) {
         this.$emit('saveResponse', this.context[idx]['@id'], 'skipped');
         this.setResponse('skipped', idx);
-        // if (!_.isEmpty(this.activity['https://schema.repronim.org/scoringLogic'])) {
+        // if (!_.isEmpty(this.activity['reprolib:terms/scoringLogic'])) {
         //   this.evaluateScoringLogic();
         // }
       }
       if (dontKnow) {
         this.$emit('saveResponse', this.context[idx]['@id'], 'dontKnow');
         this.setResponse('dontknow', idx);
-        // if (!_.isEmpty(this.activity['https://schema.repronim.org/scoringLogic'])) {
+        // if (!_.isEmpty(this.activity['reprolib:terms/scoringLogic'])) {
         //   this.evaluateScoringLogic();
         // }
       }
@@ -192,12 +188,12 @@ export default {
       const currResponses = { ...this.responses };
       currResponses[this.context[index]['@id']] = value;
       this.visibility = this.getVisibility(currResponses);
-      if (!_.isEmpty(this.activity['https://schema.repronim.org/scoringLogic'])) {
+      if (!_.isEmpty(this.activity['reprolib:terms/scoringLogic'])) {
         // TODO: if you uncomment the scoring logic evaluation, things break w/ multipart.
         // this.evaluateScoringLogic();
       }
 
-      // if (this.activity['https://schema.repronim.org/branchLogic']) {
+      // if (this.activity['reprolib:terms/branchLogic']) {
       //   this.evaluateBranchingLogic();
       // }
       this.updateProgress();
@@ -227,11 +223,11 @@ export default {
       const keys = _.map(this.order, c => c['@id']); // Object.keys(this.responses);
 
       // a variable map is defined! great
-      if (this.activity['https://schema.repronim.org/variableMap']) {
-        const vmap = this.activity['https://schema.repronim.org/variableMap'][0]['@list'];
+      if (this.activity['reprolib:terms/variableMap']) {
+        const vmap = this.activity['reprolib:terms/variableMap'][0]['@list'];
         const keyArr = _.map(vmap, (v) => {
-          const key = v['https://schema.repronim.org/isAbout'][0]['@id'];
-          const qId = v['https://schema.repronim.org/variableName'][0]['@value'];
+          const key = v['reprolib:terms/isAbout'][0]['@id'];
+          const qId = v['reprolib:terms/variableName'][0]['@value'];
           const val = responses[key];
           return { key, val, qId };
         });
@@ -261,9 +257,9 @@ export default {
     },
     getVisibility(responses) {
       const responseMapper = this.responseMapper(responses);
-      if (!_.isEmpty(this.activity['https://schema.repronim.org/visibility'])) {
+      if (!_.isEmpty(this.activity['reprolib:terms/visibility'])) {
         const visibilityMapper = {};
-        _.map(this.activity['https://schema.repronim.org/visibility'], (a) => {
+        _.map(this.activity['reprolib:terms/visibility'], (a) => {
           let val = a['@value'];
           if (_.isString(a['@value'])) {
             val = this.evaluateString(a['@value'], responseMapper);
@@ -286,20 +282,20 @@ export default {
       this.$emit('updateProgress', progress);
     },
     order() {
-      if (this.activity['https://schema.repronim.org/shuffle'][0]['@value']) { // when shuffle is true
-        const orderList = this.activity['https://schema.repronim.org/order'][0]['@list'];
+      if (this.activity['reprolib:terms/shuffle'][0]['@value']) { // when shuffle is true
+        const orderList = this.activity['reprolib:terms/order'][0]['@list'];
         const listToShuffle = orderList.slice(1, orderList.length - 3);
         const newList = _.shuffle(listToShuffle);
         newList.unshift(orderList[0]);
         newList.push(orderList[orderList.length - 3],
           orderList[orderList.length - 2], orderList[orderList.length - 1]);
         return newList;
-      } return this.activity['https://schema.repronim.org/order'][0]['@list'];
+      } return this.activity['reprolib:terms/order'][0]['@list'];
     },
   },
   watch: {
     $route() {
-      this.getData();
+      ;
       if (this.readyForActivity) {
         if (this.$store) {
           this.$store.dispatch('getActivityData');
@@ -314,7 +310,7 @@ export default {
     },
     srcUrl() {
       if (this.srcUrl) {
-        this.getData();
+        this.activity;
       }
     },
     readyForActivity() {
@@ -337,7 +333,7 @@ export default {
         if (state.activities.length && state.activityIndex != null) {
           if (state.activities[state.activityIndex].activity) {
             const currentActivity = state.activities[state.activityIndex].activity;
-            const actList = currentActivity['https://schema.repronim.org/order'][0]['@list'];
+            const actList = currentActivity['reprolib:terms/order'][0]['@list'];
             return actList;
           }
         }
@@ -356,7 +352,7 @@ export default {
     },
     context() {
       /* eslint-disable */
-      if (this.activity['https://schema.repronim.org/order']) {
+      if (this.activity['reprolib:terms/order']) {
         const keys = this.order();
 
         // if (!_.isEmpty(this.visibility)) {
@@ -370,7 +366,7 @@ export default {
     contextReverse() {
       /* eslint-disable */
       if(this.context.length >0) {
-        console.log(30, this.context.slice().reverse());
+        // console.log(30, this.context.slice().reverse());
         return this.context.slice().reverse();
       }
       return {};
@@ -391,13 +387,13 @@ export default {
       }
     },
     findPassOptions() {
-      if (this.activity['https://schema.repronim.org/allow']) {
+      if (this.activity['reprolib:terms/allow']) {
         let isSkip = false;
         let isDontKnow = false;
-        _.map(this.activity['https://schema.repronim.org/allow'][0]['@list'], s => {
-          if (s['@id'] === "https://schema.repronim.org/refused_to_answer") {
+        _.map(this.activity['reprolib:terms/allow'][0]['@list'], s => {
+          if (s['@id'] === "reprolib:terms/refused_to_answer") {
             isSkip = true;
-          } else if (s['@id'] === "https://schema.repronim.org/dont_know_answer") {
+          } else if (s['@id'] === "reprolib:terms/dont_know_answer") {
             isDontKnow = true;
           }
         });
@@ -412,7 +408,7 @@ export default {
   mounted() {
     if (this.srcUrl) {
       // eslint-disable-next-line
-      this.getData();
+      console.log(this.activity);
     }
   },
 };

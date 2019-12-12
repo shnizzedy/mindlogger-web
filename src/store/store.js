@@ -38,6 +38,9 @@ const mutations = {
   setApplets(state, data) {
     state.applets = data;
   },
+  setItems(state, data) {
+    state.items = data;
+  },
   setAppletResponses(state, { appletUId, data }) {
     state.appletResponses[appletUId] = data;
     // eslint-disable-next-line

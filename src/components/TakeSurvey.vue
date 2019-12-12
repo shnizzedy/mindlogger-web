@@ -3,6 +3,11 @@
     <b-container v-if="user.authToken">
       <br>
       <Survey
+        :activities="activities"
+        :activity="activity"
+        :activityId="activityId"
+        :appletId="appletId"
+        :items="items"
         :srcUrl="srcUrl"
         :progress="progress"
         ref="surveyComponent"
@@ -25,11 +30,15 @@
               <p class="lead"> Thanks {{user.user.firstName}}! </p>
             </div>
             <b-button v-if="nextActivity[srcUrl]" size="lg" variant="info"
-              :to="{name: 'TakeSurvey', params: {surveyId: nextActivity[srcUrl]}}">
+              :to="{name: 'TakeSurvey', params: {srcUrl: nextActivity[srcUrl]}}">
               Next
             </b-button>
             <b-button v-else size="lg" variant="secondary"
-              :to="{name: 'Applet'}">
+              :to="{name: 'Applet', params: {
+                srcUrl: activity['@id'],
+                applet: applet,
+                appletId: this.appletId
+              }}">
               Back to my Activities
             </b-button>
           </div>
@@ -39,7 +48,7 @@
     <b-container v-else>
       Please <router-link to="/login">log in</router-link>
       or <router-link to="/signup">sign up</router-link>
-      to take this survey!
+      to complete this activity!
     </b-container>
   </div>
 </template>
@@ -61,11 +70,20 @@ export default {
     user: {
       type: Object,
     },
+    activities: {
+      type: Object
+    },
     apiHost: {
       type: String,
     },
     applet: {
       type: Object,
+    },
+    appletId: {
+      type: String,
+    },
+    items: {
+      type: Object
     },
     progressObj: {
       type: Object,
@@ -97,8 +115,14 @@ export default {
     },
   },
   computed: {
+    activity() {
+      return this.activities[this.srcUrl];
+    },
+    activityId() {
+      return this.$route.params.activityId;
+    },
     srcUrl() {
-      return this.$route.params.surveyId;
+      return this.$route.params.srcUrl;
     },
     progress() {
       return this.progressObj[this.srcUrl] || 0;
@@ -134,39 +158,32 @@ export default {
 
       // restructure responses if they are nested?
 
-      api.getAppletFromURI({
+      api.getActivityFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-        URI: this.applet.url,
+        URI: this.srcUrl,
       })
-        .then((appletResp) => {
-          api.getActivityFromURI({
+        .then((activityResp) => {
+          api.sendActivityData({
+            data: {
+              appletId: this.params.appletId,
+              activity: activityResp.data._id.split('/')[1],
+              responses: this.responses,
+            },
             apiHost: this.apiHost,
             token: this.user.authToken.token,
-            URI: this.srcUrl,
-          })
-            .then((activityResp) => {
-              api.sendActivityData({
-                data: {
-                  applet: appletResp.data.applet._id.split('/')[1],
-                  activity: activityResp.data._id.split('/')[1],
-                  responses: this.responses,
-                },
-                apiHost: this.apiHost,
-                token: this.user.authToken.token,
-              }).then(() => {
-                this.saveReady = true;
-                this.error.show = false;
-                // this.complete = true;
-                this.$emit('saveComplete', this.srcUrl, true);
-              }).catch((e) => {
-                // console.log(err);
-                this.error.show = true;
-                this.error.error = e;
-                this.saveReady = true;
-                this.$emit('saveComplete', this.srcUrl, true);
-              });
-            });
+          }).then(() => {
+            this.saveReady = true;
+            this.error.show = false;
+            // this.complete = true;
+            this.$emit('saveComplete', this.srcUrl, true);
+          }).catch((e) => {
+            // console.log(err);
+            this.error.show = true;
+            this.error.error = e;
+            this.saveReady = true;
+            this.$emit('saveComplete', this.srcUrl, true);
+          });
         });
     },
   },

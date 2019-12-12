@@ -17,7 +17,14 @@
             </p>
             <p v-for="(act, index) in activityOrder" :key="index">
               <router-link
-              :to="{name: 'TakeSurvey', params: {appletId: appletId, surveyId: act['@id']}}"
+              :to="{name: 'TakeSurvey', params: {
+                  appletId: appletId,
+                  applet: applet,
+                  activityId: activities[act['@id']]._id.split('/')[1],
+                  items,
+                  srcUrl: act['@id'],
+                  activities}
+                }"
               class="link"
               v-if="visibility[index]"
               >
@@ -51,7 +58,14 @@
         <span class="ml-3 mr-3 mt-2 mb-3 bottomNav"
           v-for="(act, index) in activityOrder" :key="index">
               <router-link
-              :to="{name: 'TakeSurvey', params: {appletId: appletId, surveyId: act['@id']}}"
+              :to="{name: 'TakeSurvey', params: {
+                  appletId: appletId,
+                  applet: applet,
+                  activityId: activities[act['@id']]._id.split('/')[1],
+                  srcUrl: act['@id'],
+                  activities,
+                  items}
+                }"
               class="link"
               v-if="visibility[index]"
               >
@@ -69,13 +83,12 @@
       <router-view
         :user="user"
         :data="data"
+        :activities="activities"
         :activityOrder="activityOrder"
         :activityDisplayNames="activityDisplayNames"
         :appletId="appletId"
         :isLoggedIn="isLoggedIn"
-        :activities="activities"
         :applet="applet"
-        :srcUrl="srcUrl"
         :apiHost="apiHost"
         :responsesObj="responses"
         :progressObj="progress"
@@ -178,9 +191,6 @@ export default {
     isLoggedIn: {
       type: Boolean,
     },
-    srcUrl: {
-      type: String,
-    },
     user: {
       type: Object,
     },
@@ -236,6 +246,9 @@ export default {
     },
     activities() {
       return this.$store.state.activities;
+    },
+    items() {
+      return this.$store.state.items;
     },
     cache() {
       return this.$store.state.branchingCache;

@@ -18,7 +18,7 @@
         <small>refreshing
         <i class="fas fa-sync fa-spin ml-1"></i></small>
       </div>
-      <h1 class="mb-3 pb-3">{{user.user.firstName}}'s Studies</h1>
+      <h1 class="mb-3 pb-3">{{user.user.firstName}}'s Applets</h1>
       <div v-if="query.inviteURL">
         <b-alert show>
           <p>you have an invite to a new applet!</p>
@@ -39,7 +39,8 @@
           >
             <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
               <router-link :to="{name: 'Applet', params: {
-                appletId: applet._id.split('applet/')[1]}
+                applet,
+                appletId: applet._id.split('/')[1]}
               }">
               <b-row no-gutters>
                 <b-col md="6">
@@ -118,6 +119,9 @@ export default {
     applets: {
       type: Array,
     },
+    appletId: {
+      type: String,
+    },
     apiHost: {
       type: String,
     },
@@ -170,8 +174,12 @@ export default {
             const activitiesFromServer = Object.assign(...resp.data.map(
               activity => activity.activities,
             ));
+            const itemsFromServer = Object.assign(...resp.data.map(
+              item => item.items,
+            ));
             this.$store.commit('setApplets', appletsFromServer);
             this.$store.commit('setActivities', activitiesFromServer);
+            this.$store.commit('setItems', itemsFromServer)
           }
           this.status = 'ready';
         })

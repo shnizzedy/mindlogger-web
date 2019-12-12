@@ -49,7 +49,7 @@ const router = new Router({
           component: AppletDashboard,
         },
         {
-          path: '/applet/:appletId/survey/:surveyId',
+          path: '/applet/:appletId/activity/:activityId',
           name: 'TakeSurvey',
           component: TakeSurvey,
         },

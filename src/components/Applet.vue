@@ -19,28 +19,31 @@
         </p>
       </div>
 
-      <p>
-        <b-button size="lg" variant="success" v-if="activityOrder[0]"
-         :to="{name: 'TakeSurvey',
-         params: {appletId: applet._id, surveyId: activityOrder[0]['@id']}}">
-          Start
-        </b-button>
-      </p>
       <div v-for="(activity, index) in activityOrder"
         :key="activity['@id']"
         class="text-left mt-3 mb-3">
-        <span>{{index+1}}.</span>
-        <span>
+        <span>{{index+1}}. {{activities[activity['@id']]['skos:prefLabel']}}</span>
+        <!-- <span>
           <b>progress:</b>
           {{progressObj[activity['@id']]}}
         </span>
         <span>
           <b>complete:</b>
           {{completeObj[activity['@id']]}}
-        </span>
-        <router-link :to="{name: 'TakeSurvey', params: {surveyId: activity['@id']}}">
-          {{activity['@id']}}
-        </router-link>
+        </span> -->
+        <p>
+          <b-button size="lg" variant="success" v-if="activityOrder[0]"
+           :to="{name: 'TakeSurvey',
+           params: {
+             activity: activities[activity['@id']],
+             activityId: activities[activity['@id']]._id.split('/')[1],
+             srcUrl: activity['@id'],
+             applet: applet,
+             appletId: appletId
+           }}">
+            Start
+          </b-button>
+        </p>
       </div>
     </div>
   </div>
@@ -71,6 +74,12 @@ export default {
     applet: {
       type: Object,
     },
+    appletId: {
+      type: String,
+    },
+    items: {
+      type: Object
+    },
     user: {
       type: Object,
     },
@@ -85,6 +94,12 @@ export default {
     },
     data: {
       type: Object,
+    },
+    activities: {
+      type: Object,
+    },
+    srcUrl: {
+      type: String,
     },
     activityOrder: {
       type: Array,

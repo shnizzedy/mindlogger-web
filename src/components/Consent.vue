@@ -167,7 +167,7 @@ export default {
       return this.$route.params.inviteURL;
     },
     redirect() {
-      return { name: 'Applet', params: { appletId: this.appletUId }, query: { ...this.query, consent: true } };
+      return { name: 'Applet', params: { appletId: this.appletId }, query: { ...this.query, consent: true } };
     },
   },
   mounted() {
@@ -210,4 +210,3 @@ export default {
   },
 };
 </script>
-
