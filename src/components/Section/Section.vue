@@ -79,7 +79,6 @@ export default {
     return {
       activity: {},
       listShow: [],
-      parsedJSONLD: {},
       visibility: {},
       score: 0,
       currentIndex: 0,
@@ -114,9 +113,9 @@ export default {
     },
     getVisibility(responses) {
       const responseMapper = this.responseMapper(responses);
-      if (!_.isEmpty(this.activity['https://schema.repronim.org/visibility'])) {
+      if (!_.isEmpty(this.activity['reprolib:terms/visibility'])) {
         const visibilityMapper = {};
-        _.map(this.activity['https://schema.repronim.org/visibility'], (a) => {
+        _.map(this.activity['reprolib:terms/visibility'], (a) => {
           let val = a['@value'];
           if (_.isString(a['@value'])) {
             val = this.evaluateString(a['@value'], responseMapper);
@@ -132,10 +131,10 @@ export default {
     },
     responseMapper(responses) {
       // a variable map is defined! great
-      const vmap = this.activity['https://schema.repronim.org/variableMap'][0]['@list'];
+      const vmap = this.activity['reprolib:terms/variableMap'][0]['@list'];
       const keyArr = _.map(vmap, (v) => {
-        const key = v['https://schema.repronim.org/isAbout'][0]['@id'];
-        const qId = v['https://schema.repronim.org/variableName'][0]['@value'];
+        const key = v['reprolib:terms/isAbout'][0]['@id'];
+        const qId = v['reprolib:terms/variableName'][0]['@value'];
         const val = responses[key];
         return { key, val, qId };
       });
@@ -193,7 +192,7 @@ export default {
       this.visibility = this.getVisibility(currResponses);
 
       // TODO: add back scoring logic to this component.
-      // if (!_.isEmpty(this.activity['https://schema.repronim.org/scoringLogic'])) {
+      // if (!_.isEmpty(this.activity['reprolib:terms/scoringLogic'])) {
       //   this.evaluateScoringLogic();
       // }
       this.updateProgress();
@@ -232,7 +231,7 @@ export default {
       }
     },
     order() {
-      return this.activity['https://schema.repronim.org/order'][0]['@list'];
+      return this.activity['reprolib:terms/order'][0]['@list'];
     },
   },
   watch: {
@@ -257,8 +256,8 @@ export default {
       });
     },
     context() {
-      if (this.activity['https://schema.repronim.org/order']) {
-        const keys = this.activity['https://schema.repronim.org/order'][0]['@list'];
+      if (this.activity['reprolib:terms/order']) {
+        const keys = this.activity['reprolib:terms/order'][0]['@list'];
         return keys;
       }
       return [{}];
@@ -271,21 +270,21 @@ export default {
       return {};
     },
     preambleText() {
-      if (this.activity['http://schema.repronim.org/preamble']) {
-        const activePreamble = _.filter(this.activity['http://schema.repronim.org/preamble'],
+      if (this.activity['reprolib:terms/preamble']) {
+        const activePreamble = _.filter(this.activity['reprolib:terms/preamble'],
           p => p['@language'] === this.selected_language);
         return activePreamble[0]['@value'];
       }
       return '';
     },
     findPassOptions() {
-      if (this.activity['https://schema.repronim.org/allow']) {
+      if (this.activity['reprolib:terms/allow']) {
         let isSkip = false;
         let isDontKnow = false;
-        _.map(this.activity['https://schema.repronim.org/allow'][0]['@list'], s => {
-          if (s['@id'] === "https://schema.repronim.org/refused_to_answer") {
+        _.map(this.activity['reprolib:terms/allow'][0]['@list'], s => {
+          if (s['@id'] === "reprolib:terms/refused_to_answer") {
             isSkip = true;
-          } else if (s['@id'] === "https://schema.repronim.org/dont_know_answer") {
+          } else if (s['@id'] === "reprolib:terms/dont_know_answer") {
             isDontKnow = true;
           }
         });

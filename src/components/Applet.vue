@@ -23,14 +23,14 @@
         :key="activity['@id']"
         class="text-left mt-3 mb-3">
         <span>{{index+1}}. {{activities[activity['@id']]['skos:prefLabel']}}</span>
-        <!-- <span>
+        <span>
           <b>progress:</b>
           {{progressObj[activity['@id']]}}
         </span>
         <span>
           <b>complete:</b>
           {{completeObj[activity['@id']]}}
-        </span> -->
+        </span>
         <p>
           <b-button size="lg" variant="success" v-if="activityOrder[0]"
            :to="{name: 'TakeSurvey',
@@ -78,7 +78,7 @@ export default {
       type: String,
     },
     items: {
-      type: Object
+      type: Object,
     },
     user: {
       type: Object,

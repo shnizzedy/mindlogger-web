@@ -179,7 +179,7 @@ export default {
             ));
             this.$store.commit('setApplets', appletsFromServer);
             this.$store.commit('setActivities', activitiesFromServer);
-            this.$store.commit('setItems', itemsFromServer)
+            this.$store.commit('setItems', itemsFromServer);
           }
           this.status = 'ready';
         })

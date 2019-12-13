@@ -61,6 +61,16 @@ export default {
   },
   computed: {
     options() {
+      if (this.constraints['schema:itemListElement']) {
+        return _.map(this.constraints['schema:itemListElement'][0]['@list'], (v) => {
+          const activeValueChoices = _.filter(v['schema:name'], ac => ac['@language'] === this.selected_language);
+          return {
+            text: activeValueChoices[0]['@value'],
+            value: v['schema:value'][0]['@value'],
+            image: v['schema:image'] ? v['schema:image'][0]['@value'] : null,
+          };
+        });
+      }
       return _.map(this.constraints['http://schema.org/itemListElement'][0]['@list'], (v) => {
         const activeValueChoices = _.filter(v['http://schema.org/name'], ac => ac['@language'] === this.selected_language);
         return {

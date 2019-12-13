@@ -30,7 +30,7 @@
         <multipart v-else-if="ui === 'multipart'"
                    :progress="mp_progress"
                    :responses="mp_responses"
-                   :srcUrl="item['@id']"
+                   :srcUrl="item['url']"
                    :showPassOptions="showPassOptions"
                    v-on:skip="sendSkip"
                    v-on:dontKnow="sendDontKnow"
@@ -43,7 +43,7 @@
         <subactivity v-else-if="ui === 'section'"
                    :progress="mp_progress"
                    :responses="mp_responses"
-                   :srcUrl="item['@id']"
+                   :srcUrl="item['url']"
                    :showPassOptions="showPassOptions"
                    v-on:skip="sendSkip"
                    v-on:dontKnow="sendDontKnow"
@@ -98,6 +98,9 @@ export default {
   name: 'SurveyItem',
   props: {
     item: {
+      type: Object,
+    },
+    items: {
       type: Object,
     },
     index: {
@@ -159,34 +162,37 @@ export default {
     },
     ui() {
       /* eslint-disable */
-        if (this.data['https://schema.repronim.org/inputType']) {
-          return this.data['https://schema.repronim.org/inputType'][0]['@value'];
+        if (this.item['reprolib:terms/inputType']) {
+          return this.item['reprolib:terms/inputType'][0]['@value'];
         }
         return 'N/A';
         /* eslint-enable */
     },
     widgetType() {
-      if (this.data['https://schema.repronim.org/readOnly']) {
-        return this.data['https://schema.repronim.org/readOnly'][0]['@value'];
+      if (this.item['reprolib:terms/readOnly']) {
+        return this.item['reprolib:terms/readOnly'][0]['@value'];
       }
       return false;
     },
     title() {
-      if (this.data['http://schema.org/question']) {
-        const activeQuestion = _.filter(this.data['http://schema.org/question'], q => q['@language'] === this.selected_language);
+      if (this.item['schema:question']) {
+        const activeQuestion = _.filter(this.item['schema:question'], q => q['@language'] === this.selected_language);
+        return activeQuestion[0]['@value'];
+      } else if (this.item['http://schema.org/question']) {
+        const activeQuestion = _.filter(this.item['http://schema.org/question'], q => q['@language'] === this.selected_language);
         return activeQuestion[0]['@value'];
       }
       return null;
     },
     itemPreamble() {
-      if (this.data['http://schema.repronim.org/preamble']) {
-        const activePreamble = _.filter(this.data['http://schema.repronim.org/preamble'], q => q['@language'] === this.selected_language);
+      if (this.item['reprolib:terms/preamble']) {
+        const activePreamble = _.filter(this.item['reprolib:terms/preamble'], q => q['@language'] === this.selected_language);
         return activePreamble[0]['@value'];
       }
       return null;
     },
     valueConstraints() {
-      if (this.data['https://schema.repronim.org/valueconstraints']) {
+      if (this.item['reprolib:terms/valueconstraints']) {
         // eslint-disable-next-line
           return this.valueC;
       }
@@ -194,17 +200,17 @@ export default {
       return { requiredValue: false };
     },
     findPassOptions() {
-      if (this.data['https://schema.repronim.org/valueconstraints']) {
+      if (this.item['reprolib:terms/valueconstraints']) {
         // when valueConstraints is a remote object
-        if (Object.keys(this.data['https://schema.repronim.org/valueconstraints'][0]).indexOf('@id') > -1) {
+        if (Object.keys(this.item['reprolib:terms/valueconstraints'][0]).indexOf('@id') > -1) {
           this.getRequiredVal();
           return this.requireVal;
         }
         // when valueConstraints in embedded in item object itself
-        if (this.data['https://schema.repronim.org/valueconstraints'][0]) {
+        if (this.item['reprolib:terms/valueconstraints'][0]) {
           // make sure the requiredValue key is defined
-          if (this.data['https://schema.repronim.org/valueconstraints'][0]['http://schema.repronim.org/requiredValue']) {
-            return this.data['https://schema.repronim.org/valueconstraints'][0]['http://schema.repronim.org/requiredValue'][0]['@value'];
+          if (this.item['reprolib:terms/valueconstraints'][0]['reprolib:terms/requiredValue']) {
+            return this.item['reprolib:terms/valueconstraints'][0]['reprolib:terms/requiredValue'][0]['@value'];
           }
         }
       }
@@ -213,40 +219,30 @@ export default {
   },
   methods: {
     getRequiredVal() {
-      jsonld.expand(this.data['https://schema.repronim.org/valueconstraints'][0]['@id'])
+      jsonld.expand(this.item['reprolib:terms/valueconstraints'][0]['@id'])
         .then((rsp) => {
-          this.requireVal = rsp[0]['http://schema.repronim.org/requiredValue'][0]['@value'];
+          this.requireVal = rsp[0]['reprolib:terms/requiredValue'][0]['@value'];
           // console.log(143, this.requireVal);
         });
     },
     getData() {
-      jsonld.expand(this.item['@id'], {
-        onDownloadProgress() {
-          // TODO: for some reason pEvent has total defined as 0.
-          // so a progress bar won't work here.
-        },
-      }).then((resp) => {
-        if (resp.length) {
-          this.data = resp[0];
-          if (this.data['https://schema.repronim.org/valueconstraints']) {
-            if (Object.keys(this.data['https://schema.repronim.org/valueconstraints'][0]).indexOf('@id') > -1) {
-              jsonld.expand(this.data['https://schema.repronim.org/valueconstraints'][0]['@id']).then((rsp) => {
-                this.valueC = rsp[0];
-              });
-            } else {
-              this.valueC = this.data['https://schema.repronim.org/valueconstraints'][0];
-            }
-          } else {
-            // console.log(this.data);
-            // throw Error('This is not a properly formatted jsonld schema');
-            // console.info('there are no value constraints');
-            this.valueC = {
-              '@value': null,
-            };
-          }
-          this.status = 'ready';
+      if (this.item['reprolib:terms/valueconstraints']) {
+        if (Object.keys(this.item['reprolib:terms/valueconstraints'][0]).indexOf('@id') > -1) {
+          jsonld.expand(this.item['reprolib:terms/valueconstraints'][0]['@id']).then((rsp) => {
+            this.valueC = rsp[0];
+          });
+        } else {
+          this.valueC = this.item['reprolib:terms/valueconstraints'][0];
         }
-      });
+      } else {
+        // console.log(this.item);
+        // throw Error('This is not a properly formatted jsonld schema');
+        // console.info('there are no value constraints');
+        this.valueC = {
+          '@value': null,
+        };
+      }
+      this.status = 'ready';
     },
     sendSkip(doSkip) {
       // send that the component got skipped to the parent

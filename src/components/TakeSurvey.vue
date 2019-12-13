@@ -71,7 +71,7 @@ export default {
       type: Object,
     },
     activities: {
-      type: Object
+      type: Object,
     },
     apiHost: {
       type: String,
@@ -83,7 +83,7 @@ export default {
       type: String,
     },
     items: {
-      type: Object
+      type: Object,
     },
     progressObj: {
       type: Object,

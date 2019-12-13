@@ -50,31 +50,31 @@ export default {
   },
   computed: {
     interval() {
-      return _.map(this.constraints['http://schema.org/itemListElement'][0]['@list'], (v) => {
-        const activeValueChoices = _.filter(v['http://schema.org/name'], ac => ac['@language'] === this.selected_language);
+      return _.map(this.constraints['schema:itemListElement'][0]['@list'], (v) => {
+        const activeValueChoices = _.filter(v['schema:name'], ac => ac['@language'] === this.selected_language);
         return activeValueChoices[0]['@value'];
       });
     },
     getMinLabel() {
-      const activeMinLabel = _.filter(this.constraints['http://schema.org/minValue'], labels => labels['@language'] === this.selected_language);
+      const activeMinLabel = _.filter(this.constraints['schema:minValue'], labels => labels['@language'] === this.selected_language);
       return activeMinLabel[0]['@value'];
     },
     getMaxLabel() {
-      const activeMaxLabel = _.filter(this.constraints['http://schema.org/maxValue'], labels => labels['@language'] === this.selected_language);
+      const activeMaxLabel = _.filter(this.constraints['schema:maxValue'], labels => labels['@language'] === this.selected_language);
       return activeMaxLabel[0]['@value'];
     },
     getMinImageLabel() {
-      const vcList = this.constraints['http://schema.org/itemListElement'][0]['@list'];
-      if (vcList[0]['http://schema.org/image']) {
-        return vcList[0]['http://schema.org/image'][0]['@value'];
+      const vcList = this.constraints['schema:itemListElement'][0]['@list'];
+      if (vcList[0]['schema:image']) {
+        return vcList[0]['schema:image'][0]['@value'];
       }
       return false;
     },
     getMaxImageLabel() {
-      const vcList = this.constraints['http://schema.org/itemListElement'][0]['@list'];
+      const vcList = this.constraints['schema:itemListElement'][0]['@list'];
       const N = vcList.length;
-      if (vcList[N - 1]['http://schema.org/image']) {
-        return vcList[N - 1]['http://schema.org/image'][0]['@value'];
+      if (vcList[N - 1]['schema:image']) {
+        return vcList[N - 1]['schema:image'][0]['@value'];
       }
       return false;
     },

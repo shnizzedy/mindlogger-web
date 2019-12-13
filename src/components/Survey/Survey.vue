@@ -22,7 +22,7 @@
           <survey-item
             :key="'c' + content['@id']"
             v-if="shouldShow[index]"
-            :item="content" :index="contextReverse.length - index - 1"
+            :item="items[content['@id']]" :index="contextReverse.length - index - 1"
             :init="responses[content['@id']]"
             v-on:skip="nextQuestion(contextReverse.length - index - 1, 1, 0)"
             v-on:dontKnow="nextQuestion(contextReverse.length - index - 1, 0, 1)"
@@ -64,7 +64,7 @@
 
 <script>
 import Vue from 'vue';
-import jsonld from 'jsonld/dist/jsonld.min';
+// import jsonld from 'jsonld/dist/jsonld.min';
 import _ from 'lodash';
 import SurveyItem from '../SurveyItem/';
 import BounceLoader from '../BounceLoader';
@@ -79,7 +79,6 @@ export default {
   data() {
     return {
       listShow: [],
-      parsedJSONLD: {},
       visibility: {},
       score: 0,
       isSkip: false,
@@ -102,11 +101,11 @@ export default {
         if (!answered.length) {
           this.listShow = [0];
           // eslint-disable-next-line
-          // console.log(92, this.listShow);
+          console.log(92, this.listShow);
         } else {
           this.listShow = _.map(new Array(answered.length + 1), (c, i) => i);
           // eslint-disable-next-line
-          // console.log(95, this.listShow);
+          console.log(95, this.listShow);
         }
         this.visibility = this.getVisibility(this.responses);
       });
@@ -295,12 +294,13 @@ export default {
   },
   watch: {
     $route() {
-      ;
       if (this.readyForActivity) {
         if (this.$store) {
-          this.$store.dispatch('getActivityData');
+          return true;
+          // this.$store.dispatch('getActivityData');
         }
       }
+      return false;
     },
     listContentRev() {
       this.$forceUpdate();
@@ -310,15 +310,18 @@ export default {
     },
     srcUrl() {
       if (this.srcUrl) {
-        this.activity;
+        return this.srcUrl;
       }
+      return undefined;
     },
     readyForActivity() {
       if (this.readyForActivity) {
         if (this.$store) {
-          this.$store.dispatch('getActivityData');
+          return true;
+          // this.$store.dispatch('getActivityData');
         }
       }
+      return false;
     },
     storeContext() {
       if (this.$store) {
@@ -372,8 +375,8 @@ export default {
       return {};
     },
     preambleText() {
-      if (this.activity['http://schema.repronim.org/preamble']) {
-        const activePreamble = _.filter(this.activity['http://schema.repronim.org/preamble'], p => p['@language'] === this.selected_language);
+      if (this.activity['reprolib:terms/preamble']) {
+        const activePreamble = _.filter(this.activity['reprolib:terms/preamble'], p => p['@language'] === this.selected_language);
         return activePreamble[0]['@value'];
       }
       return '';
@@ -406,10 +409,11 @@ export default {
     }
   },
   mounted() {
-    if (this.srcUrl) {
+    this.getData()
+    // if (this.srcUrl) {
       // eslint-disable-next-line
-      console.log(this.activity);
-    }
+      // console.log(this.activity);
+    // }
   },
 };
 </script>

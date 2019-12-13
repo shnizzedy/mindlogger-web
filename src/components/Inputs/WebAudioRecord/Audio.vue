@@ -3,7 +3,7 @@
     <b-alert :show="!supported">Oh no, your browser doesn't support audio</b-alert>
     <div v-if="supported">
       <div v-if="mode==='audioImageRecord'" class="mb-3">
-        <img class="img-fluid" :src="constraints['http://schema.org/image'][0]['@value']" />
+        <img class="img-fluid" :src="constraints['schema:image'][0]['@value']" />
       </div>
       <div v-if="mode==='audioRecordNumberTask'" class="mb-3">
         <strong style="font-size:30px">{{ generateNumber }}</strong>
@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     recordingTime() {
-      return this.constraints['http://schema.org/maxValue'][0]['@value'];
+      return this.constraints['schema:maxValue'][0]['@value'];
     },
     generateNumber() {
       return 100000 + Math.floor(Math.random() * 900000); // random number of length 6

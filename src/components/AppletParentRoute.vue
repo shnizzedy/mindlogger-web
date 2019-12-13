@@ -21,9 +21,9 @@
                   appletId: appletId,
                   applet: applet,
                   activityId: activities[act['@id']]._id.split('/')[1],
-                  items,
                   srcUrl: act['@id'],
-                  activities}
+                  activities,
+                  items}
                 }"
               class="link"
               v-if="visibility[index]"
@@ -86,6 +86,7 @@
         :activities="activities"
         :activityOrder="activityOrder"
         :activityDisplayNames="activityDisplayNames"
+        :items="items"
         :appletId="appletId"
         :isLoggedIn="isLoggedIn"
         :applet="applet"
@@ -360,12 +361,12 @@ export default {
     },
     saveResponse(activity, responseId, response) {
       let needsVizUpdate = false;
-      if (this.responses[activity][responseId] !== response && this.progress[activity] === 100) {
+      if (this.progress[activity] === 100) {
         // there has been a change in an already completed activity
         needsVizUpdate = true;
       }
-      this.responses[activity][responseId] = response;
-      // this.$set(this.responses, activity, response);
+      // this.responses[activity][responseId] = response;
+      this.$set(this.responses, activity, response);
       if (needsVizUpdate) {
         this.setVisbility();
       }

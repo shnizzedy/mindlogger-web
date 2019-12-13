@@ -1,6 +1,6 @@
 <template>
   <div class="SelectInput">
-    <multiselect v-if=" inputType=== 'select' && this.constraints['http://schema.org/itemListElement']"
+    <multiselect v-if=" inputType=== 'select' && this.constraints['schema:itemListElement']"
                  v-model="selected" :options="this.options" :searchable="false"
                  :show-labels="false"
                  placeholder="Pick a value" @input="sendData">
@@ -72,13 +72,13 @@ export default {
     if (this.init) {
       this.selected = this.init;
     }
-    if (this.constraints['http://schema.org/itemListElement']) { // if choices defined in schema
-      this.options = _.map(this.constraints['http://schema.org/itemListElement'][0]['@list'], (v) => {
-        const activeValueChoices = _.filter(v['http://schema.org/name'], ac => ac['@language'] === this.selected_language);
+    if (this.constraints['schema:itemListElement']) { // if choices defined in schema
+      this.options = _.map(this.constraints['schema:itemListElement'][0]['@list'], (v) => {
+        const activeValueChoices = _.filter(v['schema:name'], ac => ac['@language'] === this.selected_language);
         return (activeValueChoices[0]['@value']);
       });
-    } else if (this.constraints['https://schema.org/DigitalDocument']) { // if choice list defined in external file
-      axios.get(this.constraints['https://schema.org/DigitalDocument'][0]['@id'])
+    } else if (this.constraints['schema:DigitalDocument']) { // if choice list defined in external file
+      axios.get(this.constraints['schema:DigitalDocument'][0]['@id'])
         .then((resp) => {
           if (this.inputType === 'selectCountry') {
             this.options = _.map(resp.data, c => c.country);
@@ -91,8 +91,8 @@ export default {
   computed: {
     multipleAllowed() {
       // console.log(93, 'here', this.constraints);
-      if (this.constraints['http://schema.repronim.org/multipleChoice']) {
-        // console.log(94, this.constraints['http://schema.repronim.org/multipleChoice']);
+      if (this.constraints['reprolib:terms/multipleChoice']) {
+        // console.log(94, this.constraints['reprolib:terms/multipleChoice']);
         return true;
       } return false;
     },
