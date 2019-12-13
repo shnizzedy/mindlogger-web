@@ -1,1 +1,1 @@
-[View live](https://ChildMindInstitute.github.io/mindlogger-web/)
+[View live](https://shnizzedy.github.io/mindlogger-web/)
